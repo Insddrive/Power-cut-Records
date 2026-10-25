@@ -1,4 +1,4 @@
-```javascript
+
 const CACHE_NAME = 'p-cut-record-v1';
 const ASSETS_TO_CACHE = [
   './',
@@ -51,4 +51,3 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
-```
