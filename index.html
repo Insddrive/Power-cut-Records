@@ -1,0 +1,1701 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="P cut Record" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>P cut Record</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- Minimal Header & Tabs -->
+  <header class="sticky top-0 z-30 bg-white border-b border-slate-200">
+    <div class="max-w-md mx-auto px-3 py-2">
+      <nav class="grid grid-cols-2 gap-1 bg-slate-100 p-1 rounded-lg" aria-label="Main Navigation">
+        <button id="tabBtnPowerCut" type="button" role="tab" aria-selected="true" class="py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm">
+          Power Cut Record
+        </button>
+        <button id="tabBtnTimeCalc" type="button" role="tab" aria-selected="false" class="py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+          Time Addition Calculator
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-md w-full mx-auto px-3 py-3 space-y-3">
+
+    <!-- ==================== TAB 1: POWER CUT RECORD ==================== -->
+    <section id="panelPowerCut" role="tabpanel" class="space-y-3">
+
+      <!-- Compact Record Input Card -->
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-3">
+        <div id="editBanner" class="hidden flex items-center justify-between bg-amber-50 border border-amber-200 px-2.5 py-1.5 rounded-lg">
+          <span id="editModeBadge" class="text-xs font-semibold text-amber-800">Editing Record</span>
+          <button id="btnCancelEdit" type="button" class="text-xs font-semibold text-rose-600 hover:underline">Cancel</button>
+        </div>
+
+        <!-- Power Cut Date & Time (Side by Side) -->
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="btnCutDate">Power Cut Date</label>
+            <button id="btnCutDate" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelCutDate" class="text-xs sm:text-sm font-semibold text-red-600 truncate">Select Date</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-red-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </button>
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="btnCutTime">Power Cut Time</label>
+            <button id="btnCutTime" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelCutTime" class="text-xs sm:text-sm font-semibold text-red-600 truncate">Select Time</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-red-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Power Restored Date & Time (Side by Side) -->
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="btnRestoredDate">Power Restored Date</label>
+            <button id="btnRestoredDate" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelRestoredDate" class="text-xs sm:text-sm font-semibold text-emerald-600 truncate">Select Date</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-emerald-600 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </button>
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="btnRestoredTime">Power Restored Time</label>
+            <button id="btnRestoredTime" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelRestoredTime" class="text-xs sm:text-sm font-semibold text-emerald-600 truncate">Select Time</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-emerald-600 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Total Power Cut Duration Row -->
+        <div id="durationStatusBox" class="px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-600">Total Power Cut Duration</span>
+          <span id="durationValueDisplay" class="text-sm font-bold text-slate-900">--</span>
+        </div>
+
+        <!-- Validation Alert -->
+        <div id="formValidationAlert" class="hidden px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium" role="alert">
+          <span id="formValidationText">Invalid entry</span>
+        </div>
+
+        <!-- Save & Clear Buttons -->
+        <div class="flex items-center gap-2">
+          <button id="btnSaveRecord" type="button" class="flex-1 py-2.5 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-semibold text-xs sm:text-sm transition">
+            <span id="btnSaveRecordLabel">Save Record</span>
+          </button>
+          <button id="btnResetForm" type="button" class="py-2.5 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm border border-slate-200 transition">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Daily & Monthly Summary (Side by Side) -->
+      <div class="grid grid-cols-2 gap-2">
+        <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-1">
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[11px] font-semibold text-slate-500">Daily</span>
+            <select id="selectDailySummary" aria-label="Daily Summary Date" class="text-[11px] bg-slate-50 text-slate-700 border border-slate-200 rounded px-1.5 py-0.5 focus:outline-none">
+            </select>
+          </div>
+          <div id="dailySummaryValue" class="text-xs sm:text-sm font-bold text-slate-900">0 hours 0 minutes</div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-1">
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[11px] font-semibold text-slate-500">Monthly</span>
+            <select id="selectMonthlySummary" aria-label="Monthly Summary Month" class="text-[11px] bg-slate-50 text-slate-700 border border-slate-200 rounded px-1.5 py-0.5 focus:outline-none">
+            </select>
+          </div>
+          <div id="monthlySummaryValue" class="text-xs sm:text-sm font-bold text-slate-900">0 hours 0 minutes</div>
+        </div>
+      </div>
+
+      <!-- Saved Records & JSON Backup/Restore -->
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-2.5">
+        <div class="flex flex-wrap items-center justify-between gap-1.5">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">Saved Records</h2>
+          <div class="flex items-center gap-1.5">
+            <button id="btnDownloadJson" type="button" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold border border-slate-200 transition">
+              Download JSON
+            </button>
+            <button id="btnUploadJson" type="button" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold border border-slate-200 transition">
+              Upload JSON
+            </button>
+            <input id="inputJsonFile" type="file" accept=".json,application/json" class="hidden" />
+            <button id="btnDeleteAllRecords" type="button" class="hidden text-xs font-semibold text-rose-600 hover:underline ml-1">
+              Delete All
+            </button>
+          </div>
+        </div>
+        <div id="recordsListContainer" class="space-y-2">
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: TIME ADDITION CALCULATOR ==================== -->
+    <section id="panelTimeCalc" role="tabpanel" class="hidden space-y-3">
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="grid grid-cols-12 gap-2 flex-1 text-[11px] font-semibold text-slate-500 px-1">
+            <div class="col-span-1">#</div>
+            <div class="col-span-5">Hours</div>
+            <div class="col-span-5">Minutes</div>
+            <div class="col-span-1"></div>
+          </div>
+          <button id="btnClearAllCalc" type="button" class="text-xs font-semibold text-rose-600 hover:underline ml-2 shrink-0">
+            Clear All
+          </button>
+        </div>
+
+        <!-- Duration Rows -->
+        <div id="calcRowsContainer" class="space-y-2">
+        </div>
+
+        <!-- Add Another Duration -->
+        <button id="btnAddDurationRow" type="button" class="w-full py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm border border-slate-200 transition">
+          Add Another Duration
+        </button>
+
+        <!-- Total Result -->
+        <div class="px-3 py-2.5 rounded-lg bg-slate-900 text-white flex items-center justify-between">
+          <span class="text-xs font-medium text-slate-300">Result</span>
+          <span id="calcTotalDisplay" class="text-sm sm:text-base font-bold">Total: 0 Hours 0 Minutes</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FULLSCREEN LARGE SAVED RECORDS VIEW (2-FINGER TOUCH) ==================== -->
+  <div id="largeRecordsOverlay" class="fixed inset-0 z-50 hidden bg-white flex flex-col">
+    <div class="sticky top-0 bg-white border-b border-slate-300 px-4 py-3 flex items-center justify-between gap-2 shadow-sm">
+      <h2 class="text-lg sm:text-xl font-bold text-slate-900">Saved Records</h2>
+      <div class="flex items-center gap-2">
+        <button id="btnDownloadPdf" type="button" class="px-3.5 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-sm transition">
+          Download PDF
+        </button>
+        <button id="btnCloseLargeRecords" type="button" class="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold transition">
+          Close
+        </button>
+      </div>
+    </div>
+    <div id="largeRecordsContent" class="flex-1 overflow-y-auto p-4 max-w-2xl w-full mx-auto space-y-4">
+    </div>
+  </div>
+
+  <!-- ==================== DATE PICKER MODAL ==================== -->
+  <div id="datePickerModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="dateModalTitle">
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3.5 shadow-xl space-y-3">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+        <h3 id="dateModalTitle" class="text-sm font-bold text-slate-900">Select Date</h3>
+        <button id="btnCloseDateModal" type="button" class="p-1 rounded text-slate-400 hover:text-slate-700" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Day Stepper -->
+      <div class="flex items-center justify-between bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
+        <button id="btnPrevDay" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 text-xs font-semibold text-slate-700">-1 Day</button>
+        <div id="dateModalPreview" class="text-sm font-bold text-slate-900">25 Oct 2026</div>
+        <button id="btnNextDay" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 text-xs font-semibold text-slate-700">+1 Day</button>
+      </div>
+
+      <!-- Month & Year Navigation -->
+      <div class="flex items-center justify-between gap-1.5">
+        <button id="btnPrevMonth" type="button" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700" aria-label="Previous Month">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div class="flex items-center gap-1.5 flex-1 justify-center">
+          <select id="dateModalMonthSelect" aria-label="Month" class="bg-slate-50 border border-slate-300 text-slate-900 text-xs font-semibold rounded-lg px-2 py-1.5 focus:outline-none">
+          </select>
+          <select id="dateModalYearSelect" aria-label="Year" class="bg-slate-50 border border-slate-300 text-slate-900 text-xs font-semibold rounded-lg px-2 py-1.5 focus:outline-none">
+          </select>
+        </div>
+        <button id="btnNextMonth" type="button" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700" aria-label="Next Month">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Weekday Headers -->
+      <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold uppercase text-slate-400">
+        <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+      </div>
+
+      <!-- Calendar Days Grid -->
+      <div id="dateModalCalendarGrid" class="grid grid-cols-7 gap-1 text-center">
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+        <button id="btnDateModalToday" type="button" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+          Today
+        </button>
+        <div class="flex items-center gap-1.5">
+          <button id="btnCancelDateModal" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+            Cancel
+          </button>
+          <button id="btnConfirmDateModal" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 12-HOUR AM/PM TIME PICKER MODAL ==================== -->
+  <div id="timePickerModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="timeModalTitle">
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3.5 shadow-xl space-y-3">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+        <h3 id="timeModalTitle" class="text-sm font-bold text-slate-900">Select Time</h3>
+        <button id="btnCloseTimeModal" type="button" class="p-1 rounded text-slate-400 hover:text-slate-700" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="timeModalPreview" class="text-center text-lg font-bold text-slate-900 bg-slate-50 py-1.5 rounded-lg border border-slate-200">
+        10:30 AM
+      </div>
+
+      <!-- Hour / Minute / AM-PM -->
+      <div class="grid grid-cols-3 gap-2 items-center">
+        <!-- Hour -->
+        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex flex-col items-center space-y-1">
+          <span class="text-[10px] font-semibold uppercase text-slate-500">Hour</span>
+          <button id="btnHourUp" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Increase Hour">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+            </svg>
+          </button>
+          <input id="inputTimeHour" type="number" min="1" max="12" value="12" aria-label="Hour" class="w-full text-center bg-white border border-slate-300 rounded py-1 text-base font-bold text-slate-900 focus:outline-none" />
+          <button id="btnHourDown" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Decrease Hour">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Minute -->
+        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex flex-col items-center space-y-1">
+          <span class="text-[10px] font-semibold uppercase text-slate-500">Min</span>
+          <button id="btnMinuteUp" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Increase Minute">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+            </svg>
+          </button>
+          <input id="inputTimeMinute" type="number" min="0" max="59" value="00" aria-label="Minute" class="w-full text-center bg-white border border-slate-300 rounded py-1 text-base font-bold text-slate-900 focus:outline-none" />
+          <button id="btnMinuteDown" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Decrease Minute">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- AM / PM -->
+        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex flex-col items-center justify-between h-full space-y-1">
+          <span class="text-[10px] font-semibold uppercase text-slate-500">AM/PM</span>
+          <div class="w-full flex flex-col gap-1.5 my-auto">
+            <button id="btnPeriodAM" type="button" class="w-full py-2 rounded font-bold text-xs transition bg-slate-900 text-white">
+              AM
+            </button>
+            <button id="btnPeriodPM" type="button" class="w-full py-2 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200">
+              PM
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+        <button id="btnTimeNow" type="button" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+          Now
+        </button>
+        <div class="flex items-center gap-1.5">
+          <button id="btnCancelTimeModal" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+            Cancel
+          </button>
+          <button id="btnConfirmTimeModal" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CONFIRM DELETE MODAL ==================== -->
+  <div id="confirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-4 shadow-xl space-y-3">
+      <h3 id="confirmModalTitle" class="text-sm font-bold text-slate-900">Delete Record?</h3>
+      <p id="confirmModalMessage" class="text-xs text-slate-600">Are you sure?</p>
+      <div class="flex items-center justify-end gap-2 pt-1">
+        <button id="btnConfirmCancel" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+          Cancel
+        </button>
+        <button id="btnConfirmAccept" type="button" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toastBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 hidden px-3.5 py-2 rounded-lg bg-slate-900 text-white font-semibold text-xs shadow-lg">
+    <span id="toastText">Saved</span>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const STORAGE_KEY_RECORDS = 'power_cut_tracker_records_v1';
+      const STORAGE_KEY_CALC_ROWS = 'power_cut_tracker_calc_rows_v2';
+      const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const MONTHS_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+      let state = {
+        activeTab: 'power-cut',
+        cutDate: null,
+        cutTime: null,
+        restoredDate: null,
+        restoredTime: null,
+        editingRecordId: null,
+        records: [],
+        calcRows: [],
+        activeDateTarget: null,
+        tempDate: { year: 2026, month: 10, day: 25 },
+        calendarView: { year: 2026, month: 10 },
+        activeTimeTarget: null,
+        tempTime: { hour12: 12, minute: 0, period: 'AM' },
+        confirmCallback: null
+      };
+
+      function loadFromStorage(key, fallback) {
+        try {
+          const raw = window.localStorage.getItem(key);
+          if (!raw) return fallback;
+          return JSON.parse(raw);
+        } catch (err) {
+          return fallback;
+        }
+      }
+
+      function saveToStorage(key, value) {
+        try {
+          window.localStorage.setItem(key, JSON.stringify(value));
+        } catch (err) {}
+      }
+
+      function getTodayDateObj() {
+        const now = new Date();
+        return {
+          year: now.getFullYear(),
+          month: now.getMonth() + 1,
+          day: now.getDate()
+        };
+      }
+
+      function getCurrentTimeObj() {
+        const now = new Date();
+        let h24 = now.getHours();
+        const m = now.getMinutes();
+        const period = h24 >= 12 ? 'PM' : 'AM';
+        let h12 = h24 % 12;
+        if (h12 === 0) h12 = 12;
+        return {
+          hour12: h12,
+          minute: m,
+          period: period
+        };
+      }
+
+      function pad2(n) {
+        return String(n).padStart(2, '0');
+      }
+
+      function formatDateDisplay(d) {
+        if (!d) return 'Select Date';
+        return pad2(d.day) + ' ' + MONTHS_SHORT[d.month - 1] + ' ' + d.year;
+      }
+
+      function toDateKey(d) {
+        return d.year + '-' + pad2(d.month) + '-' + pad2(d.day);
+      }
+
+      function toMonthKey(d) {
+        return d.year + '-' + pad2(d.month);
+      }
+
+      function formatMonthKeyDisplay(monthKey) {
+        const parts = monthKey.split('-');
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10);
+        return MONTHS_SHORT[m - 1] + ' ' + y;
+      }
+
+      function formatDateKeyDisplay(dateKey) {
+        const parts = dateKey.split('-');
+        return pad2(parseInt(parts[2], 10)) + ' ' + MONTHS_SHORT[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
+      }
+
+      function formatTimeDisplay(t) {
+        if (!t) return 'Select Time';
+        return pad2(t.hour12) + ':' + pad2(t.minute) + ' ' + t.period;
+      }
+
+      function toTimestampMs(d, t) {
+        if (!d || !t) return null;
+        let h24 = t.hour12 % 12;
+        if (t.period === 'PM') h24 += 12;
+        return new Date(d.year, d.month - 1, d.day, h24, t.minute, 0, 0).getTime();
+      }
+
+      function formatDurationReadable(totalMinutes) {
+        const mins = Math.max(0, Math.round(totalMinutes));
+        const hours = Math.floor(mins / 60);
+        const remMinutes = mins % 60;
+        const hLabel = hours === 1 ? 'hour' : 'hours';
+        const mLabel = remMinutes === 1 ? 'minute' : 'minutes';
+        return hours + ' ' + hLabel + ' ' + remMinutes + ' ' + mLabel;
+      }
+
+      function formatCalculatorTotal(totalMinutes) {
+        const mins = Math.max(0, Math.round(totalMinutes));
+        const hours = Math.floor(mins / 60);
+        const remMinutes = mins % 60;
+        const hLabel = hours === 1 ? 'Hour' : 'Hours';
+        const mLabel = remMinutes === 1 ? 'Minute' : 'Minutes';
+        return 'Total: ' + hours + ' ' + hLabel + ' ' + remMinutes + ' ' + mLabel;
+      }
+
+      function getCurrentDateTimeStampForFilename() {
+        const now = new Date();
+        const dd = pad2(now.getDate());
+        const mmm = MONTHS_SHORT[now.getMonth()];
+        const yyyy = now.getFullYear();
+        let h24 = now.getHours();
+        const min = pad2(now.getMinutes());
+        const sec = pad2(now.getSeconds());
+        const period = h24 >= 12 ? 'PM' : 'AM';
+        let h12 = h24 % 12;
+        if (h12 === 0) h12 = 12;
+        return dd + '-' + mmm + '-' + yyyy + '_' + pad2(h12) + '-' + min + '-' + sec + '-' + period;
+      }
+
+      function daysInMonth(year, month) {
+        return new Date(year, month, 0).getDate();
+      }
+
+      let toastTimer = null;
+      function showToast(message) {
+        const banner = document.getElementById('toastBanner');
+        const text = document.getElementById('toastText');
+        text.textContent = message;
+        banner.classList.remove('hidden');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          banner.classList.add('hidden');
+        }, 2200);
+      }
+
+      function setupProgressiveWebApp() {
+        try {
+          if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
+            navigator.serviceWorker.register('sw.js').catch(function () {});
+          }
+        } catch (e) {}
+      }
+
+      function switchTab(tabName) {
+        state.activeTab = tabName;
+        const btnPower = document.getElementById('tabBtnPowerCut');
+        const btnCalc = document.getElementById('tabBtnTimeCalc');
+        const panelPower = document.getElementById('panelPowerCut');
+        const panelCalc = document.getElementById('panelTimeCalc');
+
+        if (tabName === 'power-cut') {
+          btnPower.setAttribute('aria-selected', 'true');
+          btnCalc.setAttribute('aria-selected', 'false');
+          btnPower.className = 'py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm';
+          btnCalc.className = 'py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900';
+          panelPower.classList.remove('hidden');
+          panelCalc.classList.add('hidden');
+        } else {
+          btnPower.setAttribute('aria-selected', 'false');
+          btnCalc.setAttribute('aria-selected', 'true');
+          btnCalc.className = 'py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm';
+          btnPower.className = 'py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900';
+          panelCalc.classList.remove('hidden');
+          panelPower.classList.add('hidden');
+        }
+      }
+
+      function evaluateCurrentFormDuration() {
+        const hasAllFour = state.cutDate && state.cutTime && state.restoredDate && state.restoredTime;
+        if (!hasAllFour) {
+          return { status: 'incomplete', diffMinutes: 0, message: '' };
+        }
+        const startMs = toTimestampMs(state.cutDate, state.cutTime);
+        const endMs = toTimestampMs(state.restoredDate, state.restoredTime);
+        const diffMinutes = Math.round((endMs - startMs) / 60000);
+
+        if (diffMinutes < 0) {
+          return {
+            status: 'invalid_negative',
+            diffMinutes: diffMinutes,
+            message: 'Power Restored Date & Time cannot be earlier than Power Cut Date & Time.'
+          };
+        }
+        return {
+          status: 'valid',
+          diffMinutes: diffMinutes,
+          message: ''
+        };
+      }
+
+      function renderFormState() {
+        const labelCutDate = document.getElementById('labelCutDate');
+        const labelCutTime = document.getElementById('labelCutTime');
+        const labelRestoredDate = document.getElementById('labelRestoredDate');
+        const labelRestoredTime = document.getElementById('labelRestoredTime');
+
+        // Power Cut Date & Time placeholders in RED, selected values in dark slate
+        labelCutDate.textContent = formatDateDisplay(state.cutDate);
+        labelCutDate.className = state.cutDate
+          ? 'text-xs sm:text-sm font-semibold text-slate-900 truncate'
+          : 'text-xs sm:text-sm font-semibold text-red-600 truncate';
+
+        labelCutTime.textContent = formatTimeDisplay(state.cutTime);
+        labelCutTime.className = state.cutTime
+          ? 'text-xs sm:text-sm font-semibold text-slate-900 truncate'
+          : 'text-xs sm:text-sm font-semibold text-red-600 truncate';
+
+        // Power Restored Date & Time placeholders in GREEN, selected values in dark slate
+        labelRestoredDate.textContent = formatDateDisplay(state.restoredDate);
+        labelRestoredDate.className = state.restoredDate
+          ? 'text-xs sm:text-sm font-semibold text-slate-900 truncate'
+          : 'text-xs sm:text-sm font-semibold text-emerald-600 truncate';
+
+        labelRestoredTime.textContent = formatTimeDisplay(state.restoredTime);
+        labelRestoredTime.className = state.restoredTime
+          ? 'text-xs sm:text-sm font-semibold text-slate-900 truncate'
+          : 'text-xs sm:text-sm font-semibold text-emerald-600 truncate';
+
+        const editBanner = document.getElementById('editBanner');
+        const btnSaveLabel = document.getElementById('btnSaveRecordLabel');
+
+        if (state.editingRecordId) {
+          editBanner.classList.remove('hidden');
+          btnSaveLabel.textContent = 'Update Record';
+        } else {
+          editBanner.classList.add('hidden');
+          btnSaveLabel.textContent = 'Save Record';
+        }
+
+        const evalResult = evaluateCurrentFormDuration();
+        const durationValueDisplay = document.getElementById('durationValueDisplay');
+        const durationStatusBox = document.getElementById('durationStatusBox');
+        const alertBox = document.getElementById('formValidationAlert');
+        const alertText = document.getElementById('formValidationText');
+
+        if (evalResult.status === 'incomplete') {
+          durationValueDisplay.textContent = '--';
+          durationValueDisplay.className = 'text-sm font-bold text-slate-400';
+          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between';
+          alertBox.classList.add('hidden');
+        } else if (evalResult.status === 'invalid_negative') {
+          durationValueDisplay.textContent = 'Invalid';
+          durationValueDisplay.className = 'text-sm font-bold text-rose-600';
+          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-between';
+          alertText.textContent = evalResult.message;
+          alertBox.classList.remove('hidden');
+        } else {
+          durationValueDisplay.textContent = formatDurationReadable(evalResult.diffMinutes);
+          durationValueDisplay.className = 'text-sm font-bold text-slate-900';
+          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-between';
+          alertBox.classList.add('hidden');
+        }
+      }
+
+      function showFormValidationError(msg) {
+        const alertBox = document.getElementById('formValidationAlert');
+        const alertText = document.getElementById('formValidationText');
+        alertText.textContent = msg;
+        alertBox.classList.remove('hidden');
+      }
+
+      function clearFormFields() {
+        state.cutDate = null;
+        state.cutTime = null;
+        state.restoredDate = null;
+        state.restoredTime = null;
+        state.editingRecordId = null;
+        renderFormState();
+      }
+
+      function handleSaveRecord() {
+        const missing = [];
+        if (!state.cutDate) missing.push('Power Cut Date');
+        if (!state.cutTime) missing.push('Power Cut Time');
+        if (!state.restoredDate) missing.push('Power Restored Date');
+        if (!state.restoredTime) missing.push('Power Restored Time');
+
+        if (missing.length > 0) {
+          showFormValidationError('Please select: ' + missing.join(', ') + '.');
+          return;
+        }
+
+        const evalResult = evaluateCurrentFormDuration();
+        if (evalResult.status === 'invalid_negative') {
+          showFormValidationError(evalResult.message);
+          return;
+        }
+
+        const startMs = toTimestampMs(state.cutDate, state.cutTime);
+        const endMs = toTimestampMs(state.restoredDate, state.restoredTime);
+
+        const recordPayload = {
+          id: state.editingRecordId || ('rec_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+          cutDate: { ...state.cutDate },
+          cutTime: { ...state.cutTime },
+          restoredDate: { ...state.restoredDate },
+          restoredTime: { ...state.restoredTime },
+          startMs: startMs,
+          endMs: endMs,
+          durationMinutes: evalResult.diffMinutes,
+          updatedAt: Date.now()
+        };
+
+        if (state.editingRecordId) {
+          const idx = state.records.findIndex(function (r) { return r.id === state.editingRecordId; });
+          if (idx !== -1) {
+            state.records[idx] = recordPayload;
+          } else {
+            state.records.push(recordPayload);
+          }
+          showToast('Updated');
+        } else {
+          state.records.push(recordPayload);
+          showToast('Saved');
+        }
+
+        state.records.sort(function (a, b) {
+          if (b.startMs !== a.startMs) return b.startMs - a.startMs;
+          return b.endMs - a.endMs;
+        });
+
+        saveToStorage(STORAGE_KEY_RECORDS, state.records);
+        clearFormFields();
+        renderSummariesAndRecords();
+      }
+
+      // ==================== JSON DOWNLOAD & UPLOAD ====================
+      function handleDownloadJson() {
+        const exportObj = {
+          exportedAt: new Date().toISOString(),
+          records: state.records,
+          calcRows: state.calcRows
+        };
+        const jsonStr = JSON.stringify(exportObj, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Power_Cut_Backup_' + getCurrentDateTimeStampForFilename() + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        showToast('JSON Downloaded');
+      }
+
+      function isValidRecord(r) {
+        return r &&
+          r.cutDate && typeof r.cutDate.year === 'number' && typeof r.cutDate.month === 'number' && typeof r.cutDate.day === 'number' &&
+          r.cutTime && typeof r.cutTime.hour12 === 'number' && typeof r.cutTime.minute === 'number' && (r.cutTime.period === 'AM' || r.cutTime.period === 'PM') &&
+          r.restoredDate && typeof r.restoredDate.year === 'number' && typeof r.restoredDate.month === 'number' && typeof r.restoredDate.day === 'number' &&
+          r.restoredTime && typeof r.restoredTime.hour12 === 'number' && typeof r.restoredTime.minute === 'number' && (r.restoredTime.period === 'AM' || r.restoredTime.period === 'PM');
+      }
+
+      function handleUploadJsonFile(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            const parsed = JSON.parse(ev.target.result);
+            const incomingRecords = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.records) ? parsed.records : null);
+            if (!incomingRecords) {
+              showToast('Invalid JSON file');
+              return;
+            }
+
+            const validIncoming = [];
+            incomingRecords.forEach(function (r) {
+              if (isValidRecord(r)) {
+                const startMs = toTimestampMs(r.cutDate, r.cutTime);
+                const endMs = toTimestampMs(r.restoredDate, r.restoredTime);
+                const diffMinutes = Math.max(0, Math.round((endMs - startMs) / 60000));
+                validIncoming.push({
+                  id: r.id || ('rec_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+                  cutDate: { year: r.cutDate.year, month: r.cutDate.month, day: r.cutDate.day },
+                  cutTime: { hour12: r.cutTime.hour12, minute: r.cutTime.minute, period: r.cutTime.period },
+                  restoredDate: { year: r.restoredDate.year, month: r.restoredDate.month, day: r.restoredDate.day },
+                  restoredTime: { hour12: r.restoredTime.hour12, minute: r.restoredTime.minute, period: r.restoredTime.period },
+                  startMs: startMs,
+                  endMs: endMs,
+                  durationMinutes: diffMinutes,
+                  updatedAt: r.updatedAt || Date.now()
+                });
+              }
+            });
+
+            // Merge without duplicating identical records
+            const mapByKey = {};
+            state.records.forEach(function (rec) {
+              const key = rec.id || (rec.startMs + '_' + rec.endMs);
+              mapByKey[key] = rec;
+            });
+            validIncoming.forEach(function (rec) {
+              const key = rec.id || (rec.startMs + '_' + rec.endMs);
+              mapByKey[key] = rec;
+            });
+
+            state.records = Object.values(mapByKey).sort(function (a, b) {
+              if (b.startMs !== a.startMs) return b.startMs - a.startMs;
+              return b.endMs - a.endMs;
+            });
+
+            saveToStorage(STORAGE_KEY_RECORDS, state.records);
+
+            if (parsed && Array.isArray(parsed.calcRows) && parsed.calcRows.length > 0) {
+              state.calcRows = parsed.calcRows.map(function (row) {
+                return createCalcRow(row.hours || '', row.minutes || '');
+              });
+              saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
+              renderCalculatorRows();
+            }
+
+            renderSummariesAndRecords();
+            renderLargeRecordsView();
+            showToast('Restored ' + validIncoming.length + ' records');
+          } catch (err) {
+            showToast('Invalid JSON file');
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      // ==================== FULLSCREEN LARGE SAVED RECORDS VIEW & PDF DOWNLOAD ====================
+      function openLargeRecordsView() {
+        renderLargeRecordsView();
+        document.getElementById('largeRecordsOverlay').classList.remove('hidden');
+      }
+
+      function closeLargeRecordsView() {
+        document.getElementById('largeRecordsOverlay').classList.add('hidden');
+      }
+
+      function renderLargeRecordsView() {
+        const container = document.getElementById('largeRecordsContent');
+        container.innerHTML = '';
+
+        if (state.records.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'py-16 text-center text-2xl font-bold text-slate-400';
+          empty.textContent = 'No Saved Records';
+          container.appendChild(empty);
+          return;
+        }
+
+        let totalAllMinutes = 0;
+        state.records.forEach(function (r) {
+          totalAllMinutes += (r.durationMinutes || 0);
+        });
+
+        const totalSummaryBox = document.createElement('div');
+        totalSummaryBox.className = 'p-4 rounded-xl bg-slate-100 border-2 border-slate-900 flex flex-wrap items-center justify-between gap-2';
+        totalSummaryBox.innerHTML =
+          '<span class="text-lg sm:text-xl font-bold text-slate-700">Total (' + state.records.length + ' Records)</span>' +
+          '<span class="text-xl sm:text-2xl font-extrabold text-slate-900">' + formatDurationReadable(totalAllMinutes) + '</span>';
+        container.appendChild(totalSummaryBox);
+
+        state.records.forEach(function (rec, idx) {
+          const item = document.createElement('div');
+          item.className = 'p-4 rounded-xl bg-white border-2 border-slate-300 space-y-2 shadow-sm';
+          item.innerHTML =
+            '<div class="flex items-center justify-between border-b border-slate-200 pb-2">' +
+              '<span class="text-lg sm:text-xl font-bold text-slate-500">#' + (idx + 1) + '</span>' +
+              '<span class="text-xl sm:text-2xl font-extrabold text-slate-900">' + formatDurationReadable(rec.durationMinutes) + '</span>' +
+            '</div>' +
+            '<div class="text-lg sm:text-xl font-bold text-red-600">' +
+              'Off: ' + formatDateDisplay(rec.cutDate) + ' — ' + formatTimeDisplay(rec.cutTime) +
+            '</div>' +
+            '<div class="text-lg sm:text-xl font-bold text-emerald-700">' +
+              'On: ' + formatDateDisplay(rec.restoredDate) + ' — ' + formatTimeDisplay(rec.restoredTime) +
+            '</div>';
+          container.appendChild(item);
+        });
+      }
+
+      function handleDownloadPdf() {
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+          showToast('PDF library loading, please try again');
+          return;
+        }
+        const jsPDF = window.jspdf.jsPDF;
+        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const margin = 40;
+        let y = 50;
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(20);
+        doc.setTextColor(15, 23, 42);
+        doc.text('Saved Power Cut Records', margin, y);
+        y += 22;
+
+        const now = new Date();
+        const genDate = formatDateDisplay(getTodayDateObj()) + ' ' + formatTimeDisplay(getCurrentTimeObj());
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(11);
+        doc.setTextColor(100, 116, 139);
+        doc.text('Generated: ' + genDate, margin, y);
+        y += 24;
+
+        if (state.records.length === 0) {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(14);
+          doc.setTextColor(100, 116, 139);
+          doc.text('No power cut records saved.', margin, y);
+        } else {
+          let totalAllMinutes = 0;
+          state.records.forEach(function (r) { totalAllMinutes += (r.durationMinutes || 0); });
+
+          doc.setFillColor(241, 245, 249);
+          doc.setDrawColor(15, 23, 42);
+          doc.roundedRect(margin, y, pageWidth - margin * 2, 34, 6, 6, 'FD');
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(13);
+          doc.setTextColor(15, 23, 42);
+          doc.text('Total (' + state.records.length + ' Records): ' + formatDurationReadable(totalAllMinutes), margin + 12, y + 22);
+          y += 50;
+
+          state.records.forEach(function (rec, idx) {
+            if (y + 82 > pageHeight - 40) {
+              doc.addPage();
+              y = 50;
+            }
+
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(203, 213, 225);
+            doc.roundedRect(margin, y, pageWidth - margin * 2, 72, 6, 6, 'FD');
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(13);
+            doc.setTextColor(15, 23, 42);
+            doc.text('#' + (idx + 1) + '   Duration: ' + formatDurationReadable(rec.durationMinutes), margin + 12, y + 20);
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.setTextColor(220, 38, 38);
+            doc.text('Power Cut (Off):      ' + formatDateDisplay(rec.cutDate) + '   ' + formatTimeDisplay(rec.cutTime), margin + 12, y + 41);
+
+            doc.setTextColor(5, 150, 105);
+            doc.text('Power Restored (On):  ' + formatDateDisplay(rec.restoredDate) + '   ' + formatTimeDisplay(rec.restoredTime), margin + 12, y + 60);
+
+            y += 84;
+          });
+        }
+
+        doc.save('Power_Cut_Records_' + getCurrentDateTimeStampForFilename() + '.pdf');
+        showToast('PDF Downloaded');
+      }
+
+      // ==================== DATE PICKER ====================
+      function populateYearAndMonthSelects() {
+        const monthSelect = document.getElementById('dateModalMonthSelect');
+        const yearSelect = document.getElementById('dateModalYearSelect');
+        monthSelect.innerHTML = '';
+        MONTHS_FULL.forEach(function (mName, idx) {
+          const opt = document.createElement('option');
+          opt.value = String(idx + 1);
+          opt.textContent = mName;
+          monthSelect.appendChild(opt);
+        });
+
+        yearSelect.innerHTML = '';
+        for (let y = 2000; y <= 2050; y++) {
+          const opt = document.createElement('option');
+          opt.value = String(y);
+          opt.textContent = String(y);
+          yearSelect.appendChild(opt);
+        }
+      }
+
+      function openDatePicker(targetField) {
+        state.activeDateTarget = targetField;
+        document.getElementById('dateModalTitle').textContent =
+          targetField === 'cutDate' ? 'Power Cut Date' : 'Power Restored Date';
+
+        const existingDate = state[targetField];
+        const baseDate = existingDate ? { ...existingDate } : getTodayDateObj();
+
+        state.tempDate = { ...baseDate };
+        state.calendarView = { year: baseDate.year, month: baseDate.month };
+
+        renderDatePickerModal();
+        document.getElementById('datePickerModal').classList.remove('hidden');
+      }
+
+      function closeDatePicker() {
+        document.getElementById('datePickerModal').classList.add('hidden');
+        state.activeDateTarget = null;
+      }
+
+      function shiftTempDateByDays(deltaDays) {
+        const jsDate = new Date(state.tempDate.year, state.tempDate.month - 1, state.tempDate.day);
+        jsDate.setDate(jsDate.getDate() + deltaDays);
+        state.tempDate = {
+          year: jsDate.getFullYear(),
+          month: jsDate.getMonth() + 1,
+          day: jsDate.getDate()
+        };
+        state.calendarView = {
+          year: state.tempDate.year,
+          month: state.tempDate.month
+        };
+        renderDatePickerModal();
+      }
+
+      function renderDatePickerModal() {
+        document.getElementById('dateModalPreview').textContent = formatDateDisplay(state.tempDate);
+        const monthSelect = document.getElementById('dateModalMonthSelect');
+        const yearSelect = document.getElementById('dateModalYearSelect');
+
+        if (!yearSelect.querySelector('option[value="' + state.calendarView.year + '"]')) {
+          const opt = document.createElement('option');
+          opt.value = String(state.calendarView.year);
+          opt.textContent = String(state.calendarView.year);
+          yearSelect.appendChild(opt);
+        }
+
+        monthSelect.value = String(state.calendarView.month);
+        yearSelect.value = String(state.calendarView.year);
+
+        const grid = document.getElementById('dateModalCalendarGrid');
+        grid.innerHTML = '';
+
+        const firstDayWeekday = new Date(state.calendarView.year, state.calendarView.month - 1, 1).getDay();
+        const totalDays = daysInMonth(state.calendarView.year, state.calendarView.month);
+        const today = getTodayDateObj();
+
+        for (let i = 0; i < firstDayWeekday; i++) {
+          const blank = document.createElement('div');
+          blank.className = 'h-8';
+          grid.appendChild(blank);
+        }
+
+        for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = String(dayNum);
+
+          const isSelected =
+            state.tempDate.year === state.calendarView.year &&
+            state.tempDate.month === state.calendarView.month &&
+            state.tempDate.day === dayNum;
+
+          const isToday =
+            today.year === state.calendarView.year &&
+            today.month === state.calendarView.month &&
+            today.day === dayNum;
+
+          if (isSelected) {
+            btn.className = 'h-8 w-full rounded-lg bg-slate-900 text-white font-bold text-xs transition';
+          } else if (isToday) {
+            btn.className = 'h-8 w-full rounded-lg bg-slate-100 text-slate-900 border border-slate-400 font-bold text-xs hover:bg-slate-200 transition';
+          } else {
+            btn.className = 'h-8 w-full rounded-lg text-slate-700 hover:bg-slate-100 font-medium text-xs transition';
+          }
+
+          btn.addEventListener('click', function () {
+            state.tempDate = {
+              year: state.calendarView.year,
+              month: state.calendarView.month,
+              day: dayNum
+            };
+            renderDatePickerModal();
+          });
+
+          grid.appendChild(btn);
+        }
+      }
+
+      function confirmDateSelection() {
+        if (!state.activeDateTarget) return;
+        state[state.activeDateTarget] = { ...state.tempDate };
+        closeDatePicker();
+        renderFormState();
+      }
+
+      // ==================== TIME PICKER ====================
+      function openTimePicker(targetField) {
+        state.activeTimeTarget = targetField;
+        document.getElementById('timeModalTitle').textContent =
+          targetField === 'cutTime' ? 'Power Cut Time' : 'Power Restored Time';
+
+        const existingTime = state[targetField];
+        const baseTime = existingTime ? { ...existingTime } : getCurrentTimeObj();
+        state.tempTime = { ...baseTime };
+
+        renderTimePickerModal();
+        document.getElementById('timePickerModal').classList.remove('hidden');
+      }
+
+      function closeTimePicker() {
+        document.getElementById('timePickerModal').classList.add('hidden');
+        state.activeTimeTarget = null;
+      }
+
+      function renderTimePickerModal() {
+        document.getElementById('timeModalPreview').textContent = formatTimeDisplay(state.tempTime);
+        document.getElementById('inputTimeHour').value = String(state.tempTime.hour12);
+        document.getElementById('inputTimeMinute').value = pad2(state.tempTime.minute);
+
+        const btnAM = document.getElementById('btnPeriodAM');
+        const btnPM = document.getElementById('btnPeriodPM');
+
+        if (state.tempTime.period === 'AM') {
+          btnAM.className = 'w-full py-2 rounded font-bold text-xs transition bg-slate-900 text-white';
+          btnPM.className = 'w-full py-2 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200';
+        } else {
+          btnPM.className = 'w-full py-2 rounded font-bold text-xs transition bg-slate-900 text-white';
+          btnAM.className = 'w-full py-2 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200';
+        }
+      }
+
+      function confirmTimeSelection() {
+        if (!state.activeTimeTarget) return;
+        state[state.activeTimeTarget] = { ...state.tempTime };
+        closeTimePicker();
+        renderFormState();
+      }
+
+      // ==================== SUMMARIES & RECORDS ====================
+      function computeDailyAndMonthlyTotals() {
+        const dailyMap = {};
+        const monthlyMap = {};
+
+        state.records.forEach(function (rec) {
+          let cursorMs = rec.startMs;
+          const endMs = rec.endMs;
+
+          if (cursorMs === endMs) {
+            const dKey = toDateKey(rec.cutDate);
+            const mKey = toMonthKey(rec.cutDate);
+            if (!dailyMap[dKey]) dailyMap[dKey] = { minutes: 0, count: 0 };
+            if (!monthlyMap[mKey]) monthlyMap[mKey] = { minutes: 0, count: 0 };
+            dailyMap[dKey].count += 1;
+            monthlyMap[mKey].count += 1;
+            return;
+          }
+
+          const seenDays = new Set();
+          const seenMonths = new Set();
+
+          while (cursorMs < endMs) {
+            const curDate = new Date(cursorMs);
+            const y = curDate.getFullYear();
+            const m = curDate.getMonth() + 1;
+            const d = curDate.getDate();
+
+            const nextMidnightMs = new Date(y, m - 1, d + 1, 0, 0, 0, 0).getTime();
+            const segmentEndMs = Math.min(endMs, nextMidnightMs);
+            const segMinutes = Math.round((segmentEndMs - cursorMs) / 60000);
+
+            const dKey = y + '-' + pad2(m) + '-' + pad2(d);
+            const mKey = y + '-' + pad2(m);
+
+            if (!dailyMap[dKey]) dailyMap[dKey] = { minutes: 0, count: 0 };
+            if (!monthlyMap[mKey]) monthlyMap[mKey] = { minutes: 0, count: 0 };
+
+            dailyMap[dKey].minutes += segMinutes;
+            monthlyMap[mKey].minutes += segMinutes;
+
+            seenDays.add(dKey);
+            seenMonths.add(mKey);
+
+            cursorMs = segmentEndMs;
+          }
+
+          seenDays.forEach(function (k) { dailyMap[k].count += 1; });
+          seenMonths.forEach(function (k) { monthlyMap[k].count += 1; });
+        });
+
+        return { dailyMap: dailyMap, monthlyMap: monthlyMap };
+      }
+
+      function renderSummariesAndRecords() {
+        const { dailyMap, monthlyMap } = computeDailyAndMonthlyTotals();
+        const todayObj = getTodayDateObj();
+        const todayKey = toDateKey(todayObj);
+        const currentMonthKey = toMonthKey(todayObj);
+
+        const selectDaily = document.getElementById('selectDailySummary');
+        const prevDailyVal = selectDaily.value;
+        const allDayKeys = new Set(Object.keys(dailyMap));
+        allDayKeys.add(todayKey);
+        const sortedDayKeys = Array.from(allDayKeys).sort().reverse();
+
+        selectDaily.innerHTML = '';
+        sortedDayKeys.forEach(function (dKey) {
+          const opt = document.createElement('option');
+          opt.value = dKey;
+          opt.textContent = formatDateKeyDisplay(dKey);
+          selectDaily.appendChild(opt);
+        });
+        selectDaily.value = (prevDailyVal && allDayKeys.has(prevDailyVal)) ? prevDailyVal : sortedDayKeys[0];
+
+        const selectMonthly = document.getElementById('selectMonthlySummary');
+        const prevMonthlyVal = selectMonthly.value;
+        const allMonthKeys = new Set(Object.keys(monthlyMap));
+        allMonthKeys.add(currentMonthKey);
+        const sortedMonthKeys = Array.from(allMonthKeys).sort().reverse();
+
+        selectMonthly.innerHTML = '';
+        sortedMonthKeys.forEach(function (mKey) {
+          const opt = document.createElement('option');
+          opt.value = mKey;
+          opt.textContent = formatMonthKeyDisplay(mKey);
+          selectMonthly.appendChild(opt);
+        });
+        selectMonthly.value = (prevMonthlyVal && allMonthKeys.has(prevMonthlyVal)) ? prevMonthlyVal : sortedMonthKeys[0];
+
+        updateSummaryCardsDisplay(dailyMap, monthlyMap);
+        renderRecordsList();
+      }
+
+      function updateSummaryCardsDisplay(dailyMap, monthlyMap) {
+        const chosenDay = document.getElementById('selectDailySummary').value;
+        const dayInfo = dailyMap[chosenDay] || { minutes: 0, count: 0 };
+        document.getElementById('dailySummaryValue').textContent = formatDurationReadable(dayInfo.minutes);
+
+        const chosenMonth = document.getElementById('selectMonthlySummary').value;
+        const monthInfo = monthlyMap[chosenMonth] || { minutes: 0, count: 0 };
+        document.getElementById('monthlySummaryValue').textContent = formatDurationReadable(monthInfo.minutes);
+      }
+
+      function renderRecordsList() {
+        const container = document.getElementById('recordsListContainer');
+        const btnDeleteAll = document.getElementById('btnDeleteAllRecords');
+        container.innerHTML = '';
+
+        if (state.records.length === 0) {
+          btnDeleteAll.classList.add('hidden');
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'py-4 text-center text-xs text-slate-400';
+          emptyDiv.textContent = 'No records saved';
+          container.appendChild(emptyDiv);
+          return;
+        }
+
+        btnDeleteAll.classList.remove('hidden');
+
+        state.records.forEach(function (rec) {
+          const card = document.createElement('div');
+          const isEditingThis = state.editingRecordId === rec.id;
+          card.className = 'p-2.5 rounded-lg bg-slate-50 border ' +
+            (isEditingThis ? 'border-slate-900' : 'border-slate-200') +
+            ' space-y-1.5';
+
+          const topRow = document.createElement('div');
+          topRow.className = 'flex items-center justify-between';
+
+          const durationSpan = document.createElement('span');
+          durationSpan.className = 'text-xs font-bold text-slate-900';
+          durationSpan.textContent = formatDurationReadable(rec.durationMinutes);
+
+          const actionsDiv = document.createElement('div');
+          actionsDiv.className = 'flex items-center gap-2';
+
+          const btnEdit = document.createElement('button');
+          btnEdit.type = 'button';
+          btnEdit.className = 'text-xs font-semibold text-slate-600 hover:text-slate-900';
+          btnEdit.textContent = 'Edit';
+          btnEdit.addEventListener('click', function () {
+            startEditingRecord(rec.id);
+          });
+
+          const btnDelete = document.createElement('button');
+          btnDelete.type = 'button';
+          btnDelete.className = 'text-xs font-semibold text-rose-600 hover:text-rose-700';
+          btnDelete.textContent = 'Delete';
+          btnDelete.addEventListener('click', function () {
+            openConfirmModal(
+              'Delete Record?',
+              formatDateDisplay(rec.cutDate) + ' ' + formatTimeDisplay(rec.cutTime),
+              function () {
+                deleteRecordById(rec.id);
+              }
+            );
+          });
+
+          actionsDiv.appendChild(btnEdit);
+          actionsDiv.appendChild(btnDelete);
+          topRow.appendChild(durationSpan);
+          topRow.appendChild(actionsDiv);
+
+          const detailsRow = document.createElement('div');
+          detailsRow.className = 'grid grid-cols-2 gap-2 text-[11px] text-slate-600 pt-1 border-t border-slate-200/70';
+          detailsRow.innerHTML =
+            '<div><span class="font-semibold text-red-600">Off:</span> ' + formatDateDisplay(rec.cutDate) + ', ' + formatTimeDisplay(rec.cutTime) + '</div>' +
+            '<div><span class="font-semibold text-emerald-600">On:</span> ' + formatDateDisplay(rec.restoredDate) + ', ' + formatTimeDisplay(rec.restoredTime) + '</div>';
+
+          card.appendChild(topRow);
+          card.appendChild(detailsRow);
+          container.appendChild(card);
+        });
+      }
+
+      function startEditingRecord(recordId) {
+        const rec = state.records.find(function (r) { return r.id === recordId; });
+        if (!rec) return;
+        state.editingRecordId = rec.id;
+        state.cutDate = { ...rec.cutDate };
+        state.cutTime = { ...rec.cutTime };
+        state.restoredDate = { ...rec.restoredDate };
+        state.restoredTime = { ...rec.restoredTime };
+        renderFormState();
+        renderRecordsList();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function deleteRecordById(recordId) {
+        state.records = state.records.filter(function (r) { return r.id !== recordId; });
+        if (state.editingRecordId === recordId) {
+          clearFormFields();
+        }
+        saveToStorage(STORAGE_KEY_RECORDS, state.records);
+        renderSummariesAndRecords();
+        renderLargeRecordsView();
+        showToast('Deleted');
+      }
+
+      function openConfirmModal(title, message, onAccept) {
+        document.getElementById('confirmModalTitle').textContent = title;
+        document.getElementById('confirmModalMessage').textContent = message;
+        state.confirmCallback = onAccept;
+        document.getElementById('confirmModal').classList.remove('hidden');
+      }
+
+      function closeConfirmModal() {
+        document.getElementById('confirmModal').classList.add('hidden');
+        state.confirmCallback = null;
+      }
+
+      // ==================== TIME ADDITION CALCULATOR ====================
+      function createCalcRow(hoursVal, minutesVal) {
+        return {
+          id: 'row_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+          hours: hoursVal !== undefined ? String(hoursVal) : '',
+          minutes: minutesVal !== undefined ? String(minutesVal) : ''
+        };
+      }
+
+      function renderCalculatorRows() {
+        const container = document.getElementById('calcRowsContainer');
+        container.innerHTML = '';
+
+        state.calcRows.forEach(function (row, index) {
+          const rowEl = document.createElement('div');
+          rowEl.className = 'grid grid-cols-12 gap-2 items-center';
+
+          const idxCol = document.createElement('div');
+          idxCol.className = 'col-span-1 text-xs font-semibold text-slate-400 text-center';
+          idxCol.textContent = String(index + 1);
+
+          const hoursCol = document.createElement('div');
+          hoursCol.className = 'col-span-5';
+          const inputHours = document.createElement('input');
+          inputHours.type = 'number';
+          inputHours.min = '0';
+          inputHours.step = '1';
+          inputHours.placeholder = 'Hours';
+          inputHours.value = row.hours;
+          inputHours.setAttribute('aria-label', 'Hours row ' + (index + 1));
+          inputHours.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-2 text-xs sm:text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
+          inputHours.addEventListener('input', function (e) {
+            const cleaned = e.target.value.replace(/[^0-9]/g, '');
+            if (e.target.value !== cleaned) e.target.value = cleaned;
+            row.hours = cleaned;
+            saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
+            updateCalculatorTotalDisplay();
+          });
+          hoursCol.appendChild(inputHours);
+
+          const minutesCol = document.createElement('div');
+          minutesCol.className = 'col-span-5';
+          const inputMinutes = document.createElement('input');
+          inputMinutes.type = 'number';
+          inputMinutes.min = '0';
+          inputMinutes.step = '1';
+          inputMinutes.placeholder = 'Minutes';
+          inputMinutes.value = row.minutes;
+          inputMinutes.setAttribute('aria-label', 'Minutes row ' + (index + 1));
+          inputMinutes.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-2 text-xs sm:text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
+          inputMinutes.addEventListener('input', function (e) {
+            const cleaned = e.target.value.replace(/[^0-9]/g, '');
+            if (e.target.value !== cleaned) e.target.value = cleaned;
+            row.minutes = cleaned;
+            saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
+            updateCalculatorTotalDisplay();
+          });
+          minutesCol.appendChild(inputMinutes);
+
+          const actionCol = document.createElement('div');
+          actionCol.className = 'col-span-1 flex justify-end';
+          const btnRemove = document.createElement('button');
+          btnRemove.type = 'button';
+          btnRemove.className = 'p-1.5 rounded text-slate-400 hover:text-rose-600 transition';
+          btnRemove.setAttribute('aria-label', 'Delete row ' + (index + 1));
+          btnRemove.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+              '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />' +
+            '</svg>';
+          btnRemove.addEventListener('click', function () {
+            if (state.calcRows.length <= 1) {
+              state.calcRows[0].hours = '';
+              state.calcRows[0].minutes = '';
+            } else {
+              state.calcRows = state.calcRows.filter(function (r) { return r.id !== row.id; });
+            }
+            saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
+            renderCalculatorRows();
+            updateCalculatorTotalDisplay();
+          });
+          actionCol.appendChild(btnRemove);
+
+          rowEl.appendChild(idxCol);
+          rowEl.appendChild(hoursCol);
+          rowEl.appendChild(minutesCol);
+          rowEl.appendChild(actionCol);
+          container.appendChild(rowEl);
+        });
+
+        updateCalculatorTotalDisplay();
+      }
+
+      function updateCalculatorTotalDisplay() {
+        let sumHours = 0;
+        let sumMinutes = 0;
+
+        state.calcRows.forEach(function (row) {
+          const h = parseInt(row.hours, 10);
+          const m = parseInt(row.minutes, 10);
+          if (!isNaN(h) && h > 0) sumHours += h;
+          if (!isNaN(m) && m > 0) sumMinutes += m;
+        });
+
+        const totalMinutesAll = sumHours * 60 + sumMinutes;
+        document.getElementById('calcTotalDisplay').textContent = formatCalculatorTotal(totalMinutesAll);
+      }
+
+      // ==================== STRICT TWO-FINGER ONLY TOUCH GESTURE ====================
+      function setupTwoFingerTouchGesture() {
+        let twoFingerTimer = null;
+        let multiTouchInvalidated = false;
+
+        window.addEventListener('touchstart', function (e) {
+          if (!e.touches) return;
+          const count = e.touches.length;
+
+          // If 3, 4, or more fingers touch, immediately cancel any pending 2-finger trigger
+          if (count > 2) {
+            multiTouchInvalidated = true;
+            if (twoFingerTimer) {
+              clearTimeout(twoFingerTimer);
+              twoFingerTimer = null;
+            }
+            return;
+          }
+
+          if (count === 1) {
+            multiTouchInvalidated = false;
+            return;
+          }
+
+          if (count === 2 && !multiTouchInvalidated) {
+            const t1 = e.touches[0];
+            const t2 = e.touches[1];
+            const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+            if (dist >= 20) {
+              if (twoFingerTimer) clearTimeout(twoFingerTimer);
+              // Wait 90ms to confirm a 3rd or 4th finger is not being placed down
+              twoFingerTimer = setTimeout(function () {
+                twoFingerTimer = null;
+                if (!multiTouchInvalidated) {
+                  const overlay = document.getElementById('largeRecordsOverlay');
+                  if (overlay && overlay.classList.contains('hidden')) {
+                    openLargeRecordsView();
+                  }
+                }
+              }, 90);
+            }
+          }
+        }, { passive: true });
+
+        window.addEventListener('touchend', function (e) {
+          if (!e.touches || e.touches.length === 0) {
+            multiTouchInvalidated = false;
+          }
+        }, { passive: true });
+      }
+
+      // ==================== INIT ====================
+      function initApp() {
+        setupProgressiveWebApp();
+        populateYearAndMonthSelects();
+        setupTwoFingerTouchGesture();
+
+        const storedRecords = loadFromStorage(STORAGE_KEY_RECORDS, null);
+        state.records = Array.isArray(storedRecords) ? storedRecords : [];
+
+        const storedCalcRows = loadFromStorage(STORAGE_KEY_CALC_ROWS, null);
+        if (Array.isArray(storedCalcRows) && storedCalcRows.length > 0) {
+          state.calcRows = storedCalcRows;
+        } else {
+          state.calcRows = [
+            createCalcRow('', ''),
+            createCalcRow('', '')
+          ];
+          saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
+        }
+
+        document.getElementById('tabBtnPowerCut').addEventListener('click', function () {
+          switchTab('power-cut');
+        });
+        document.getElementById('tabBtnTimeCalc').addEventListener('click', function () {
+          switchTab('time-calc');
+        });
+
+        document.getElementById('btnCutDate').addEventListener('click', function () {
+          openDatePicker('cutDate');
+        });
+        document.getElementById('btnRestoredDate').addEventListener('click', function () {
+          openDatePicker('restoredDate');
+        });
+        document.getElementById('btnCutTime').addEventListener('click', function () {
+          openTimePicker('cutTime');
+        });
+        document.getElementById('btnRestoredTime').addEventListener('click', function () {
+          openTimePicker('restoredTime');
+        });
+
+        document.getElementById('btnSaveRecord').addEventListener('click', handleSaveRecord);
+        document.getElementById('btnResetForm').addEventListener('click', function () {
+          clearFormFields();
+        });
+        document.getElementById('btnCancelEdit').addEventListener('click', function () {
+          clearFormFields();
+          renderRecordsList();
+        });
+
+        // JSON Backup & Restore Listeners
+        document.getElementById('btnDownloadJson').addEventListener('click', handleDownloadJson);
+        document.getElementById('btnUploadJson').addEventListener('click', function () {
+          const fileInput = document.getElementById('inputJsonFile');
+          fileInput.value = '';
+          fileInput.click();
+        });
+        document.getElementById('inputJsonFile').addEventListener('change', function (e) {
+          if (e.target.files && e.target.files[0]) {
+            handleUploadJsonFile(e.target.files[0]);
+          }
+        });
+
+        // Fullscreen Large Records & PDF Listeners
+        document.getElementById('btnCloseLargeRecords').addEventListener('click', closeLargeRecordsView);
+        document.getElementById('btnDownloadPdf').addEventListener('click', handleDownloadPdf);
+
+        document.getElementById('selectDailySummary').addEventListener('change', function () {
+          const { dailyMap, monthlyMap } = computeDailyAndMonthlyTotals();
+          updateSummaryCardsDisplay(dailyMap, monthlyMap);
+        });
+        document.getElementById('selectMonthlySummary').addEventListener('change', function () {
+          const { dailyMap, monthlyMap } = computeDailyAndMonthlyTotals();
+          updateSummaryCardsDisplay(dailyMap, monthlyMap);
+        });
+
+        document.getElementById('btnDeleteAllRecords').addEventListener('click', function () {
+          openConfirmModal(
+            'Delete All Records?',
+            'All saved power cut records will be removed.',
+            function () {
+              state.records = [];
+              clearFormFields();
+              saveToStorage(STORAGE_KEY_RECORDS, state.records);
+              renderSummariesAndRecords();
+              renderLargeRecordsView();
+              showToast('Deleted');
+            }
+          );
+        });
+
+        document.getElementById('btnCloseDateModal').addEventListener('click', closeDatePicker);
+        document.getElementById('btnCancelDateModal').addEventListener('click', closeDatePicker);
+        document.getElementById('btnConfirmDateModal').addEventListener('click', confirmDateSelection);
+        document.getElementById('btnPrevDay').addEventListener('click', function () { shiftTempDateByDays(-1); });
+        document.getElementById('btnNextDay').addEventListener('click', function () { shiftTempDateByDays(1); });
+
+        document.getElementById('btnPrevMonth').addEventListener('click', function () {
+          state.calendarView.month -= 1;
+          if (state.calendarView.month < 1) {
+            state.calendarView.month = 12;
+            state.calendarView.year -= 1;
+          }
+          renderDatePickerModal();
+        });
+        document.getElementById('btnNextMonth').addEventListener('click', function () {
+          state.calendarView.month += 1;
+          if (state.calendarView.month > 12) {
+            state.calendarView.month = 1;
+            state.calendarView.year += 1;
+          }
+          renderDatePickerModal();
+        });
+
+        document.getElementById('dateModalMonthSelect').addEventListener('change', function (e) {
+          state.calendarView.month = parseInt(e.target.value, 10);
+          renderDatePickerModal();
+        });
+        document.getElementById('dateModalYearSelect').addEventListener('change', function (e) {
+          state.calendarView.year = parseInt(e.target.value, 10);
+          renderDatePickerModal();
+        });
+        document.getElementById('btnDateModalToday').addEventListener('click', function () {
+          const today = getTodayDateObj();
+          state.tempDate = { ...today };
+          state.calendarView = { year: today.year, month: today.month };
+          renderDatePickerModal();
+        });
+
+        document.getElementById('btnCloseTimeModal').addEventListener('click', closeTimePicker);
+        document.getElementById('btnCancelTimeModal').addEventListener('click', closeTimePicker);
+        document.getElementById('btnConfirmTimeModal').addEventListener('click', confirmTimeSelection);
+
+        document.getElementById('btnHourUp').addEventListener('click', function () {
+          state.tempTime.hour12 = (state.tempTime.hour12 % 12) + 1;
+          renderTimePickerModal();
+        });
+        document.getElementById('btnHourDown').addEventListener('click', function () {
+          state.tempTime.hour12 = state.tempTime.hour12 - 1;
+          if (state.tempTime.hour12 < 1) state.tempTime.hour12 = 12;
+          renderTimePickerModal();
+        });
+        document.getElementById('btnMinuteUp').addEventListener('click', function () {
+          state.tempTime.minute = (state.tempTime.minute + 1) % 60;
+          renderTimePickerModal();
+        });
+        document.getElementById('btnMinuteDown').addEventListener('click', function () {
+          state.tempTime.minute = (state.tempTime.minute + 59) % 60;
+          renderTimePickerModal();
+        });
+
+        document.getElementById('inputTimeHour').addEventListener('change', function (e) {
+          let val = parseInt(e.target.value, 10);
+          if (isNaN(val) || val < 1) val = 1;
+          if (val > 12) val = 12;
+          state.tempTime.hour12 = val;
+          renderTimePickerModal();
+        });
+        document.getElementById('inputTimeMinute').addEventListener('change', function (e) {
+          let val = parseInt(e.target.value, 10);
+          if (isNaN(val) || val < 0) val = 0;
+          if (val > 59) val = 59;
+          state.tempTime.minute = val;
+          renderTimePickerModal();
+        });
+
+        document.getElementById('btnPeriodAM').addEventListener('click', function () {
+          state.tempTime.period = 'AM';
+          renderTimePickerModal();
+        });
+        document.getElementById('btnPeriodPM').addEventListener('click', function () {
+          state.tempTime.period = 'PM';
+          renderTimePickerModal();
+        });
+
+        document.getElementById('btnTimeNow').addEventListener('click', function () {
+          state.tempTime = getCurrentTimeObj();
+          renderTimePickerModal();
+        });
+
+        document.getElementById('btnAddDurationRow').addEventListener('click', function () {
+          state.calcRows.push(createCalcRow('', ''));
+          saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
+          renderCalculatorRows();
+        });
+
+        document.getElementById('btnClearAllCalc').addEventListener('click', function () {
+          state.calcRows = [
+            createCalcRow('', ''),
+            createCalcRow('', '')
+          ];
+          saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
+          renderCalculatorRows();
+        });
+
+        document.getElementById('btnConfirmCancel').addEventListener('click', closeConfirmModal);
+        document.getElementById('btnConfirmAccept').addEventListener('click', function () {
+          if (typeof state.confirmCallback === 'function') {
+            state.confirmCallback();
+          }
+          closeConfirmModal();
+        });
+
+        renderFormState();
+        renderSummariesAndRecords();
+        renderCalculatorRows();
+      }
+
+      window.addEventListener('DOMContentLoaded', initApp);
+    })();
+  </script>
+</body>
+</html>
