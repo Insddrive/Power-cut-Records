@@ -17,56 +17,79 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    html {
+      font-size: 14px !important;
+      -webkit-text-size-adjust: 100% !important;
+      -moz-text-size-adjust: 100% !important;
+      text-size-adjust: 100% !important;
+    }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+    button, input, select {
+      font-size: inherit;
     }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
-  <!-- Minimal Header & Tabs -->
+  <!-- Minimal Header & 3 Main Tabs -->
   <header class="sticky top-0 z-30 bg-white border-b border-slate-200">
-    <div class="max-w-md mx-auto px-3 py-2">
-      <nav class="grid grid-cols-2 gap-1 bg-slate-100 p-1 rounded-lg" aria-label="Main Navigation">
-        <button id="tabBtnPowerCut" type="button" role="tab" aria-selected="true" class="py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm">
+    <div class="max-w-md mx-auto px-2.5 py-2">
+      <nav class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg" aria-label="Main Navigation">
+        <button id="tabBtnPowerCut" type="button" role="tab" aria-selected="true" class="py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all bg-white text-slate-900 shadow-sm text-center">
           Power Cut Record
         </button>
-        <button id="tabBtnTimeCalc" type="button" role="tab" aria-selected="false" class="py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+        <button id="tabBtnTimeCalc" type="button" role="tab" aria-selected="false" class="py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center">
           Time Addition Calculator
+        </button>
+        <button id="tabBtnGensetMeter" type="button" role="tab" aria-selected="false" class="py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center">
+          Generator Run Time
         </button>
       </nav>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 max-w-md w-full mx-auto px-3 py-3 space-y-3">
+  <main class="flex-1 max-w-md w-full mx-auto px-2.5 py-2.5 space-y-2.5">
 
     <!-- ==================== TAB 1: POWER CUT RECORD ==================== -->
-    <section id="panelPowerCut" role="tabpanel" class="space-y-3">
+    <section id="panelPowerCut" role="tabpanel" class="space-y-2.5">
 
       <!-- Compact Record Input Card -->
-      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-3">
-        <div id="editBanner" class="hidden flex items-center justify-between bg-amber-50 border border-amber-200 px-2.5 py-1.5 rounded-lg">
-          <span id="editModeBadge" class="text-xs font-semibold text-amber-800">Editing Record</span>
-          <button id="btnCancelEdit" type="button" class="text-xs font-semibold text-rose-600 hover:underline">Cancel</button>
+      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
+        <div id="editBanner" class="hidden flex items-center justify-between bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg">
+          <span id="editModeBadge" class="text-[11px] font-semibold text-amber-800">Editing</span>
+          <button id="btnCancelEdit" type="button" class="text-[11px] font-semibold text-rose-600 hover:underline">Cancel</button>
         </div>
 
-        <!-- Power Cut Date & Time (Side by Side) -->
+        <!-- Generator Selection (500 kVA Blue vs 1000 kVA Amber Side by Side) -->
+        <div class="grid grid-cols-2 gap-2">
+          <button id="btnGen500" type="button" class="py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-blue-600 text-white border-blue-600 shadow-sm">
+            500 kVA
+          </button>
+          <button id="btnGen1000" type="button" class="py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-slate-50 text-amber-700 border-amber-300 hover:bg-amber-50">
+            1000 kVA
+          </button>
+        </div>
+
+        <!-- Power Cut Date & Time (Side by Side, Compact) -->
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="btnCutDate">Power Cut Date</label>
-            <button id="btnCutDate" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-              <span id="labelCutDate" class="text-xs sm:text-sm font-semibold text-red-600 truncate">Select Date</span>
+            <label class="block text-[10px] font-semibold text-slate-500 mb-0.5 whitespace-nowrap" for="btnCutDate">Power Cut Date</label>
+            <button id="btnCutDate" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelCutDate" class="text-[11px] font-bold text-red-600 whitespace-nowrap">Select Date</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-red-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </button>
           </div>
           <div>
-            <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="btnCutTime">Power Cut Time</label>
-            <button id="btnCutTime" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-              <span id="labelCutTime" class="text-xs sm:text-sm font-semibold text-red-600 truncate">Select Time</span>
+            <label class="block text-[10px] font-semibold text-slate-500 mb-0.5 whitespace-nowrap" for="btnCutTime">Power Cut Time</label>
+            <button id="btnCutTime" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelCutTime" class="text-[11px] font-bold text-red-600 whitespace-nowrap">Select Time</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-red-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -74,21 +97,21 @@
           </div>
         </div>
 
-        <!-- Power Restored Date & Time (Side by Side) -->
+        <!-- Power Restored Date & Time (Side by Side, Compact) -->
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="btnRestoredDate">Power Restored Date</label>
-            <button id="btnRestoredDate" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-              <span id="labelRestoredDate" class="text-xs sm:text-sm font-semibold text-emerald-600 truncate">Select Date</span>
+            <label class="block text-[10px] font-semibold text-slate-500 mb-0.5 whitespace-nowrap" for="btnRestoredDate">Power Restored Date</label>
+            <button id="btnRestoredDate" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelRestoredDate" class="text-[11px] font-bold text-emerald-600 whitespace-nowrap">Select Date</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-emerald-600 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </button>
           </div>
           <div>
-            <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="btnRestoredTime">Power Restored Time</label>
-            <button id="btnRestoredTime" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-              <span id="labelRestoredTime" class="text-xs sm:text-sm font-semibold text-emerald-600 truncate">Select Time</span>
+            <label class="block text-[10px] font-semibold text-slate-500 mb-0.5 whitespace-nowrap" for="btnRestoredTime">Power Restored Time</label>
+            <button id="btnRestoredTime" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelRestoredTime" class="text-[11px] font-bold text-emerald-600 whitespace-nowrap">Select Time</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-emerald-600 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -96,127 +119,295 @@
           </div>
         </div>
 
-        <!-- Total Power Cut Duration Row -->
-        <div id="durationStatusBox" class="px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <span class="text-xs font-semibold text-slate-600">Total Power Cut Duration</span>
-          <span id="durationValueDisplay" class="text-sm font-bold text-slate-900">--</span>
+        <!-- Duration Row (Clock Symbol + Duration only, "Total Power Cut Duration" text removed) -->
+        <div id="durationStatusBox" class="px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span id="durationValueDisplay" class="text-xs font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</span>
         </div>
 
         <!-- Validation Alert -->
-        <div id="formValidationAlert" class="hidden px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium" role="alert">
+        <div id="formValidationAlert" class="hidden px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-[11px] font-medium" role="alert">
           <span id="formValidationText">Invalid entry</span>
         </div>
 
         <!-- Save & Clear Buttons -->
         <div class="flex items-center gap-2">
-          <button id="btnSaveRecord" type="button" class="flex-1 py-2.5 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-semibold text-xs sm:text-sm transition">
+          <button id="btnSaveRecord" type="button" class="flex-1 py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-semibold text-xs transition">
             <span id="btnSaveRecordLabel">Save Record</span>
           </button>
-          <button id="btnResetForm" type="button" class="py-2.5 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm border border-slate-200 transition">
+          <button id="btnResetForm" type="button" class="py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition">
             Clear
           </button>
         </div>
       </div>
 
-      <!-- Daily & Monthly Summary (Side by Side) -->
-      <div class="grid grid-cols-2 gap-2">
-        <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-1">
-          <div class="flex items-center justify-between gap-1">
-            <span class="text-[11px] font-semibold text-slate-500">Daily</span>
-            <select id="selectDailySummary" aria-label="Daily Summary Date" class="text-[11px] bg-slate-50 text-slate-700 border border-slate-200 rounded px-1.5 py-0.5 focus:outline-none">
-            </select>
-          </div>
-          <div id="dailySummaryValue" class="text-xs sm:text-sm font-bold text-slate-900">0 hours 0 minutes</div>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-1">
-          <div class="flex items-center justify-between gap-1">
-            <span class="text-[11px] font-semibold text-slate-500">Monthly</span>
-            <select id="selectMonthlySummary" aria-label="Monthly Summary Month" class="text-[11px] bg-slate-50 text-slate-700 border border-slate-200 rounded px-1.5 py-0.5 focus:outline-none">
-            </select>
-          </div>
-          <div id="monthlySummaryValue" class="text-xs sm:text-sm font-bold text-slate-900">0 hours 0 minutes</div>
+      <!-- Generator Filter Bar (All | 500 kVA | 1000 kVA with color coding) -->
+      <div class="bg-white border border-slate-200 rounded-xl p-1.5 shadow-sm">
+        <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg">
+          <button id="filterBtnAll" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition bg-slate-900 text-white shadow-sm">
+            All
+          </button>
+          <button id="filterBtn500" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition text-blue-700 hover:bg-blue-50">
+            500 kVA
+          </button>
+          <button id="filterBtn1000" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition text-amber-700 hover:bg-amber-50">
+            1000 kVA
+          </button>
         </div>
       </div>
 
-      <!-- Saved Records & JSON Backup/Restore -->
-      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-2.5">
-        <div class="flex flex-wrap items-center justify-between gap-1.5">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">Saved Records</h2>
-          <div class="flex items-center gap-1.5">
-            <button id="btnDownloadJson" type="button" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold border border-slate-200 transition">
-              Download JSON
-            </button>
-            <button id="btnUploadJson" type="button" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold border border-slate-200 transition">
-              Upload JSON
-            </button>
-            <input id="inputJsonFile" type="file" accept=".json,application/json" class="hidden" />
-            <button id="btnDeleteAllRecords" type="button" class="hidden text-xs font-semibold text-rose-600 hover:underline ml-1">
-              Delete All
-            </button>
+      <!-- Daily & Monthly Summary (Side by Side, Color-Coded 500 kVA & 1000 kVA Breakdown) -->
+      <div class="grid grid-cols-2 gap-2">
+        <div class="bg-white border border-slate-200 rounded-xl p-2 shadow-sm space-y-1">
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase text-slate-500">Daily</span>
+            <select id="selectDailySummary" aria-label="Daily Summary Date" class="text-[10px] bg-slate-50 text-slate-700 border border-slate-200 rounded px-1 py-0.5 focus:outline-none">
+            </select>
+          </div>
+          <div id="dailySummaryValue" class="text-xs font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</div>
+          <div id="dailySummaryGenSub" class="text-[10px] font-bold leading-tight flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+            <span class="text-blue-600">500: 0h 0m</span>
+            <span class="text-slate-300">|</span>
+            <span class="text-amber-600">1000: 0h 0m</span>
           </div>
         </div>
-        <div id="recordsListContainer" class="space-y-2">
+
+        <div class="bg-white border border-slate-200 rounded-xl p-2 shadow-sm space-y-1">
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase text-slate-500">Monthly</span>
+            <select id="selectMonthlySummary" aria-label="Monthly Summary Month" class="text-[10px] bg-slate-50 text-slate-700 border border-slate-200 rounded px-1 py-0.5 focus:outline-none">
+            </select>
+          </div>
+          <div id="monthlySummaryValue" class="text-xs font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</div>
+          <div id="monthlySummaryGenSub" class="text-[10px] font-bold leading-tight flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+            <span class="text-blue-600">500: 0h 0m</span>
+            <span class="text-slate-300">|</span>
+            <span class="text-amber-600">1000: 0h 0m</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saved Records & Icon Toolbar ("Saved Records (2)" heading text removed) -->
+      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
+        <div class="flex items-center justify-end gap-1.5">
+          <button id="btnDownloadJson" type="button" title="Download JSON" aria-label="Download JSON" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center gap-1 text-[10px] font-bold transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            <span>JSON</span>
+          </button>
+          <button id="btnUploadJson" type="button" title="Upload JSON" aria-label="Upload JSON" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center gap-1 text-[10px] font-bold transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            <span>JSON</span>
+          </button>
+          <input id="inputJsonFile" type="file" accept=".json,application/json" class="hidden" />
+          <button id="btnDeleteAllRecords" type="button" title="Delete All" aria-label="Delete All" class="hidden p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+        <div id="recordsListContainer" class="space-y-1.5">
         </div>
       </div>
     </section>
 
     <!-- ==================== TAB 2: TIME ADDITION CALCULATOR ==================== -->
-    <section id="panelTimeCalc" role="tabpanel" class="hidden space-y-3">
-      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-3">
+    <section id="panelTimeCalc" role="tabpanel" class="hidden space-y-2.5">
+      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2.5">
         <div class="flex items-center justify-between">
-          <div class="grid grid-cols-12 gap-2 flex-1 text-[11px] font-semibold text-slate-500 px-1">
+          <div class="grid grid-cols-12 gap-1.5 flex-1 text-[10px] font-semibold text-slate-500 px-1">
             <div class="col-span-1">#</div>
             <div class="col-span-5">Hours</div>
             <div class="col-span-5">Minutes</div>
             <div class="col-span-1"></div>
           </div>
-          <button id="btnClearAllCalc" type="button" class="text-xs font-semibold text-rose-600 hover:underline ml-2 shrink-0">
+          <button id="btnClearAllCalc" type="button" class="text-[11px] font-semibold text-rose-600 hover:underline ml-2 shrink-0">
             Clear All
           </button>
         </div>
 
         <!-- Duration Rows -->
-        <div id="calcRowsContainer" class="space-y-2">
+        <div id="calcRowsContainer" class="space-y-1.5">
         </div>
 
         <!-- Add Another Duration -->
-        <button id="btnAddDurationRow" type="button" class="w-full py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm border border-slate-200 transition">
+        <button id="btnAddDurationRow" type="button" class="w-full py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs border border-slate-200 transition">
           Add Another Duration
         </button>
 
         <!-- Total Result -->
-        <div class="px-3 py-2.5 rounded-lg bg-slate-900 text-white flex items-center justify-between">
-          <span class="text-xs font-medium text-slate-300">Result</span>
-          <span id="calcTotalDisplay" class="text-sm sm:text-base font-bold">Total: 0 Hours 0 Minutes</span>
+        <div class="px-3 py-2 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+          <span id="calcTotalDisplay" class="text-xs sm:text-sm font-bold">Total: 0 Hours 0 Minutes</span>
         </div>
       </div>
+    </section>
+
+    <!-- ==================== TAB 3: GENERATOR RUN TIME ==================== -->
+    <section id="panelGensetMeter" role="tabpanel" class="hidden space-y-2.5">
+
+      <!-- Generator Meter Reading Input Card -->
+      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
+        <div id="meterEditBanner" class="hidden flex items-center justify-between bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg">
+          <span class="text-[11px] font-semibold text-amber-800">Editing</span>
+          <button id="btnCancelMeterEdit" type="button" class="text-[11px] font-semibold text-rose-600 hover:underline">Cancel</button>
+        </div>
+
+        <!-- Date & Time Side by Side -->
+        <div class="grid grid-cols-2 gap-2">
+          <button id="btnMeterDate" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+            <span id="labelMeterDate" class="text-[11px] font-bold text-slate-900 whitespace-nowrap">25 Oct 2026</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </button>
+          <button id="btnMeterTime" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+            <span id="labelMeterTime" class="text-[11px] font-bold text-slate-900 whitespace-nowrap">10:30 AM</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Decimal Meter Reading Input & Live Converted Box -->
+        <div class="grid grid-cols-12 gap-2 items-center">
+          <div class="col-span-5">
+            <input id="inputMeterReading" type="number" step="0.01" min="0" placeholder="737.46" aria-label="Meter Reading" class="w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-900 placeholder-slate-400 focus:outline-none" />
+          </div>
+          <div class="col-span-7 px-2.5 py-1.5 rounded-lg bg-blue-50/80 border border-blue-200 flex items-center justify-between gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+            <span id="meterLiveConvertedDisplay" class="text-[11px] font-bold text-blue-950 truncate">0h 0m 0s</span>
+          </div>
+        </div>
+
+        <!-- Validation Alert -->
+        <div id="meterValidationAlert" class="hidden px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-[11px] font-medium" role="alert">
+          <span id="meterValidationText">Enter valid reading</span>
+        </div>
+
+        <!-- Save Reading & Clear Buttons -->
+        <div class="flex items-center gap-2">
+          <button id="btnSaveMeterReading" type="button" class="flex-1 py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-semibold text-xs transition">
+            <span id="btnSaveMeterReadingLabel">Save Reading</span>
+          </button>
+          <button id="btnClearMeterForm" type="button" class="py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary Card (Daily | Weekly | Monthly, no "+9.34 hrs" decimal badge) -->
+      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
+        <div class="flex items-center justify-between gap-2">
+          <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg flex-1">
+            <button id="meterSummaryTabDaily" type="button" class="py-1 px-1.5 rounded-md text-[11px] font-bold transition bg-white text-slate-900 shadow-sm">
+              Daily
+            </button>
+            <button id="meterSummaryTabWeekly" type="button" class="py-1 px-1.5 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900">
+              Weekly
+            </button>
+            <button id="meterSummaryTabMonthly" type="button" class="py-1 px-1.5 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900">
+              Monthly
+            </button>
+          </div>
+          <select id="selectMeterSummaryPeriod" aria-label="Select Summary Period" class="text-[11px] font-semibold bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none shrink-0">
+          </select>
+        </div>
+
+        <!-- Clean Summary Table (Run Time, Start, End) -->
+        <div class="overflow-hidden rounded-lg border border-slate-200">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-[10px] font-bold uppercase text-slate-500 border-b border-slate-200">
+                <th class="py-1.5 px-2.5">Start</th>
+                <th class="py-1.5 px-2.5">End</th>
+                <th class="py-1.5 px-2.5 text-right">Run Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-slate-50 text-xs font-bold text-slate-900">
+                <td id="meterSummaryStartReading" class="py-2 px-2.5 text-slate-700">--</td>
+                <td id="meterSummaryEndReading" class="py-2 px-2.5 text-slate-700">--</td>
+                <td id="meterSummaryRunTimeValue" class="py-2 px-2.5 text-right text-emerald-700 font-extrabold">0h 0m 0s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Saved Meter Logs in a Clean, Easy-to-Read Table -->
+      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
+        <div class="flex items-center justify-end gap-1.5">
+          <button id="btnDownloadMeterJson" type="button" title="Download JSON" aria-label="Download JSON" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center gap-1 text-[10px] font-bold transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            <span>JSON</span>
+          </button>
+          <button id="btnUploadMeterJson" type="button" title="Upload JSON" aria-label="Upload JSON" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center gap-1 text-[10px] font-bold transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            <span>JSON</span>
+          </button>
+          <input id="inputMeterJsonFile" type="file" accept=".json,application/json" class="hidden" />
+          <button id="btnDeleteAllMeterRecords" type="button" title="Delete All" aria-label="Delete All" class="hidden p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+
+        <div id="meterRecordsListContainer" class="overflow-x-auto rounded-lg border border-slate-200">
+        </div>
+      </div>
+
     </section>
 
   </main>
 
   <!-- ==================== FULLSCREEN LARGE SAVED RECORDS VIEW (2-FINGER TOUCH) ==================== -->
   <div id="largeRecordsOverlay" class="fixed inset-0 z-50 hidden bg-white flex flex-col">
-    <div class="sticky top-0 bg-white border-b border-slate-300 px-4 py-3 flex items-center justify-between gap-2 shadow-sm">
-      <h2 class="text-lg sm:text-xl font-bold text-slate-900">Saved Records</h2>
-      <div class="flex items-center gap-2">
-        <button id="btnDownloadPdf" type="button" class="px-3.5 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-sm transition">
-          Download PDF
-        </button>
-        <button id="btnCloseLargeRecords" type="button" class="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold transition">
-          Close
-        </button>
+    <div class="sticky top-0 bg-white border-b border-slate-300 px-3 py-2 space-y-2 shadow-sm">
+      <div class="flex items-center justify-between gap-2">
+        <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg flex-1 max-w-xs">
+          <button id="largeFilterBtnAll" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition bg-slate-900 text-white shadow-sm">
+            All
+          </button>
+          <button id="largeFilterBtn500" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition text-blue-700 hover:bg-blue-50">
+            500 kVA
+          </button>
+          <button id="largeFilterBtn1000" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition text-amber-700 hover:bg-amber-50">
+            1000 kVA
+          </button>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button id="btnDownloadPdf" type="button" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-sm transition">
+            PDF
+          </button>
+          <button id="btnCloseLargeRecords" type="button" aria-label="Close" class="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
-    <div id="largeRecordsContent" class="flex-1 overflow-y-auto p-4 max-w-2xl w-full mx-auto space-y-4">
+    <div id="largeRecordsContent" class="flex-1 overflow-y-auto p-3 max-w-2xl w-full mx-auto space-y-3">
     </div>
   </div>
 
   <!-- ==================== DATE PICKER MODAL ==================== -->
   <div id="datePickerModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="dateModalTitle">
-    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3.5 shadow-xl space-y-3">
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3 shadow-xl space-y-2.5">
       <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-        <h3 id="dateModalTitle" class="text-sm font-bold text-slate-900">Select Date</h3>
+        <h3 id="dateModalTitle" class="text-xs font-bold text-slate-900">Select Date</h3>
         <button id="btnCloseDateModal" type="button" class="p-1 rounded text-slate-400 hover:text-slate-700" aria-label="Close">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -225,27 +416,27 @@
       </div>
 
       <!-- Day Stepper -->
-      <div class="flex items-center justify-between bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
-        <button id="btnPrevDay" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 text-xs font-semibold text-slate-700">-1 Day</button>
-        <div id="dateModalPreview" class="text-sm font-bold text-slate-900">25 Oct 2026</div>
-        <button id="btnNextDay" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 text-xs font-semibold text-slate-700">+1 Day</button>
+      <div class="flex items-center justify-between bg-slate-50 px-2 py-1.5 rounded-lg border border-slate-200">
+        <button id="btnPrevDay" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 text-[11px] font-semibold text-slate-700">-1 Day</button>
+        <div id="dateModalPreview" class="text-xs font-bold text-slate-900">25 Oct 2026</div>
+        <button id="btnNextDay" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 text-[11px] font-semibold text-slate-700">+1 Day</button>
       </div>
 
       <!-- Month & Year Navigation -->
-      <div class="flex items-center justify-between gap-1.5">
+      <div class="flex items-center justify-between gap-1">
         <button id="btnPrevMonth" type="button" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700" aria-label="Previous Month">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <div class="flex items-center gap-1.5 flex-1 justify-center">
-          <select id="dateModalMonthSelect" aria-label="Month" class="bg-slate-50 border border-slate-300 text-slate-900 text-xs font-semibold rounded-lg px-2 py-1.5 focus:outline-none">
+        <div class="flex items-center gap-1 flex-1 justify-center">
+          <select id="dateModalMonthSelect" aria-label="Month" class="bg-slate-50 border border-slate-300 text-slate-900 text-[11px] font-semibold rounded-lg px-1.5 py-1 focus:outline-none">
           </select>
-          <select id="dateModalYearSelect" aria-label="Year" class="bg-slate-50 border border-slate-300 text-slate-900 text-xs font-semibold rounded-lg px-2 py-1.5 focus:outline-none">
+          <select id="dateModalYearSelect" aria-label="Year" class="bg-slate-50 border border-slate-300 text-slate-900 text-[11px] font-semibold rounded-lg px-1.5 py-1 focus:outline-none">
           </select>
         </div>
         <button id="btnNextMonth" type="button" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700" aria-label="Next Month">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -262,14 +453,14 @@
 
       <!-- Actions -->
       <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-        <button id="btnDateModalToday" type="button" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+        <button id="btnDateModalToday" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
           Today
         </button>
         <div class="flex items-center gap-1.5">
-          <button id="btnCancelDateModal" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+          <button id="btnCancelDateModal" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
             Cancel
           </button>
-          <button id="btnConfirmDateModal" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
+          <button id="btnConfirmDateModal" type="button" class="px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold">
             OK
           </button>
         </div>
@@ -279,9 +470,9 @@
 
   <!-- ==================== 12-HOUR AM/PM TIME PICKER MODAL ==================== -->
   <div id="timePickerModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="timeModalTitle">
-    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3.5 shadow-xl space-y-3">
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3 shadow-xl space-y-2.5">
       <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-        <h3 id="timeModalTitle" class="text-sm font-bold text-slate-900">Select Time</h3>
+        <h3 id="timeModalTitle" class="text-xs font-bold text-slate-900">Select Time</h3>
         <button id="btnCloseTimeModal" type="button" class="p-1 rounded text-slate-400 hover:text-slate-700" aria-label="Close">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -289,52 +480,52 @@
         </button>
       </div>
 
-      <div id="timeModalPreview" class="text-center text-lg font-bold text-slate-900 bg-slate-50 py-1.5 rounded-lg border border-slate-200">
+      <div id="timeModalPreview" class="text-center text-base font-bold text-slate-900 bg-slate-50 py-1 rounded-lg border border-slate-200">
         10:30 AM
       </div>
 
       <!-- Hour / Minute / AM-PM -->
       <div class="grid grid-cols-3 gap-2 items-center">
         <!-- Hour -->
-        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex flex-col items-center space-y-1">
-          <span class="text-[10px] font-semibold uppercase text-slate-500">Hour</span>
+        <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex flex-col items-center space-y-1">
+          <span class="text-[9px] font-semibold uppercase text-slate-500">Hour</span>
           <button id="btnHourUp" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Increase Hour">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
             </svg>
           </button>
-          <input id="inputTimeHour" type="number" min="1" max="12" value="12" aria-label="Hour" class="w-full text-center bg-white border border-slate-300 rounded py-1 text-base font-bold text-slate-900 focus:outline-none" />
+          <input id="inputTimeHour" type="number" min="1" max="12" value="12" aria-label="Hour" class="w-full text-center bg-white border border-slate-300 rounded py-0.5 text-sm font-bold text-slate-900 focus:outline-none" />
           <button id="btnHourDown" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Decrease Hour">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
         </div>
 
         <!-- Minute -->
-        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex flex-col items-center space-y-1">
-          <span class="text-[10px] font-semibold uppercase text-slate-500">Min</span>
+        <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex flex-col items-center space-y-1">
+          <span class="text-[9px] font-semibold uppercase text-slate-500">Min</span>
           <button id="btnMinuteUp" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Increase Minute">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
             </svg>
           </button>
-          <input id="inputTimeMinute" type="number" min="0" max="59" value="00" aria-label="Minute" class="w-full text-center bg-white border border-slate-300 rounded py-1 text-base font-bold text-slate-900 focus:outline-none" />
+          <input id="inputTimeMinute" type="number" min="0" max="59" value="00" aria-label="Minute" class="w-full text-center bg-white border border-slate-300 rounded py-0.5 text-sm font-bold text-slate-900 focus:outline-none" />
           <button id="btnMinuteDown" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Decrease Minute">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
         </div>
 
         <!-- AM / PM -->
-        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex flex-col items-center justify-between h-full space-y-1">
-          <span class="text-[10px] font-semibold uppercase text-slate-500">AM/PM</span>
-          <div class="w-full flex flex-col gap-1.5 my-auto">
-            <button id="btnPeriodAM" type="button" class="w-full py-2 rounded font-bold text-xs transition bg-slate-900 text-white">
+        <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex flex-col items-center justify-between h-full space-y-1">
+          <span class="text-[9px] font-semibold uppercase text-slate-500">AM/PM</span>
+          <div class="w-full flex flex-col gap-1 my-auto">
+            <button id="btnPeriodAM" type="button" class="w-full py-1.5 rounded font-bold text-xs transition bg-slate-900 text-white">
               AM
             </button>
-            <button id="btnPeriodPM" type="button" class="w-full py-2 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200">
+            <button id="btnPeriodPM" type="button" class="w-full py-1.5 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200">
               PM
             </button>
           </div>
@@ -343,14 +534,14 @@
 
       <!-- Modal Footer -->
       <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-        <button id="btnTimeNow" type="button" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+        <button id="btnTimeNow" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
           Now
         </button>
         <div class="flex items-center gap-1.5">
-          <button id="btnCancelTimeModal" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+          <button id="btnCancelTimeModal" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
             Cancel
           </button>
-          <button id="btnConfirmTimeModal" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
+          <button id="btnConfirmTimeModal" type="button" class="px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold">
             OK
           </button>
         </div>
@@ -360,14 +551,14 @@
 
   <!-- ==================== CONFIRM DELETE MODAL ==================== -->
   <div id="confirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
-    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-4 shadow-xl space-y-3">
-      <h3 id="confirmModalTitle" class="text-sm font-bold text-slate-900">Delete Record?</h3>
-      <p id="confirmModalMessage" class="text-xs text-slate-600">Are you sure?</p>
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3.5 shadow-xl space-y-2.5">
+      <h3 id="confirmModalTitle" class="text-xs font-bold text-slate-900">Delete Record?</h3>
+      <p id="confirmModalMessage" class="text-[11px] text-slate-600">Are you sure?</p>
       <div class="flex items-center justify-end gap-2 pt-1">
-        <button id="btnConfirmCancel" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
+        <button id="btnConfirmCancel" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
           Cancel
         </button>
-        <button id="btnConfirmAccept" type="button" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold">
+        <button id="btnConfirmAccept" type="button" class="px-2.5 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-semibold">
           Delete
         </button>
       </div>
@@ -375,7 +566,7 @@
   </div>
 
   <!-- Toast -->
-  <div id="toastBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 hidden px-3.5 py-2 rounded-lg bg-slate-900 text-white font-semibold text-xs shadow-lg">
+  <div id="toastBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 hidden px-3 py-1.5 rounded-lg bg-slate-900 text-white font-semibold text-[11px] shadow-lg">
     <span id="toastText">Saved</span>
   </div>
 
@@ -385,11 +576,22 @@
 
       const STORAGE_KEY_RECORDS = 'power_cut_tracker_records_v1';
       const STORAGE_KEY_CALC_ROWS = 'power_cut_tracker_calc_rows_v2';
+      const STORAGE_KEY_LAST_GEN = 'power_cut_tracker_last_gen_v1';
+      const STORAGE_KEY_METER_LOGS = 'genset_meter_tracker_logs_v1';
+
       const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const MONTHS_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+      const GEN_500 = '500 kVA';
+      const GEN_1000 = '1000 kVA';
+
+      const ICON_EDIT = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>';
+      const ICON_TRASH = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>';
+
       let state = {
         activeTab: 'power-cut',
+        selectedGenerator: GEN_500,
+        generatorFilter: 'ALL',
         cutDate: null,
         cutTime: null,
         restoredDate: null,
@@ -397,6 +599,13 @@
         editingRecordId: null,
         records: [],
         calcRows: [],
+        // Tab 3: Generator Run Time state
+        meterDate: null,
+        meterTime: null,
+        editingMeterId: null,
+        meterLogs: [],
+        meterSummaryMode: 'DAILY',
+        // Modals
         activeDateTarget: null,
         tempDate: { year: 2026, month: 10, day: 25 },
         calendarView: { year: 2026, month: 10 },
@@ -419,6 +628,13 @@
         try {
           window.localStorage.setItem(key, JSON.stringify(value));
         } catch (err) {}
+      }
+
+      function normalizeGeneratorLabel(g) {
+        if (!g) return GEN_500;
+        const s = String(g).toLowerCase();
+        if (s.indexOf('1000') !== -1) return GEN_1000;
+        return GEN_500;
       }
 
       function getTodayDateObj() {
@@ -451,6 +667,11 @@
       function formatDateDisplay(d) {
         if (!d) return 'Select Date';
         return pad2(d.day) + ' ' + MONTHS_SHORT[d.month - 1] + ' ' + d.year;
+      }
+
+      function formatDateShort(d) {
+        if (!d) return '--';
+        return pad2(d.day) + ' ' + MONTHS_SHORT[d.month - 1];
       }
 
       function toDateKey(d) {
@@ -494,6 +715,13 @@
         return hours + ' ' + hLabel + ' ' + remMinutes + ' ' + mLabel;
       }
 
+      function formatDurationShort(totalMinutes) {
+        const mins = Math.max(0, Math.round(totalMinutes));
+        const hours = Math.floor(mins / 60);
+        const remMinutes = mins % 60;
+        return hours + 'h ' + remMinutes + 'm';
+      }
+
       function formatCalculatorTotal(totalMinutes) {
         const mins = Math.max(0, Math.round(totalMinutes));
         const hours = Math.floor(mins / 60);
@@ -501,6 +729,39 @@
         const hLabel = hours === 1 ? 'Hour' : 'Hours';
         const mLabel = remMinutes === 1 ? 'Minute' : 'Minutes';
         return 'Total: ' + hours + ' ' + hLabel + ' ' + remMinutes + ' ' + mLabel;
+      }
+
+      // ==================== GENSET DECIMAL HOURS CONVERSION LOGIC ====================
+      function convertDecimalHoursToHMS(val) {
+        const num = Number(val);
+        if (isNaN(num) || num < 0) {
+          return { hours: 0, minutes: 0, seconds: 0 };
+        }
+        const wholeHours = Math.floor(num + 1e-9);
+        const decimalPart = Math.max(0, num - wholeHours);
+        const exactMinutes = decimalPart * 60;
+        let minutes = Math.floor(exactMinutes + 1e-9);
+        let seconds = Math.round((exactMinutes - minutes) * 60);
+
+        if (seconds >= 60) {
+          seconds -= 60;
+          minutes += 1;
+        }
+        let finalHours = wholeHours;
+        if (minutes >= 60) {
+          minutes -= 60;
+          finalHours += 1;
+        }
+        return {
+          hours: finalHours,
+          minutes: minutes,
+          seconds: seconds
+        };
+      }
+
+      function formatHMSCompact(val) {
+        const hms = convertDecimalHoursToHMS(val);
+        return hms.hours + 'h ' + hms.minutes + 'm ' + hms.seconds + 's';
       }
 
       function getCurrentDateTimeStampForFilename() {
@@ -541,28 +802,75 @@
         } catch (e) {}
       }
 
+      // ==================== 3-TAB NAVIGATION ====================
       function switchTab(tabName) {
         state.activeTab = tabName;
-        const btnPower = document.getElementById('tabBtnPowerCut');
-        const btnCalc = document.getElementById('tabBtnTimeCalc');
-        const panelPower = document.getElementById('panelPowerCut');
-        const panelCalc = document.getElementById('panelTimeCalc');
+        const tabs = [
+          { name: 'power-cut', btn: 'tabBtnPowerCut', panel: 'panelPowerCut' },
+          { name: 'time-calc', btn: 'tabBtnTimeCalc', panel: 'panelTimeCalc' },
+          { name: 'genset-meter', btn: 'tabBtnGensetMeter', panel: 'panelGensetMeter' }
+        ];
+        tabs.forEach(function (t) {
+          const btnEl = document.getElementById(t.btn);
+          const panelEl = document.getElementById(t.panel);
+          const isSelected = t.name === tabName;
+          btnEl.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+          btnEl.className = isSelected
+            ? 'py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all bg-white text-slate-900 shadow-sm text-center'
+            : 'py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center';
+          if (isSelected) {
+            panelEl.classList.remove('hidden');
+          } else {
+            panelEl.classList.add('hidden');
+          }
+        });
+      }
 
-        if (tabName === 'power-cut') {
-          btnPower.setAttribute('aria-selected', 'true');
-          btnCalc.setAttribute('aria-selected', 'false');
-          btnPower.className = 'py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm';
-          btnCalc.className = 'py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900';
-          panelPower.classList.remove('hidden');
-          panelCalc.classList.add('hidden');
-        } else {
-          btnPower.setAttribute('aria-selected', 'false');
-          btnCalc.setAttribute('aria-selected', 'true');
-          btnCalc.className = 'py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm';
-          btnPower.className = 'py-2 px-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900';
-          panelCalc.classList.remove('hidden');
-          panelPower.classList.add('hidden');
-        }
+      // ==================== TAB 1: POWER CUT & GENERATOR LOGIC ====================
+      function setSelectedGenerator(gen) {
+        state.selectedGenerator = normalizeGeneratorLabel(gen);
+        saveToStorage(STORAGE_KEY_LAST_GEN, state.selectedGenerator);
+        renderFormState();
+      }
+
+      function setGeneratorFilter(filterVal) {
+        state.generatorFilter = filterVal;
+        renderFilterButtons();
+        renderSummariesAndRecords();
+        renderLargeRecordsView();
+      }
+
+      function renderFilterButtons() {
+        const pairs = [
+          {
+            val: 'ALL',
+            mainId: 'filterBtnAll',
+            largeId: 'largeFilterBtnAll',
+            activeCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition bg-slate-900 text-white shadow-sm',
+            inactiveCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition text-slate-600 hover:text-slate-900'
+          },
+          {
+            val: GEN_500,
+            mainId: 'filterBtn500',
+            largeId: 'largeFilterBtn500',
+            activeCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition bg-blue-600 text-white shadow-sm',
+            inactiveCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition text-blue-700 hover:bg-blue-50'
+          },
+          {
+            val: GEN_1000,
+            mainId: 'filterBtn1000',
+            largeId: 'largeFilterBtn1000',
+            activeCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition bg-amber-600 text-white shadow-sm',
+            inactiveCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition text-amber-700 hover:bg-amber-50'
+          }
+        ];
+        pairs.forEach(function (item) {
+          const isActive = state.generatorFilter === item.val;
+          const mainBtn = document.getElementById(item.mainId);
+          const largeBtn = document.getElementById(item.largeId);
+          if (mainBtn) mainBtn.className = isActive ? item.activeCls : item.inactiveCls;
+          if (largeBtn) largeBtn.className = isActive ? item.activeCls : item.inactiveCls;
+        });
       }
 
       function evaluateCurrentFormDuration() {
@@ -589,32 +897,20 @@
       }
 
       function renderFormState() {
-        const labelCutDate = document.getElementById('labelCutDate');
-        const labelCutTime = document.getElementById('labelCutTime');
-        const labelRestoredDate = document.getElementById('labelRestoredDate');
-        const labelRestoredTime = document.getElementById('labelRestoredTime');
+        const btnGen500 = document.getElementById('btnGen500');
+        const btnGen1000 = document.getElementById('btnGen1000');
+        if (state.selectedGenerator === GEN_500) {
+          btnGen500.className = 'py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-blue-600 text-white border-blue-600 shadow-sm';
+          btnGen1000.className = 'py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-slate-50 text-amber-700 border-amber-300 hover:bg-amber-50';
+        } else {
+          btnGen1000.className = 'py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-amber-600 text-white border-amber-600 shadow-sm';
+          btnGen500.className = 'py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-slate-50 text-blue-700 border-blue-300 hover:bg-blue-50';
+        }
 
-        // Power Cut Date & Time placeholders in RED, selected values in dark slate
-        labelCutDate.textContent = formatDateDisplay(state.cutDate);
-        labelCutDate.className = state.cutDate
-          ? 'text-xs sm:text-sm font-semibold text-slate-900 truncate'
-          : 'text-xs sm:text-sm font-semibold text-red-600 truncate';
-
-        labelCutTime.textContent = formatTimeDisplay(state.cutTime);
-        labelCutTime.className = state.cutTime
-          ? 'text-xs sm:text-sm font-semibold text-slate-900 truncate'
-          : 'text-xs sm:text-sm font-semibold text-red-600 truncate';
-
-        // Power Restored Date & Time placeholders in GREEN, selected values in dark slate
-        labelRestoredDate.textContent = formatDateDisplay(state.restoredDate);
-        labelRestoredDate.className = state.restoredDate
-          ? 'text-xs sm:text-sm font-semibold text-slate-900 truncate'
-          : 'text-xs sm:text-sm font-semibold text-emerald-600 truncate';
-
-        labelRestoredTime.textContent = formatTimeDisplay(state.restoredTime);
-        labelRestoredTime.className = state.restoredTime
-          ? 'text-xs sm:text-sm font-semibold text-slate-900 truncate'
-          : 'text-xs sm:text-sm font-semibold text-emerald-600 truncate';
+        document.getElementById('labelCutDate').textContent = formatDateDisplay(state.cutDate);
+        document.getElementById('labelCutTime').textContent = formatTimeDisplay(state.cutTime);
+        document.getElementById('labelRestoredDate').textContent = formatDateDisplay(state.restoredDate);
+        document.getElementById('labelRestoredTime').textContent = formatTimeDisplay(state.restoredTime);
 
         const editBanner = document.getElementById('editBanner');
         const btnSaveLabel = document.getElementById('btnSaveRecordLabel');
@@ -635,19 +931,19 @@
 
         if (evalResult.status === 'incomplete') {
           durationValueDisplay.textContent = '--';
-          durationValueDisplay.className = 'text-sm font-bold text-slate-400';
-          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between';
+          durationValueDisplay.className = 'text-xs font-bold text-slate-400 whitespace-nowrap';
+          durationStatusBox.className = 'px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-2';
           alertBox.classList.add('hidden');
         } else if (evalResult.status === 'invalid_negative') {
           durationValueDisplay.textContent = 'Invalid';
-          durationValueDisplay.className = 'text-sm font-bold text-rose-600';
-          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-between';
+          durationValueDisplay.className = 'text-xs font-bold text-rose-600 whitespace-nowrap';
+          durationStatusBox.className = 'px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-center gap-2';
           alertText.textContent = evalResult.message;
           alertBox.classList.remove('hidden');
         } else {
           durationValueDisplay.textContent = formatDurationReadable(evalResult.diffMinutes);
-          durationValueDisplay.className = 'text-sm font-bold text-slate-900';
-          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-between';
+          durationValueDisplay.className = 'text-xs font-bold text-slate-900 whitespace-nowrap';
+          durationStatusBox.className = 'px-2.5 py-1.5 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center gap-2';
           alertBox.classList.add('hidden');
         }
       }
@@ -659,11 +955,13 @@
         alertBox.classList.remove('hidden');
       }
 
-      function clearFormFields() {
-        state.cutDate = null;
-        state.cutTime = null;
-        state.restoredDate = null;
-        state.restoredTime = null;
+      function resetFormToCurrentDateTime() {
+        const today = getTodayDateObj();
+        const nowTime = getCurrentTimeObj();
+        state.cutDate = { ...today };
+        state.cutTime = { ...nowTime };
+        state.restoredDate = { ...today };
+        state.restoredTime = { ...nowTime };
         state.editingRecordId = null;
         renderFormState();
       }
@@ -691,6 +989,7 @@
 
         const recordPayload = {
           id: state.editingRecordId || ('rec_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+          generator: normalizeGeneratorLabel(state.selectedGenerator),
           cutDate: { ...state.cutDate },
           cutTime: { ...state.cutTime },
           restoredDate: { ...state.restoredDate },
@@ -711,7 +1010,7 @@
           showToast('Updated');
         } else {
           state.records.push(recordPayload);
-          showToast('Saved');
+          showToast('Saved (' + recordPayload.generator + ')');
         }
 
         state.records.sort(function (a, b) {
@@ -720,7 +1019,7 @@
         });
 
         saveToStorage(STORAGE_KEY_RECORDS, state.records);
-        clearFormFields();
+        resetFormToCurrentDateTime();
         renderSummariesAndRecords();
       }
 
@@ -729,14 +1028,15 @@
         const exportObj = {
           exportedAt: new Date().toISOString(),
           records: state.records,
-          calcRows: state.calcRows
+          calcRows: state.calcRows,
+          meterLogs: state.meterLogs
         };
         const jsonStr = JSON.stringify(exportObj, null, 2);
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'Power_Cut_Backup_' + getCurrentDateTimeStampForFilename() + '.json';
+        a.download = 'P_cut_Record_Backup_' + getCurrentDateTimeStampForFilename() + '.json';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -759,48 +1059,49 @@
           try {
             const parsed = JSON.parse(ev.target.result);
             const incomingRecords = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.records) ? parsed.records : null);
-            if (!incomingRecords) {
+            if (!incomingRecords && !(parsed && Array.isArray(parsed.meterLogs))) {
               showToast('Invalid JSON file');
               return;
             }
 
-            const validIncoming = [];
-            incomingRecords.forEach(function (r) {
-              if (isValidRecord(r)) {
-                const startMs = toTimestampMs(r.cutDate, r.cutTime);
-                const endMs = toTimestampMs(r.restoredDate, r.restoredTime);
-                const diffMinutes = Math.max(0, Math.round((endMs - startMs) / 60000));
-                validIncoming.push({
-                  id: r.id || ('rec_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
-                  cutDate: { year: r.cutDate.year, month: r.cutDate.month, day: r.cutDate.day },
-                  cutTime: { hour12: r.cutTime.hour12, minute: r.cutTime.minute, period: r.cutTime.period },
-                  restoredDate: { year: r.restoredDate.year, month: r.restoredDate.month, day: r.restoredDate.day },
-                  restoredTime: { hour12: r.restoredTime.hour12, minute: r.restoredTime.minute, period: r.restoredTime.period },
-                  startMs: startMs,
-                  endMs: endMs,
-                  durationMinutes: diffMinutes,
-                  updatedAt: r.updatedAt || Date.now()
-                });
-              }
-            });
+            if (Array.isArray(incomingRecords)) {
+              const validIncoming = [];
+              incomingRecords.forEach(function (r) {
+                if (isValidRecord(r)) {
+                  const startMs = toTimestampMs(r.cutDate, r.cutTime);
+                  const endMs = toTimestampMs(r.restoredDate, r.restoredTime);
+                  const diffMinutes = Math.max(0, Math.round((endMs - startMs) / 60000));
+                  validIncoming.push({
+                    id: r.id || ('rec_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+                    generator: normalizeGeneratorLabel(r.generator),
+                    cutDate: { year: r.cutDate.year, month: r.cutDate.month, day: r.cutDate.day },
+                    cutTime: { hour12: r.cutTime.hour12, minute: r.cutTime.minute, period: r.cutTime.period },
+                    restoredDate: { year: r.restoredDate.year, month: r.restoredDate.month, day: r.restoredDate.day },
+                    restoredTime: { hour12: r.restoredTime.hour12, minute: r.restoredTime.minute, period: r.restoredTime.period },
+                    startMs: startMs,
+                    endMs: endMs,
+                    durationMinutes: diffMinutes,
+                    updatedAt: r.updatedAt || Date.now()
+                  });
+                }
+              });
 
-            // Merge without duplicating identical records
-            const mapByKey = {};
-            state.records.forEach(function (rec) {
-              const key = rec.id || (rec.startMs + '_' + rec.endMs);
-              mapByKey[key] = rec;
-            });
-            validIncoming.forEach(function (rec) {
-              const key = rec.id || (rec.startMs + '_' + rec.endMs);
-              mapByKey[key] = rec;
-            });
+              const mapByKey = {};
+              state.records.forEach(function (rec) {
+                const key = rec.id || (rec.startMs + '_' + rec.endMs);
+                mapByKey[key] = rec;
+              });
+              validIncoming.forEach(function (rec) {
+                const key = rec.id || (rec.startMs + '_' + rec.endMs);
+                mapByKey[key] = rec;
+              });
 
-            state.records = Object.values(mapByKey).sort(function (a, b) {
-              if (b.startMs !== a.startMs) return b.startMs - a.startMs;
-              return b.endMs - a.endMs;
-            });
-
-            saveToStorage(STORAGE_KEY_RECORDS, state.records);
+              state.records = Object.values(mapByKey).sort(function (a, b) {
+                if (b.startMs !== a.startMs) return b.startMs - a.startMs;
+                return b.endMs - a.endMs;
+              });
+              saveToStorage(STORAGE_KEY_RECORDS, state.records);
+            }
 
             if (parsed && Array.isArray(parsed.calcRows) && parsed.calcRows.length > 0) {
               state.calcRows = parsed.calcRows.map(function (row) {
@@ -810,14 +1111,27 @@
               renderCalculatorRows();
             }
 
+            if (parsed && Array.isArray(parsed.meterLogs)) {
+              mergeIncomingMeterLogs(parsed.meterLogs);
+            }
+
             renderSummariesAndRecords();
             renderLargeRecordsView();
-            showToast('Restored ' + validIncoming.length + ' records');
+            showToast('JSON Restored');
           } catch (err) {
             showToast('Invalid JSON file');
           }
         };
         reader.readAsText(file);
+      }
+
+      function getFilteredRecords() {
+        if (state.generatorFilter === 'ALL') {
+          return state.records;
+        }
+        return state.records.filter(function (rec) {
+          return normalizeGeneratorLabel(rec.generator) === state.generatorFilter;
+        });
       }
 
       // ==================== FULLSCREEN LARGE SAVED RECORDS VIEW & PDF DOWNLOAD ====================
@@ -834,39 +1148,72 @@
         const container = document.getElementById('largeRecordsContent');
         container.innerHTML = '';
 
-        if (state.records.length === 0) {
+        const filtered = getFilteredRecords();
+
+        if (filtered.length === 0) {
           const empty = document.createElement('div');
-          empty.className = 'py-16 text-center text-2xl font-bold text-slate-400';
-          empty.textContent = 'No Saved Records';
+          empty.className = 'py-12 text-center text-lg font-bold text-slate-400';
+          empty.textContent = 'No Records';
           container.appendChild(empty);
           return;
         }
 
         let totalAllMinutes = 0;
-        state.records.forEach(function (r) {
-          totalAllMinutes += (r.durationMinutes || 0);
+        let total500Minutes = 0;
+        let total1000Minutes = 0;
+
+        filtered.forEach(function (r) {
+          const mins = r.durationMinutes || 0;
+          totalAllMinutes += mins;
+          if (normalizeGeneratorLabel(r.generator) === GEN_1000) {
+            total1000Minutes += mins;
+          } else {
+            total500Minutes += mins;
+          }
         });
 
         const totalSummaryBox = document.createElement('div');
-        totalSummaryBox.className = 'p-4 rounded-xl bg-slate-100 border-2 border-slate-900 flex flex-wrap items-center justify-between gap-2';
+        totalSummaryBox.className = 'p-3.5 rounded-xl bg-slate-100 border-2 border-slate-900 space-y-1.5';
+        const filterLabel = state.generatorFilter === 'ALL' ? 'Total' : state.generatorFilter;
+        const mainColorClass = state.generatorFilter === GEN_500
+          ? 'text-blue-700'
+          : (state.generatorFilter === GEN_1000 ? 'text-amber-700' : 'text-slate-900');
+
         totalSummaryBox.innerHTML =
-          '<span class="text-lg sm:text-xl font-bold text-slate-700">Total (' + state.records.length + ' Records)</span>' +
-          '<span class="text-xl sm:text-2xl font-extrabold text-slate-900">' + formatDurationReadable(totalAllMinutes) + '</span>';
+          '<div class="flex flex-wrap items-center justify-between gap-2">' +
+            '<span class="text-base font-bold text-slate-700">' + filterLabel + '</span>' +
+            '<span class="text-lg font-extrabold ' + mainColorClass + '">' + formatDurationReadable(totalAllMinutes) + '</span>' +
+          '</div>' +
+          (state.generatorFilter === 'ALL'
+            ? '<div class="grid grid-cols-2 gap-2 pt-1.5 border-t border-slate-300 text-xs sm:text-sm font-bold">' +
+                '<div class="text-blue-600">500 kVA: ' + formatDurationReadable(total500Minutes) + '</div>' +
+                '<div class="text-amber-600">1000 kVA: ' + formatDurationReadable(total1000Minutes) + '</div>' +
+              '</div>'
+            : '');
         container.appendChild(totalSummaryBox);
 
-        state.records.forEach(function (rec, idx) {
+        filtered.forEach(function (rec, idx) {
+          const gen = normalizeGeneratorLabel(rec.generator);
+          const genBadgeClass = gen === GEN_1000
+            ? 'bg-amber-100 text-amber-800 border-amber-300'
+            : 'bg-blue-100 text-blue-800 border-blue-300';
+          const durColorClass = gen === GEN_1000 ? 'text-amber-700' : 'text-blue-700';
+
           const item = document.createElement('div');
-          item.className = 'p-4 rounded-xl bg-white border-2 border-slate-300 space-y-2 shadow-sm';
+          item.className = 'p-3.5 rounded-xl bg-white border-2 border-slate-300 space-y-1.5 shadow-sm';
           item.innerHTML =
-            '<div class="flex items-center justify-between border-b border-slate-200 pb-2">' +
-              '<span class="text-lg sm:text-xl font-bold text-slate-500">#' + (idx + 1) + '</span>' +
-              '<span class="text-xl sm:text-2xl font-extrabold text-slate-900">' + formatDurationReadable(rec.durationMinutes) + '</span>' +
+            '<div class="flex items-center justify-between border-b border-slate-200 pb-1.5 gap-2">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="text-base font-bold text-slate-500">#' + (idx + 1) + '</span>' +
+                '<span class="px-2 py-0.5 rounded-md border text-xs font-extrabold ' + genBadgeClass + '">' + gen + '</span>' +
+              '</div>' +
+              '<span class="text-base sm:text-lg font-extrabold ' + durColorClass + '">' + formatDurationReadable(rec.durationMinutes) + '</span>' +
             '</div>' +
-            '<div class="text-lg sm:text-xl font-bold text-red-600">' +
-              'Off: ' + formatDateDisplay(rec.cutDate) + ' — ' + formatTimeDisplay(rec.cutTime) +
+            '<div class="text-sm sm:text-base font-bold text-red-600">' +
+              '▼ ' + formatDateDisplay(rec.cutDate) + ' — ' + formatTimeDisplay(rec.cutTime) +
             '</div>' +
-            '<div class="text-lg sm:text-xl font-bold text-emerald-700">' +
-              'On: ' + formatDateDisplay(rec.restoredDate) + ' — ' + formatTimeDisplay(rec.restoredTime) +
+            '<div class="text-sm sm:text-base font-bold text-emerald-700">' +
+              '▲ ' + formatDateDisplay(rec.restoredDate) + ' — ' + formatTimeDisplay(rec.restoredTime) +
             '</div>';
           container.appendChild(item);
         });
@@ -882,68 +1229,91 @@
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
         const margin = 40;
-        let y = 50;
+        let y = 48;
+
+        const filtered = getFilteredRecords();
+        const filterTitle = state.generatorFilter === 'ALL' ? 'All Generators (500 kVA & 1000 kVA)' : state.generatorFilter + ' Generator';
 
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(20);
+        doc.setFontSize(18);
         doc.setTextColor(15, 23, 42);
-        doc.text('Saved Power Cut Records', margin, y);
-        y += 22;
+        doc.text('P cut Record - ' + filterTitle, margin, y);
+        y += 18;
 
-        const now = new Date();
         const genDate = formatDateDisplay(getTodayDateObj()) + ' ' + formatTimeDisplay(getCurrentTimeObj());
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(11);
+        doc.setFontSize(10);
         doc.setTextColor(100, 116, 139);
         doc.text('Generated: ' + genDate, margin, y);
-        y += 24;
+        y += 18;
 
-        if (state.records.length === 0) {
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(14);
-          doc.setTextColor(100, 116, 139);
-          doc.text('No power cut records saved.', margin, y);
-        } else {
-          let totalAllMinutes = 0;
-          state.records.forEach(function (r) { totalAllMinutes += (r.durationMinutes || 0); });
-
-          doc.setFillColor(241, 245, 249);
-          doc.setDrawColor(15, 23, 42);
-          doc.roundedRect(margin, y, pageWidth - margin * 2, 34, 6, 6, 'FD');
+        if (filtered.length === 0) {
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(13);
-          doc.setTextColor(15, 23, 42);
-          doc.text('Total (' + state.records.length + ' Records): ' + formatDurationReadable(totalAllMinutes), margin + 12, y + 22);
-          y += 50;
+          doc.setTextColor(100, 116, 139);
+          doc.text('No power cut records found.', margin, y);
+        } else {
+          let totalAllMinutes = 0;
+          let total500Minutes = 0;
+          let total1000Minutes = 0;
+          filtered.forEach(function (r) {
+            const m = r.durationMinutes || 0;
+            totalAllMinutes += m;
+            if (normalizeGeneratorLabel(r.generator) === GEN_1000) total1000Minutes += m;
+            else total500Minutes += m;
+          });
 
-          state.records.forEach(function (rec, idx) {
-            if (y + 82 > pageHeight - 40) {
+          const summaryHeight = state.generatorFilter === 'ALL' ? 50 : 32;
+          doc.setFillColor(241, 245, 249);
+          doc.setDrawColor(15, 23, 42);
+          doc.roundedRect(margin, y, pageWidth - margin * 2, summaryHeight, 6, 6, 'FD');
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(12);
+          doc.setTextColor(15, 23, 42);
+          doc.text('Total: ' + formatDurationReadable(totalAllMinutes), margin + 12, y + 20);
+
+          if (state.generatorFilter === 'ALL') {
+            doc.setFontSize(11);
+            doc.setTextColor(37, 99, 235);
+            doc.text('500 kVA: ' + formatDurationReadable(total500Minutes), margin + 12, y + 38);
+            doc.setTextColor(217, 119, 6);
+            doc.text('1000 kVA: ' + formatDurationReadable(total1000Minutes), margin + 260, y + 38);
+          }
+
+          y += summaryHeight + 14;
+
+          filtered.forEach(function (rec, idx) {
+            if (y + 78 > pageHeight - 40) {
               doc.addPage();
-              y = 50;
+              y = 48;
             }
 
+            const gen = normalizeGeneratorLabel(rec.generator);
             doc.setFillColor(255, 255, 255);
             doc.setDrawColor(203, 213, 225);
-            doc.roundedRect(margin, y, pageWidth - margin * 2, 72, 6, 6, 'FD');
+            doc.roundedRect(margin, y, pageWidth - margin * 2, 68, 6, 6, 'FD');
 
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(13);
-            doc.setTextColor(15, 23, 42);
-            doc.text('#' + (idx + 1) + '   Duration: ' + formatDurationReadable(rec.durationMinutes), margin + 12, y + 20);
+            doc.setFontSize(11);
+            if (gen === GEN_1000) {
+              doc.setTextColor(180, 83, 9);
+            } else {
+              doc.setTextColor(29, 78, 216);
+            }
+            doc.text('#' + (idx + 1) + '  [' + gen + ']   ' + formatDurationReadable(rec.durationMinutes), margin + 12, y + 19);
 
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
+            doc.setFontSize(10.5);
             doc.setTextColor(220, 38, 38);
-            doc.text('Power Cut (Off):      ' + formatDateDisplay(rec.cutDate) + '   ' + formatTimeDisplay(rec.cutTime), margin + 12, y + 41);
+            doc.text('Off:  ' + formatDateDisplay(rec.cutDate) + '   ' + formatTimeDisplay(rec.cutTime), margin + 12, y + 38);
 
             doc.setTextColor(5, 150, 105);
-            doc.text('Power Restored (On):  ' + formatDateDisplay(rec.restoredDate) + '   ' + formatTimeDisplay(rec.restoredTime), margin + 12, y + 60);
+            doc.text('On:   ' + formatDateDisplay(rec.restoredDate) + '   ' + formatTimeDisplay(rec.restoredTime), margin + 12, y + 55);
 
-            y += 84;
+            y += 76;
           });
         }
 
-        doc.save('Power_Cut_Records_' + getCurrentDateTimeStampForFilename() + '.pdf');
+        doc.save('P_cut_Record_' + getCurrentDateTimeStampForFilename() + '.pdf');
         showToast('PDF Downloaded');
       }
 
@@ -970,8 +1340,12 @@
 
       function openDatePicker(targetField) {
         state.activeDateTarget = targetField;
-        document.getElementById('dateModalTitle').textContent =
-          targetField === 'cutDate' ? 'Power Cut Date' : 'Power Restored Date';
+        const titles = {
+          cutDate: 'Power Cut Date',
+          restoredDate: 'Power Restored Date',
+          meterDate: 'Reading Date'
+        };
+        document.getElementById('dateModalTitle').textContent = titles[targetField] || 'Select Date';
 
         const existingDate = state[targetField];
         const baseDate = existingDate ? { ...existingDate } : getTodayDateObj();
@@ -1027,7 +1401,7 @@
 
         for (let i = 0; i < firstDayWeekday; i++) {
           const blank = document.createElement('div');
-          blank.className = 'h-8';
+          blank.className = 'h-7';
           grid.appendChild(blank);
         }
 
@@ -1047,11 +1421,11 @@
             today.day === dayNum;
 
           if (isSelected) {
-            btn.className = 'h-8 w-full rounded-lg bg-slate-900 text-white font-bold text-xs transition';
+            btn.className = 'h-7 w-full rounded-lg bg-slate-900 text-white font-bold text-[11px] transition';
           } else if (isToday) {
-            btn.className = 'h-8 w-full rounded-lg bg-slate-100 text-slate-900 border border-slate-400 font-bold text-xs hover:bg-slate-200 transition';
+            btn.className = 'h-7 w-full rounded-lg bg-slate-100 text-slate-900 border border-slate-400 font-bold text-[11px] hover:bg-slate-200 transition';
           } else {
-            btn.className = 'h-8 w-full rounded-lg text-slate-700 hover:bg-slate-100 font-medium text-xs transition';
+            btn.className = 'h-7 w-full rounded-lg text-slate-700 hover:bg-slate-100 font-medium text-[11px] transition';
           }
 
           btn.addEventListener('click', function () {
@@ -1070,15 +1444,24 @@
       function confirmDateSelection() {
         if (!state.activeDateTarget) return;
         state[state.activeDateTarget] = { ...state.tempDate };
+        const target = state.activeDateTarget;
         closeDatePicker();
-        renderFormState();
+        if (target === 'meterDate') {
+          renderMeterFormState();
+        } else {
+          renderFormState();
+        }
       }
 
       // ==================== TIME PICKER ====================
       function openTimePicker(targetField) {
         state.activeTimeTarget = targetField;
-        document.getElementById('timeModalTitle').textContent =
-          targetField === 'cutTime' ? 'Power Cut Time' : 'Power Restored Time';
+        const titles = {
+          cutTime: 'Power Cut Time',
+          restoredTime: 'Power Restored Time',
+          meterTime: 'Reading Time'
+        };
+        document.getElementById('timeModalTitle').textContent = titles[targetField] || 'Select Time';
 
         const existingTime = state[targetField];
         const baseTime = existingTime ? { ...existingTime } : getCurrentTimeObj();
@@ -1102,42 +1485,53 @@
         const btnPM = document.getElementById('btnPeriodPM');
 
         if (state.tempTime.period === 'AM') {
-          btnAM.className = 'w-full py-2 rounded font-bold text-xs transition bg-slate-900 text-white';
-          btnPM.className = 'w-full py-2 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200';
+          btnAM.className = 'w-full py-1.5 rounded font-bold text-xs transition bg-slate-900 text-white';
+          btnPM.className = 'w-full py-1.5 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200';
         } else {
-          btnPM.className = 'w-full py-2 rounded font-bold text-xs transition bg-slate-900 text-white';
-          btnAM.className = 'w-full py-2 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200';
+          btnPM.className = 'w-full py-1.5 rounded font-bold text-xs transition bg-slate-900 text-white';
+          btnAM.className = 'w-full py-1.5 rounded font-bold text-xs transition bg-white text-slate-700 border border-slate-200';
         }
       }
 
       function confirmTimeSelection() {
         if (!state.activeTimeTarget) return;
         state[state.activeTimeTarget] = { ...state.tempTime };
+        const target = state.activeTimeTarget;
         closeTimePicker();
-        renderFormState();
+        if (target === 'meterTime') {
+          renderMeterFormState();
+        } else {
+          renderFormState();
+        }
       }
 
-      // ==================== SUMMARIES & RECORDS ====================
+      // ==================== SUMMARIES & RECORDS (TAB 1) ====================
+      function ensureBucket(map, key) {
+        if (!map[key]) {
+          map[key] = {
+            ALL: 0,
+            '500 kVA': 0,
+            '1000 kVA': 0
+          };
+        }
+      }
+
       function computeDailyAndMonthlyTotals() {
         const dailyMap = {};
         const monthlyMap = {};
 
         state.records.forEach(function (rec) {
+          const gen = normalizeGeneratorLabel(rec.generator);
           let cursorMs = rec.startMs;
           const endMs = rec.endMs;
 
           if (cursorMs === endMs) {
             const dKey = toDateKey(rec.cutDate);
             const mKey = toMonthKey(rec.cutDate);
-            if (!dailyMap[dKey]) dailyMap[dKey] = { minutes: 0, count: 0 };
-            if (!monthlyMap[mKey]) monthlyMap[mKey] = { minutes: 0, count: 0 };
-            dailyMap[dKey].count += 1;
-            monthlyMap[mKey].count += 1;
+            ensureBucket(dailyMap, dKey);
+            ensureBucket(monthlyMap, mKey);
             return;
           }
-
-          const seenDays = new Set();
-          const seenMonths = new Set();
 
           while (cursorMs < endMs) {
             const curDate = new Date(cursorMs);
@@ -1152,20 +1546,17 @@
             const dKey = y + '-' + pad2(m) + '-' + pad2(d);
             const mKey = y + '-' + pad2(m);
 
-            if (!dailyMap[dKey]) dailyMap[dKey] = { minutes: 0, count: 0 };
-            if (!monthlyMap[mKey]) monthlyMap[mKey] = { minutes: 0, count: 0 };
+            ensureBucket(dailyMap, dKey);
+            ensureBucket(monthlyMap, mKey);
 
-            dailyMap[dKey].minutes += segMinutes;
-            monthlyMap[mKey].minutes += segMinutes;
+            dailyMap[dKey].ALL += segMinutes;
+            dailyMap[dKey][gen] += segMinutes;
 
-            seenDays.add(dKey);
-            seenMonths.add(mKey);
+            monthlyMap[mKey].ALL += segMinutes;
+            monthlyMap[mKey][gen] += segMinutes;
 
             cursorMs = segmentEndMs;
           }
-
-          seenDays.forEach(function (k) { dailyMap[k].count += 1; });
-          seenMonths.forEach(function (k) { monthlyMap[k].count += 1; });
         });
 
         return { dailyMap: dailyMap, monthlyMap: monthlyMap };
@@ -1213,12 +1604,48 @@
 
       function updateSummaryCardsDisplay(dailyMap, monthlyMap) {
         const chosenDay = document.getElementById('selectDailySummary').value;
-        const dayInfo = dailyMap[chosenDay] || { minutes: 0, count: 0 };
-        document.getElementById('dailySummaryValue').textContent = formatDurationReadable(dayInfo.minutes);
+        const dayBucket = dailyMap[chosenDay] || { ALL: 0, '500 kVA': 0, '1000 kVA': 0 };
+        const dayMins = state.generatorFilter === 'ALL' ? dayBucket.ALL : (dayBucket[state.generatorFilter] || 0);
+
+        const dailyValEl = document.getElementById('dailySummaryValue');
+        dailyValEl.textContent = formatDurationReadable(dayMins);
+        dailyValEl.className = state.generatorFilter === GEN_500
+          ? 'text-xs font-bold text-blue-600 whitespace-nowrap'
+          : (state.generatorFilter === GEN_1000 ? 'text-xs font-bold text-amber-600 whitespace-nowrap' : 'text-xs font-bold text-slate-900 whitespace-nowrap');
+
+        const dailySub = document.getElementById('dailySummaryGenSub');
+        if (state.generatorFilter === 'ALL') {
+          dailySub.innerHTML =
+            '<span class="text-blue-600">500: ' + formatDurationShort(dayBucket[GEN_500]) + '</span>' +
+            '<span class="text-slate-300">|</span>' +
+            '<span class="text-amber-600">1000: ' + formatDurationShort(dayBucket[GEN_1000]) + '</span>';
+        } else if (state.generatorFilter === GEN_500) {
+          dailySub.innerHTML = '<span class="text-blue-600">500 kVA</span>';
+        } else {
+          dailySub.innerHTML = '<span class="text-amber-600">1000 kVA</span>';
+        }
 
         const chosenMonth = document.getElementById('selectMonthlySummary').value;
-        const monthInfo = monthlyMap[chosenMonth] || { minutes: 0, count: 0 };
-        document.getElementById('monthlySummaryValue').textContent = formatDurationReadable(monthInfo.minutes);
+        const monthBucket = monthlyMap[chosenMonth] || { ALL: 0, '500 kVA': 0, '1000 kVA': 0 };
+        const monthMins = state.generatorFilter === 'ALL' ? monthBucket.ALL : (monthBucket[state.generatorFilter] || 0);
+
+        const monthlyValEl = document.getElementById('monthlySummaryValue');
+        monthlyValEl.textContent = formatDurationReadable(monthMins);
+        monthlyValEl.className = state.generatorFilter === GEN_500
+          ? 'text-xs font-bold text-blue-600 whitespace-nowrap'
+          : (state.generatorFilter === GEN_1000 ? 'text-xs font-bold text-amber-600 whitespace-nowrap' : 'text-xs font-bold text-slate-900 whitespace-nowrap');
+
+        const monthlySub = document.getElementById('monthlySummaryGenSub');
+        if (state.generatorFilter === 'ALL') {
+          monthlySub.innerHTML =
+            '<span class="text-blue-600">500: ' + formatDurationShort(monthBucket[GEN_500]) + '</span>' +
+            '<span class="text-slate-300">|</span>' +
+            '<span class="text-amber-600">1000: ' + formatDurationShort(monthBucket[GEN_1000]) + '</span>';
+        } else if (state.generatorFilter === GEN_500) {
+          monthlySub.innerHTML = '<span class="text-blue-600">500 kVA</span>';
+        } else {
+          monthlySub.innerHTML = '<span class="text-amber-600">1000 kVA</span>';
+        }
       }
 
       function renderRecordsList() {
@@ -1226,50 +1653,67 @@
         const btnDeleteAll = document.getElementById('btnDeleteAllRecords');
         container.innerHTML = '';
 
+        const filtered = getFilteredRecords();
+
         if (state.records.length === 0) {
           btnDeleteAll.classList.add('hidden');
+        } else {
+          btnDeleteAll.classList.remove('hidden');
+        }
+
+        if (filtered.length === 0) {
           const emptyDiv = document.createElement('div');
-          emptyDiv.className = 'py-4 text-center text-xs text-slate-400';
-          emptyDiv.textContent = 'No records saved';
+          emptyDiv.className = 'py-3 text-center text-[11px] text-slate-400';
+          emptyDiv.textContent = 'No records';
           container.appendChild(emptyDiv);
           return;
         }
 
-        btnDeleteAll.classList.remove('hidden');
+        filtered.forEach(function (rec) {
+          const gen = normalizeGeneratorLabel(rec.generator);
+          const genBadgeClass = gen === GEN_1000
+            ? 'bg-amber-100 text-amber-800 border-amber-300'
+            : 'bg-blue-100 text-blue-800 border-blue-300';
+          const durColorClass = gen === GEN_1000 ? 'text-amber-700' : 'text-blue-700';
 
-        state.records.forEach(function (rec) {
           const card = document.createElement('div');
           const isEditingThis = state.editingRecordId === rec.id;
-          card.className = 'p-2.5 rounded-lg bg-slate-50 border ' +
+          card.className = 'p-2 rounded-lg bg-slate-50 border ' +
             (isEditingThis ? 'border-slate-900' : 'border-slate-200') +
-            ' space-y-1.5';
+            ' space-y-1';
 
           const topRow = document.createElement('div');
-          topRow.className = 'flex items-center justify-between';
+          topRow.className = 'flex items-center justify-between gap-1.5';
 
-          const durationSpan = document.createElement('span');
-          durationSpan.className = 'text-xs font-bold text-slate-900';
-          durationSpan.textContent = formatDurationReadable(rec.durationMinutes);
+          const leftBadgeGroup = document.createElement('div');
+          leftBadgeGroup.className = 'flex items-center gap-1.5';
+          leftBadgeGroup.innerHTML =
+            '<span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ' + genBadgeClass + '">' + gen + '</span>' +
+            '<span class="text-xs font-bold ' + durColorClass + '">' + formatDurationReadable(rec.durationMinutes) + '</span>';
 
           const actionsDiv = document.createElement('div');
-          actionsDiv.className = 'flex items-center gap-2';
+          actionsDiv.className = 'flex items-center gap-1';
 
           const btnEdit = document.createElement('button');
           btnEdit.type = 'button';
-          btnEdit.className = 'text-xs font-semibold text-slate-600 hover:text-slate-900';
-          btnEdit.textContent = 'Edit';
+          btnEdit.title = 'Edit';
+          btnEdit.setAttribute('aria-label', 'Edit');
+          btnEdit.className = 'p-1 rounded text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 transition';
+          btnEdit.innerHTML = ICON_EDIT;
           btnEdit.addEventListener('click', function () {
             startEditingRecord(rec.id);
           });
 
           const btnDelete = document.createElement('button');
           btnDelete.type = 'button';
-          btnDelete.className = 'text-xs font-semibold text-rose-600 hover:text-rose-700';
-          btnDelete.textContent = 'Delete';
+          btnDelete.title = 'Delete';
+          btnDelete.setAttribute('aria-label', 'Delete');
+          btnDelete.className = 'p-1 rounded text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition';
+          btnDelete.innerHTML = ICON_TRASH;
           btnDelete.addEventListener('click', function () {
             openConfirmModal(
               'Delete Record?',
-              formatDateDisplay(rec.cutDate) + ' ' + formatTimeDisplay(rec.cutTime),
+              gen + ' • ' + formatDateDisplay(rec.cutDate) + ' ' + formatTimeDisplay(rec.cutTime),
               function () {
                 deleteRecordById(rec.id);
               }
@@ -1278,14 +1722,14 @@
 
           actionsDiv.appendChild(btnEdit);
           actionsDiv.appendChild(btnDelete);
-          topRow.appendChild(durationSpan);
+          topRow.appendChild(leftBadgeGroup);
           topRow.appendChild(actionsDiv);
 
           const detailsRow = document.createElement('div');
-          detailsRow.className = 'grid grid-cols-2 gap-2 text-[11px] text-slate-600 pt-1 border-t border-slate-200/70';
+          detailsRow.className = 'grid grid-cols-2 gap-1.5 text-[10px] pt-1 border-t border-slate-200/70';
           detailsRow.innerHTML =
-            '<div><span class="font-semibold text-red-600">Off:</span> ' + formatDateDisplay(rec.cutDate) + ', ' + formatTimeDisplay(rec.cutTime) + '</div>' +
-            '<div><span class="font-semibold text-emerald-600">On:</span> ' + formatDateDisplay(rec.restoredDate) + ', ' + formatTimeDisplay(rec.restoredTime) + '</div>';
+            '<div class="truncate font-semibold text-red-600">▼ ' + formatDateDisplay(rec.cutDate) + ', ' + formatTimeDisplay(rec.cutTime) + '</div>' +
+            '<div class="truncate font-semibold text-emerald-600">▲ ' + formatDateDisplay(rec.restoredDate) + ', ' + formatTimeDisplay(rec.restoredTime) + '</div>';
 
           card.appendChild(topRow);
           card.appendChild(detailsRow);
@@ -1297,6 +1741,7 @@
         const rec = state.records.find(function (r) { return r.id === recordId; });
         if (!rec) return;
         state.editingRecordId = rec.id;
+        state.selectedGenerator = normalizeGeneratorLabel(rec.generator);
         state.cutDate = { ...rec.cutDate };
         state.cutTime = { ...rec.cutTime };
         state.restoredDate = { ...rec.restoredDate };
@@ -1309,7 +1754,7 @@
       function deleteRecordById(recordId) {
         state.records = state.records.filter(function (r) { return r.id !== recordId; });
         if (state.editingRecordId === recordId) {
-          clearFormFields();
+          resetFormToCurrentDateTime();
         }
         saveToStorage(STORAGE_KEY_RECORDS, state.records);
         renderSummariesAndRecords();
@@ -1329,7 +1774,7 @@
         state.confirmCallback = null;
       }
 
-      // ==================== TIME ADDITION CALCULATOR ====================
+      // ==================== TAB 2: TIME ADDITION CALCULATOR ====================
       function createCalcRow(hoursVal, minutesVal) {
         return {
           id: 'row_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
@@ -1344,10 +1789,10 @@
 
         state.calcRows.forEach(function (row, index) {
           const rowEl = document.createElement('div');
-          rowEl.className = 'grid grid-cols-12 gap-2 items-center';
+          rowEl.className = 'grid grid-cols-12 gap-1.5 items-center';
 
           const idxCol = document.createElement('div');
-          idxCol.className = 'col-span-1 text-xs font-semibold text-slate-400 text-center';
+          idxCol.className = 'col-span-1 text-[11px] font-semibold text-slate-400 text-center';
           idxCol.textContent = String(index + 1);
 
           const hoursCol = document.createElement('div');
@@ -1359,7 +1804,7 @@
           inputHours.placeholder = 'Hours';
           inputHours.value = row.hours;
           inputHours.setAttribute('aria-label', 'Hours row ' + (index + 1));
-          inputHours.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-2 text-xs sm:text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
+          inputHours.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
           inputHours.addEventListener('input', function (e) {
             const cleaned = e.target.value.replace(/[^0-9]/g, '');
             if (e.target.value !== cleaned) e.target.value = cleaned;
@@ -1378,7 +1823,7 @@
           inputMinutes.placeholder = 'Minutes';
           inputMinutes.value = row.minutes;
           inputMinutes.setAttribute('aria-label', 'Minutes row ' + (index + 1));
-          inputMinutes.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-2 text-xs sm:text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
+          inputMinutes.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
           inputMinutes.addEventListener('input', function (e) {
             const cleaned = e.target.value.replace(/[^0-9]/g, '');
             if (e.target.value !== cleaned) e.target.value = cleaned;
@@ -1392,10 +1837,10 @@
           actionCol.className = 'col-span-1 flex justify-end';
           const btnRemove = document.createElement('button');
           btnRemove.type = 'button';
-          btnRemove.className = 'p-1.5 rounded text-slate-400 hover:text-rose-600 transition';
+          btnRemove.className = 'p-1 rounded text-slate-400 hover:text-rose-600 transition';
           btnRemove.setAttribute('aria-label', 'Delete row ' + (index + 1));
           btnRemove.innerHTML =
-            '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
               '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />' +
             '</svg>';
           btnRemove.addEventListener('click', function () {
@@ -1436,6 +1881,421 @@
         document.getElementById('calcTotalDisplay').textContent = formatCalculatorTotal(totalMinutesAll);
       }
 
+      // ==================== TAB 3: GENERATOR RUN TIME (CLEAN TABLE, NO +DECIMAL HRS) ====================
+      function resetMeterFormToCurrent() {
+        state.meterDate = getTodayDateObj();
+        state.meterTime = getCurrentTimeObj();
+        state.editingMeterId = null;
+        const inputEl = document.getElementById('inputMeterReading');
+        if (inputEl) inputEl.value = '';
+        const alertEl = document.getElementById('meterValidationAlert');
+        if (alertEl) alertEl.classList.add('hidden');
+        renderMeterFormState();
+      }
+
+      function renderMeterFormState() {
+        document.getElementById('labelMeterDate').textContent = formatDateDisplay(state.meterDate);
+        document.getElementById('labelMeterTime').textContent = formatTimeDisplay(state.meterTime);
+
+        const editBanner = document.getElementById('meterEditBanner');
+        const btnSaveLabel = document.getElementById('btnSaveMeterReadingLabel');
+        if (state.editingMeterId) {
+          editBanner.classList.remove('hidden');
+          btnSaveLabel.textContent = 'Update Reading';
+        } else {
+          editBanner.classList.add('hidden');
+          btnSaveLabel.textContent = 'Save Reading';
+        }
+
+        updateMeterLiveConversion();
+      }
+
+      function updateMeterLiveConversion() {
+        const rawVal = document.getElementById('inputMeterReading').value;
+        const displayEl = document.getElementById('meterLiveConvertedDisplay');
+        if (rawVal === '' || isNaN(Number(rawVal)) || Number(rawVal) < 0) {
+          displayEl.textContent = '0h 0m 0s';
+          return;
+        }
+        displayEl.textContent = formatHMSCompact(Number(rawVal));
+      }
+
+      function recomputeMeterLogDifferences() {
+        const asc = state.meterLogs.slice().sort(function (a, b) {
+          if (a.timestampMs !== b.timestampMs) return a.timestampMs - b.timestampMs;
+          return a.reading - b.reading;
+        });
+
+        for (let i = 0; i < asc.length; i++) {
+          const cur = asc[i];
+          if (i === 0) {
+            cur.prevReading = null;
+            cur.diffDecimal = 0;
+          } else {
+            const prev = asc[i - 1];
+            cur.prevReading = prev.reading;
+            const rawDiff = Number((cur.reading - prev.reading).toFixed(4));
+            cur.diffDecimal = rawDiff > 0 ? rawDiff : 0;
+          }
+        }
+
+        state.meterLogs = asc.reverse();
+        saveToStorage(STORAGE_KEY_METER_LOGS, state.meterLogs);
+      }
+
+      function showMeterValidationError(msg) {
+        const alertEl = document.getElementById('meterValidationAlert');
+        const textEl = document.getElementById('meterValidationText');
+        textEl.textContent = msg;
+        alertEl.classList.remove('hidden');
+      }
+
+      function handleSaveMeterReading() {
+        const rawStr = document.getElementById('inputMeterReading').value.trim();
+        if (!rawStr || isNaN(Number(rawStr)) || Number(rawStr) < 0) {
+          showMeterValidationError('Enter valid meter reading (e.g. 737.46)');
+          return;
+        }
+
+        const readingVal = Math.round(Number(rawStr) * 100) / 100;
+        const tsMs = toTimestampMs(state.meterDate, state.meterTime);
+
+        const payload = {
+          id: state.editingMeterId || ('meter_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+          date: { ...state.meterDate },
+          time: { ...state.meterTime },
+          timestampMs: tsMs,
+          reading: readingVal,
+          prevReading: null,
+          diffDecimal: 0,
+          updatedAt: Date.now()
+        };
+
+        if (state.editingMeterId) {
+          const idx = state.meterLogs.findIndex(function (m) { return m.id === state.editingMeterId; });
+          if (idx !== -1) {
+            state.meterLogs[idx] = payload;
+          } else {
+            state.meterLogs.push(payload);
+          }
+          showToast('Updated');
+        } else {
+          state.meterLogs.push(payload);
+          showToast('Saved');
+        }
+
+        recomputeMeterLogDifferences();
+        resetMeterFormToCurrent();
+        renderMeterSummariesAndLogs();
+      }
+
+      function getWeekStartDateKey(dObj) {
+        const jsDate = new Date(dObj.year, dObj.month - 1, dObj.day);
+        const dayOfWeek = jsDate.getDay();
+        jsDate.setDate(jsDate.getDate() - dayOfWeek);
+        return toDateKey({
+          year: jsDate.getFullYear(),
+          month: jsDate.getMonth() + 1,
+          day: jsDate.getDate()
+        });
+      }
+
+      function formatWeekRangeLabel(weekStartKey) {
+        const parts = weekStartKey.split('-');
+        const startJs = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        const endJs = new Date(startJs.getFullYear(), startJs.getMonth(), startJs.getDate() + 6);
+        const sDay = pad2(startJs.getDate()) + ' ' + MONTHS_SHORT[startJs.getMonth()];
+        const eDay = pad2(endJs.getDate()) + ' ' + MONTHS_SHORT[endJs.getMonth()];
+        return sDay + ' - ' + eDay;
+      }
+
+      function setMeterSummaryMode(mode) {
+        state.meterSummaryMode = mode;
+        const tabs = [
+          { mode: 'DAILY', id: 'meterSummaryTabDaily' },
+          { mode: 'WEEKLY', id: 'meterSummaryTabWeekly' },
+          { mode: 'MONTHLY', id: 'meterSummaryTabMonthly' }
+        ];
+        tabs.forEach(function (t) {
+          const btn = document.getElementById(t.id);
+          btn.className = t.mode === mode
+            ? 'py-1 px-1.5 rounded-md text-[11px] font-bold transition bg-white text-slate-900 shadow-sm'
+            : 'py-1 px-1.5 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900';
+        });
+        renderMeterSummariesAndLogs();
+      }
+
+      function renderMeterSummariesAndLogs() {
+        const selectEl = document.getElementById('selectMeterSummaryPeriod');
+        const prevVal = selectEl.value;
+        const today = getTodayDateObj();
+
+        const periodSet = new Set();
+        if (state.meterSummaryMode === 'DAILY') {
+          periodSet.add(toDateKey(today));
+          state.meterLogs.forEach(function (m) { periodSet.add(toDateKey(m.date)); });
+        } else if (state.meterSummaryMode === 'WEEKLY') {
+          periodSet.add(getWeekStartDateKey(today));
+          state.meterLogs.forEach(function (m) { periodSet.add(getWeekStartDateKey(m.date)); });
+        } else {
+          periodSet.add(toMonthKey(today));
+          state.meterLogs.forEach(function (m) { periodSet.add(toMonthKey(m.date)); });
+        }
+
+        const sortedKeys = Array.from(periodSet).sort().reverse();
+        selectEl.innerHTML = '';
+        sortedKeys.forEach(function (k) {
+          const opt = document.createElement('option');
+          opt.value = k;
+          if (state.meterSummaryMode === 'DAILY') opt.textContent = formatDateKeyDisplay(k);
+          else if (state.meterSummaryMode === 'WEEKLY') opt.textContent = formatWeekRangeLabel(k);
+          else opt.textContent = formatMonthKeyDisplay(k);
+          selectEl.appendChild(opt);
+        });
+
+        selectEl.value = (prevVal && periodSet.has(prevVal)) ? prevVal : sortedKeys[0];
+        updateMeterSummaryCardDisplay();
+        renderMeterLogsList();
+      }
+
+      function updateMeterSummaryCardDisplay() {
+        const selectedKey = document.getElementById('selectMeterSummaryPeriod').value;
+        const ascLogs = state.meterLogs.slice().reverse().filter(function (m) {
+          if (state.meterSummaryMode === 'DAILY') return toDateKey(m.date) === selectedKey;
+          if (state.meterSummaryMode === 'WEEKLY') return getWeekStartDateKey(m.date) === selectedKey;
+          return toMonthKey(m.date) === selectedKey;
+        });
+
+        const runTimeValEl = document.getElementById('meterSummaryRunTimeValue');
+        const startReadingEl = document.getElementById('meterSummaryStartReading');
+        const endReadingEl = document.getElementById('meterSummaryEndReading');
+
+        if (ascLogs.length === 0) {
+          runTimeValEl.textContent = '0h 0m 0s';
+          startReadingEl.textContent = '--';
+          endReadingEl.textContent = '--';
+          return;
+        }
+
+        let sumDiffDecimal = 0;
+        ascLogs.forEach(function (m) {
+          sumDiffDecimal += (m.diffDecimal || 0);
+        });
+        sumDiffDecimal = Math.round(sumDiffDecimal * 100) / 100;
+
+        const firstLog = ascLogs[0];
+        const lastLog = ascLogs[ascLogs.length - 1];
+        const startVal = firstLog.prevReading !== null && firstLog.prevReading !== undefined
+          ? firstLog.prevReading
+          : firstLog.reading;
+        const endVal = lastLog.reading;
+
+        runTimeValEl.textContent = formatHMSCompact(sumDiffDecimal);
+        startReadingEl.textContent = startVal.toFixed(2);
+        endReadingEl.textContent = endVal.toFixed(2);
+      }
+
+      function renderMeterLogsList() {
+        const container = document.getElementById('meterRecordsListContainer');
+        const btnDeleteAll = document.getElementById('btnDeleteAllMeterRecords');
+        container.innerHTML = '';
+
+        if (state.meterLogs.length === 0) {
+          btnDeleteAll.classList.add('hidden');
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'py-4 text-center text-[11px] text-slate-400';
+          emptyDiv.textContent = 'No readings';
+          container.appendChild(emptyDiv);
+          return;
+        }
+
+        btnDeleteAll.classList.remove('hidden');
+
+        const table = document.createElement('table');
+        table.className = 'w-full text-left border-collapse';
+        table.innerHTML =
+          '<thead>' +
+            '<tr class="bg-slate-100 text-[10px] font-bold uppercase text-slate-500 border-b border-slate-200">' +
+              '<th class="py-1.5 px-2">Date / Time</th>' +
+              '<th class="py-1.5 px-2">Meter</th>' +
+              '<th class="py-1.5 px-2">Run Time</th>' +
+              '<th class="py-1.5 px-2 text-right"></th>' +
+            '</tr>' +
+          '</thead>';
+
+        const tbody = document.createElement('tbody');
+        tbody.className = 'divide-y divide-slate-200 text-[11px]';
+
+        state.meterLogs.forEach(function (log) {
+          const isEditingThis = state.editingMeterId === log.id;
+          const tr = document.createElement('tr');
+          tr.className = isEditingThis ? 'bg-amber-50' : 'bg-white hover:bg-slate-50';
+
+          // Col 1: Date & Time
+          const tdDate = document.createElement('td');
+          tdDate.className = 'py-2 px-2 whitespace-nowrap align-middle';
+          tdDate.innerHTML =
+            '<div class="font-bold text-slate-800 leading-tight">' + formatDateShort(log.date) + '</div>' +
+            '<div class="text-[10px] text-slate-500 leading-tight">' + formatTimeDisplay(log.time) + '</div>';
+
+          // Col 2: Meter Reading & Converted HMS
+          const tdMeter = document.createElement('td');
+          tdMeter.className = 'py-2 px-2 whitespace-nowrap align-middle';
+          tdMeter.innerHTML =
+            '<div class="font-extrabold text-slate-900 leading-tight">' + log.reading.toFixed(2) + '</div>' +
+            '<div class="text-[10px] font-semibold text-blue-600 leading-tight">' + formatHMSCompact(log.reading) + '</div>';
+
+          // Col 3: Run Time (Difference in h m s only — NEVER "+9.34 hrs")
+          const tdRun = document.createElement('td');
+          tdRun.className = 'py-2 px-2 whitespace-nowrap align-middle';
+          if (log.prevReading === null) {
+            tdRun.innerHTML = '<span class="text-[10px] font-bold text-slate-400">Start</span>';
+          } else {
+            tdRun.innerHTML = '<span class="font-extrabold text-emerald-700">+' + formatHMSCompact(log.diffDecimal) + '</span>';
+          }
+
+          // Col 4: Edit & Delete Symbol Icons
+          const tdActions = document.createElement('td');
+          tdActions.className = 'py-2 px-1.5 whitespace-nowrap align-middle text-right';
+          const actWrap = document.createElement('div');
+          actWrap.className = 'inline-flex items-center gap-1';
+
+          const btnEdit = document.createElement('button');
+          btnEdit.type = 'button';
+          btnEdit.title = 'Edit';
+          btnEdit.setAttribute('aria-label', 'Edit');
+          btnEdit.className = 'p-1 rounded text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 transition';
+          btnEdit.innerHTML = ICON_EDIT;
+          btnEdit.addEventListener('click', function () {
+            startEditingMeterLog(log.id);
+          });
+
+          const btnDelete = document.createElement('button');
+          btnDelete.type = 'button';
+          btnDelete.title = 'Delete';
+          btnDelete.setAttribute('aria-label', 'Delete');
+          btnDelete.className = 'p-1 rounded text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition';
+          btnDelete.innerHTML = ICON_TRASH;
+          btnDelete.addEventListener('click', function () {
+            openConfirmModal(
+              'Delete Reading?',
+              log.reading.toFixed(2) + ' (' + formatDateDisplay(log.date) + ')',
+              function () {
+                deleteMeterLogById(log.id);
+              }
+            );
+          });
+
+          actWrap.appendChild(btnEdit);
+          actWrap.appendChild(btnDelete);
+          tdActions.appendChild(actWrap);
+
+          tr.appendChild(tdDate);
+          tr.appendChild(tdMeter);
+          tr.appendChild(tdRun);
+          tr.appendChild(tdActions);
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        container.appendChild(table);
+      }
+
+      function startEditingMeterLog(logId) {
+        const log = state.meterLogs.find(function (m) { return m.id === logId; });
+        if (!log) return;
+        state.editingMeterId = log.id;
+        state.meterDate = { ...log.date };
+        state.meterTime = { ...log.time };
+        document.getElementById('inputMeterReading').value = String(log.reading);
+        renderMeterFormState();
+        renderMeterLogsList();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function deleteMeterLogById(logId) {
+        state.meterLogs = state.meterLogs.filter(function (m) { return m.id !== logId; });
+        if (state.editingMeterId === logId) {
+          resetMeterFormToCurrent();
+        }
+        recomputeMeterLogDifferences();
+        renderMeterSummariesAndLogs();
+        showToast('Deleted');
+      }
+
+      function handleDownloadMeterJson() {
+        const exportObj = {
+          exportedAt: new Date().toISOString(),
+          meterLogs: state.meterLogs
+        };
+        const jsonStr = JSON.stringify(exportObj, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Generator_Run_Time_Backup_' + getCurrentDateTimeStampForFilename() + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        showToast('JSON Downloaded');
+      }
+
+      function isValidMeterLog(m) {
+        return m &&
+          m.date && typeof m.date.year === 'number' && typeof m.date.month === 'number' && typeof m.date.day === 'number' &&
+          m.time && typeof m.time.hour12 === 'number' && typeof m.time.minute === 'number' && (m.time.period === 'AM' || m.time.period === 'PM') &&
+          typeof m.reading === 'number' && !isNaN(m.reading);
+      }
+
+      function mergeIncomingMeterLogs(incomingArr) {
+        const mapByKey = {};
+        state.meterLogs.forEach(function (m) {
+          const key = m.id || (m.timestampMs + '_' + m.reading);
+          mapByKey[key] = m;
+        });
+        incomingArr.forEach(function (m) {
+          if (isValidMeterLog(m)) {
+            const tsMs = toTimestampMs(m.date, m.time);
+            const item = {
+              id: m.id || ('meter_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+              date: { year: m.date.year, month: m.date.month, day: m.date.day },
+              time: { hour12: m.time.hour12, minute: m.time.minute, period: m.time.period },
+              timestampMs: tsMs,
+              reading: Math.round(Number(m.reading) * 100) / 100,
+              prevReading: null,
+              diffDecimal: 0,
+              updatedAt: m.updatedAt || Date.now()
+            };
+            const key = item.id || (item.timestampMs + '_' + item.reading);
+            mapByKey[key] = item;
+          }
+        });
+        state.meterLogs = Object.values(mapByKey);
+        recomputeMeterLogDifferences();
+        renderMeterSummariesAndLogs();
+      }
+
+      function handleUploadMeterJsonFile(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            const parsed = JSON.parse(ev.target.result);
+            const arr = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.meterLogs) ? parsed.meterLogs : null);
+            if (!arr) {
+              showToast('Invalid JSON file');
+              return;
+            }
+            mergeIncomingMeterLogs(arr);
+            showToast('Restored');
+          } catch (err) {
+            showToast('Invalid JSON file');
+          }
+        };
+        reader.readAsText(file);
+      }
+
       // ==================== STRICT TWO-FINGER ONLY TOUCH GESTURE ====================
       function setupTwoFingerTouchGesture() {
         let twoFingerTimer = null;
@@ -1445,7 +2305,6 @@
           if (!e.touches) return;
           const count = e.touches.length;
 
-          // If 3, 4, or more fingers touch, immediately cancel any pending 2-finger trigger
           if (count > 2) {
             multiTouchInvalidated = true;
             if (twoFingerTimer) {
@@ -1466,7 +2325,6 @@
             const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
             if (dist >= 20) {
               if (twoFingerTimer) clearTimeout(twoFingerTimer);
-              // Wait 90ms to confirm a 3rd or 4th finger is not being placed down
               twoFingerTimer = setTimeout(function () {
                 twoFingerTimer = null;
                 if (!multiTouchInvalidated) {
@@ -1493,8 +2351,20 @@
         populateYearAndMonthSelects();
         setupTwoFingerTouchGesture();
 
+        const lastGen = loadFromStorage(STORAGE_KEY_LAST_GEN, GEN_500);
+        state.selectedGenerator = normalizeGeneratorLabel(lastGen);
+
         const storedRecords = loadFromStorage(STORAGE_KEY_RECORDS, null);
-        state.records = Array.isArray(storedRecords) ? storedRecords : [];
+        if (Array.isArray(storedRecords)) {
+          state.records = storedRecords.map(function (r) {
+            return {
+              ...r,
+              generator: normalizeGeneratorLabel(r.generator)
+            };
+          });
+        } else {
+          state.records = [];
+        }
 
         const storedCalcRows = loadFromStorage(STORAGE_KEY_CALC_ROWS, null);
         if (Array.isArray(storedCalcRows) && storedCalcRows.length > 0) {
@@ -1507,13 +2377,46 @@
           saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
         }
 
+        const storedMeterLogs = loadFromStorage(STORAGE_KEY_METER_LOGS, null);
+        if (Array.isArray(storedMeterLogs)) {
+          state.meterLogs = storedMeterLogs;
+          recomputeMeterLogDifferences();
+        } else {
+          state.meterLogs = [];
+        }
+
+        resetFormToCurrentDateTime();
+        resetMeterFormToCurrent();
+
+        // Main 3 Tabs
         document.getElementById('tabBtnPowerCut').addEventListener('click', function () {
           switchTab('power-cut');
         });
         document.getElementById('tabBtnTimeCalc').addEventListener('click', function () {
           switchTab('time-calc');
         });
+        document.getElementById('tabBtnGensetMeter').addEventListener('click', function () {
+          switchTab('genset-meter');
+        });
 
+        // Generator Selection Buttons
+        document.getElementById('btnGen500').addEventListener('click', function () {
+          setSelectedGenerator(GEN_500);
+        });
+        document.getElementById('btnGen1000').addEventListener('click', function () {
+          setSelectedGenerator(GEN_1000);
+        });
+
+        // Generator Filter Buttons
+        document.getElementById('filterBtnAll').addEventListener('click', function () { setGeneratorFilter('ALL'); });
+        document.getElementById('filterBtn500').addEventListener('click', function () { setGeneratorFilter(GEN_500); });
+        document.getElementById('filterBtn1000').addEventListener('click', function () { setGeneratorFilter(GEN_1000); });
+
+        document.getElementById('largeFilterBtnAll').addEventListener('click', function () { setGeneratorFilter('ALL'); });
+        document.getElementById('largeFilterBtn500').addEventListener('click', function () { setGeneratorFilter(GEN_500); });
+        document.getElementById('largeFilterBtn1000').addEventListener('click', function () { setGeneratorFilter(GEN_1000); });
+
+        // Tab 1 Date & Time Pickers
         document.getElementById('btnCutDate').addEventListener('click', function () {
           openDatePicker('cutDate');
         });
@@ -1529,14 +2432,15 @@
 
         document.getElementById('btnSaveRecord').addEventListener('click', handleSaveRecord);
         document.getElementById('btnResetForm').addEventListener('click', function () {
-          clearFormFields();
+          resetFormToCurrentDateTime();
+          showToast('Reset');
         });
         document.getElementById('btnCancelEdit').addEventListener('click', function () {
-          clearFormFields();
+          resetFormToCurrentDateTime();
           renderRecordsList();
         });
 
-        // JSON Backup & Restore Listeners
+        // Tab 1 JSON Backup & Restore
         document.getElementById('btnDownloadJson').addEventListener('click', handleDownloadJson);
         document.getElementById('btnUploadJson').addEventListener('click', function () {
           const fileInput = document.getElementById('inputJsonFile');
@@ -1568,7 +2472,7 @@
             'All saved power cut records will be removed.',
             function () {
               state.records = [];
-              clearFormFields();
+              resetFormToCurrentDateTime();
               saveToStorage(STORAGE_KEY_RECORDS, state.records);
               renderSummariesAndRecords();
               renderLargeRecordsView();
@@ -1577,6 +2481,64 @@
           );
         });
 
+        // Tab 3: Generator Run Time Listeners
+        document.getElementById('btnMeterDate').addEventListener('click', function () {
+          openDatePicker('meterDate');
+        });
+        document.getElementById('btnMeterTime').addEventListener('click', function () {
+          openTimePicker('meterTime');
+        });
+        document.getElementById('inputMeterReading').addEventListener('input', function () {
+          document.getElementById('meterValidationAlert').classList.add('hidden');
+          updateMeterLiveConversion();
+        });
+        document.getElementById('btnSaveMeterReading').addEventListener('click', handleSaveMeterReading);
+        document.getElementById('btnClearMeterForm').addEventListener('click', function () {
+          resetMeterFormToCurrent();
+          showToast('Cleared');
+        });
+        document.getElementById('btnCancelMeterEdit').addEventListener('click', function () {
+          resetMeterFormToCurrent();
+          renderMeterLogsList();
+        });
+
+        document.getElementById('meterSummaryTabDaily').addEventListener('click', function () {
+          setMeterSummaryMode('DAILY');
+        });
+        document.getElementById('meterSummaryTabWeekly').addEventListener('click', function () {
+          setMeterSummaryMode('WEEKLY');
+        });
+        document.getElementById('meterSummaryTabMonthly').addEventListener('click', function () {
+          setMeterSummaryMode('MONTHLY');
+        });
+        document.getElementById('selectMeterSummaryPeriod').addEventListener('change', updateMeterSummaryCardDisplay);
+
+        document.getElementById('btnDownloadMeterJson').addEventListener('click', handleDownloadMeterJson);
+        document.getElementById('btnUploadMeterJson').addEventListener('click', function () {
+          const fi = document.getElementById('inputMeterJsonFile');
+          fi.value = '';
+          fi.click();
+        });
+        document.getElementById('inputMeterJsonFile').addEventListener('change', function (e) {
+          if (e.target.files && e.target.files[0]) {
+            handleUploadMeterJsonFile(e.target.files[0]);
+          }
+        });
+        document.getElementById('btnDeleteAllMeterRecords').addEventListener('click', function () {
+          openConfirmModal(
+            'Delete All Readings?',
+            'All saved generator readings will be removed.',
+            function () {
+              state.meterLogs = [];
+              resetMeterFormToCurrent();
+              saveToStorage(STORAGE_KEY_METER_LOGS, state.meterLogs);
+              renderMeterSummariesAndLogs();
+              showToast('Deleted');
+            }
+          );
+        });
+
+        // Date Modal Listeners
         document.getElementById('btnCloseDateModal').addEventListener('click', closeDatePicker);
         document.getElementById('btnCancelDateModal').addEventListener('click', closeDatePicker);
         document.getElementById('btnConfirmDateModal').addEventListener('click', confirmDateSelection);
@@ -1615,6 +2577,7 @@
           renderDatePickerModal();
         });
 
+        // Time Modal Listeners
         document.getElementById('btnCloseTimeModal').addEventListener('click', closeTimePicker);
         document.getElementById('btnCancelTimeModal').addEventListener('click', closeTimePicker);
         document.getElementById('btnConfirmTimeModal').addEventListener('click', confirmTimeSelection);
@@ -1666,6 +2629,7 @@
           renderTimePickerModal();
         });
 
+        // Tab 2 Listeners
         document.getElementById('btnAddDurationRow').addEventListener('click', function () {
           state.calcRows.push(createCalcRow('', ''));
           saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
@@ -1681,6 +2645,7 @@
           renderCalculatorRows();
         });
 
+        // Confirm Modal Listeners
         document.getElementById('btnConfirmCancel').addEventListener('click', closeConfirmModal);
         document.getElementById('btnConfirmAccept').addEventListener('click', function () {
           if (typeof state.confirmCallback === 'function') {
@@ -1689,9 +2654,10 @@
           closeConfirmModal();
         });
 
-        renderFormState();
+        renderFilterButtons();
         renderSummariesAndRecords();
         renderCalculatorRows();
+        renderMeterSummariesAndLogs();
       }
 
       window.addEventListener('DOMContentLoaded', initApp);
