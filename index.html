@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     html {
-      font-size: 14px !important;
+      font-size: 16px !important;
       -webkit-text-size-adjust: 100% !important;
       -moz-text-size-adjust: 100% !important;
       text-size-adjust: 100% !important;
@@ -33,23 +33,23 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 text-sm min-h-screen flex flex-col">
 
-  <!-- Minimal Header: Global JSON Download/Upload on Top + 3 Main Tabs -->
+  <!-- Header: Global JSON Download/Upload on Top + 4 Main Tabs -->
   <header class="sticky top-0 z-30 bg-white border-b border-slate-200">
-    <div class="max-w-md mx-auto px-2.5 py-1.5 space-y-1.5">
+    <div class="max-w-md mx-auto px-3 py-2 space-y-2">
       <!-- Top Bar: App Title & Whole-App JSON Backup / Restore -->
       <div class="flex items-center justify-between gap-2">
-        <span class="text-xs font-extrabold tracking-tight text-slate-900 pl-0.5">P cut Record</span>
-        <div class="flex items-center gap-1.5">
-          <button id="btnDownloadJson" type="button" title="Download App JSON Backup" aria-label="Download JSON" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center gap-1 text-[10px] font-bold transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+        <span class="text-sm font-extrabold tracking-tight text-slate-900 pl-0.5">P cut Record</span>
+        <div class="flex items-center gap-2">
+          <button id="btnDownloadJson" type="button" title="Download App JSON Backup" aria-label="Download JSON" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 flex items-center gap-1.5 text-xs font-bold transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
             <span>JSON</span>
           </button>
-          <button id="btnUploadJson" type="button" title="Upload App JSON Backup" aria-label="Upload JSON" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center gap-1 text-[10px] font-bold transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <button id="btnUploadJson" type="button" title="Upload App JSON Backup" aria-label="Upload JSON" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 flex items-center gap-1.5 text-xs font-bold transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>
             <span>JSON</span>
@@ -58,82 +58,85 @@
         </div>
       </div>
 
-      <!-- 3 Main Tabs -->
-      <nav class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg" aria-label="Main Navigation">
-        <button id="tabBtnPowerCut" type="button" role="tab" aria-selected="true" class="py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all bg-white text-slate-900 shadow-sm text-center">
+      <!-- 4 Main Tabs: Power Cut Record | Time Addition Calculator | 500 kVA | 1000 kVA -->
+      <nav class="grid grid-cols-4 gap-1 bg-slate-100 p-1 rounded-lg" aria-label="Main Navigation">
+        <button id="tabBtnPowerCut" type="button" role="tab" aria-selected="true" class="py-2 px-1 rounded-md text-xs leading-tight font-semibold transition-all bg-white text-slate-900 shadow-sm text-center">
           Power Cut Record
         </button>
-        <button id="tabBtnTimeCalc" type="button" role="tab" aria-selected="false" class="py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center">
+        <button id="tabBtnTimeCalc" type="button" role="tab" aria-selected="false" class="py-2 px-1 rounded-md text-xs leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center">
           Time Addition Calculator
         </button>
-        <button id="tabBtnGensetMeter" type="button" role="tab" aria-selected="false" class="py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center">
-          Generator Run Time
+        <button id="tabBtnGensetMeter" type="button" role="tab" aria-selected="false" class="py-2 px-1 rounded-md text-xs leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center">
+          500 kVA
+        </button>
+        <button id="tabBtnGenset1000" type="button" role="tab" aria-selected="false" class="py-2 px-1 rounded-md text-xs leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center">
+          1000 kVA
         </button>
       </nav>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 max-w-md w-full mx-auto px-2.5 py-2.5 space-y-2.5">
+  <main class="flex-1 max-w-md w-full mx-auto px-3 py-3 space-y-3">
 
     <!-- ==================== TAB 1: POWER CUT RECORD ==================== -->
-    <section id="panelPowerCut" role="tabpanel" class="space-y-2.5">
+    <section id="panelPowerCut" role="tabpanel" class="space-y-3">
 
-      <!-- Compact Record Input Card -->
-      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
-        <div id="editBanner" class="hidden flex items-center justify-between bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg">
-          <span id="editModeBadge" class="text-[11px] font-semibold text-amber-800">Editing</span>
-          <button id="btnCancelEdit" type="button" class="text-[11px] font-semibold text-rose-600 hover:underline">Cancel</button>
+      <!-- Record Input Card -->
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-2.5">
+        <div id="editBanner" class="hidden flex items-center justify-between bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg">
+          <span id="editModeBadge" class="text-xs font-semibold text-amber-800">Editing</span>
+          <button id="btnCancelEdit" type="button" class="text-xs font-semibold text-rose-600 hover:underline">Cancel</button>
         </div>
 
         <!-- Generator Selection (500 kVA Blue vs 1000 kVA Amber Side by Side) -->
         <div class="grid grid-cols-2 gap-2">
-          <button id="btnGen500" type="button" class="py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-blue-600 text-white border-blue-600 shadow-sm">
+          <button id="btnGen500" type="button" class="py-2 px-3 rounded-lg font-bold text-sm border transition bg-blue-600 text-white border-blue-600 shadow-sm">
             500 kVA
           </button>
-          <button id="btnGen1000" type="button" class="py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-slate-50 text-amber-700 border-amber-300 hover:bg-amber-50">
+          <button id="btnGen1000" type="button" class="py-2 px-3 rounded-lg font-bold text-sm border transition bg-slate-50 text-amber-700 border-amber-300 hover:bg-amber-50">
             1000 kVA
           </button>
         </div>
 
-        <!-- Power Cut Date & Time (Side by Side, Compact) -->
+        <!-- Power Cut Date & Time (Side by Side) -->
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[10px] font-semibold text-slate-500 mb-0.5 whitespace-nowrap" for="btnCutDate">Power Cut Date</label>
-            <button id="btnCutDate" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-              <span id="labelCutDate" class="text-[11px] font-bold text-red-600 whitespace-nowrap">Select Date</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-red-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <label class="block text-xs font-semibold text-slate-600 mb-1 whitespace-nowrap" for="btnCutDate">Power Cut Date</label>
+            <button id="btnCutDate" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelCutDate" class="text-sm font-bold text-red-600 whitespace-nowrap">Select Date</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </button>
           </div>
           <div>
-            <label class="block text-[10px] font-semibold text-slate-500 mb-0.5 whitespace-nowrap" for="btnCutTime">Power Cut Time</label>
-            <button id="btnCutTime" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-              <span id="labelCutTime" class="text-[11px] font-bold text-red-600 whitespace-nowrap">Select Time</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-red-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <label class="block text-xs font-semibold text-slate-600 mb-1 whitespace-nowrap" for="btnCutTime">Power Cut Time</label>
+            <button id="btnCutTime" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelCutTime" class="text-sm font-bold text-red-600 whitespace-nowrap">Select Time</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </button>
           </div>
         </div>
 
-        <!-- Power Restored Date & Time (Side by Side, Compact) -->
+        <!-- Power Restored Date & Time (Side by Side) -->
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[10px] font-semibold text-slate-500 mb-0.5 whitespace-nowrap" for="btnRestoredDate">Power Restored Date</label>
-            <button id="btnRestoredDate" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-              <span id="labelRestoredDate" class="text-[11px] font-bold text-emerald-600 whitespace-nowrap">Select Date</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-emerald-600 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <label class="block text-xs font-semibold text-slate-600 mb-1 whitespace-nowrap" for="btnRestoredDate">Power Restored Date</label>
+            <button id="btnRestoredDate" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelRestoredDate" class="text-sm font-bold text-emerald-600 whitespace-nowrap">Select Date</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </button>
           </div>
           <div>
-            <label class="block text-[10px] font-semibold text-slate-500 mb-0.5 whitespace-nowrap" for="btnRestoredTime">Power Restored Time</label>
-            <button id="btnRestoredTime" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-              <span id="labelRestoredTime" class="text-[11px] font-bold text-emerald-600 whitespace-nowrap">Select Time</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-emerald-600 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <label class="block text-xs font-semibold text-slate-600 mb-1 whitespace-nowrap" for="btnRestoredTime">Power Restored Time</label>
+            <button id="btnRestoredTime" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+              <span id="labelRestoredTime" class="text-sm font-bold text-emerald-600 whitespace-nowrap">Select Time</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </button>
@@ -141,24 +144,24 @@
         </div>
 
         <!-- Duration Row (Clock Symbol + Duration only) -->
-        <div id="durationStatusBox" class="px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-2">
+        <div id="durationStatusBox" class="px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span id="durationValueDisplay" class="text-xs font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</span>
+          <span id="durationValueDisplay" class="text-sm font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</span>
         </div>
 
         <!-- Validation Alert -->
-        <div id="formValidationAlert" class="hidden px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-[11px] font-medium" role="alert">
+        <div id="formValidationAlert" class="hidden px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium" role="alert">
           <span id="formValidationText">Invalid entry</span>
         </div>
 
         <!-- Save & Clear Buttons -->
         <div class="flex items-center gap-2">
-          <button id="btnSaveRecord" type="button" class="flex-1 py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-semibold text-xs transition">
+          <button id="btnSaveRecord" type="button" class="flex-1 py-2.5 px-4 rounded-lg bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-semibold text-sm transition">
             <span id="btnSaveRecordLabel">Save Record</span>
           </button>
-          <button id="btnResetForm" type="button" class="py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition">
+          <button id="btnResetForm" type="button" class="py-2.5 px-4 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm border border-slate-200 transition">
             Clear
           </button>
         </div>
@@ -167,13 +170,13 @@
       <!-- Generator Filter Bar (All | 500 kVA | 1000 kVA with color coding) -->
       <div class="bg-white border border-slate-200 rounded-xl p-1.5 shadow-sm">
         <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg">
-          <button id="filterBtnAll" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition bg-slate-900 text-white shadow-sm">
+          <button id="filterBtnAll" type="button" class="py-1.5 px-2 rounded-md text-sm font-bold transition bg-slate-900 text-white shadow-sm">
             All
           </button>
-          <button id="filterBtn500" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition text-blue-700 hover:bg-blue-50">
+          <button id="filterBtn500" type="button" class="py-1.5 px-2 rounded-md text-sm font-bold transition text-blue-700 hover:bg-blue-50">
             500 kVA
           </button>
-          <button id="filterBtn1000" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition text-amber-700 hover:bg-amber-50">
+          <button id="filterBtn1000" type="button" class="py-1.5 px-2 rounded-md text-sm font-bold transition text-amber-700 hover:bg-amber-50">
             1000 kVA
           </button>
         </div>
@@ -181,28 +184,28 @@
 
       <!-- Daily & Monthly Summary (Side by Side, Color-Coded 500 kVA & 1000 kVA Breakdown) -->
       <div class="grid grid-cols-2 gap-2">
-        <div class="bg-white border border-slate-200 rounded-xl p-2 shadow-sm space-y-1">
+        <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-1">
           <div class="flex items-center justify-between gap-1">
-            <span class="text-[10px] font-bold uppercase text-slate-500">Daily</span>
-            <select id="selectDailySummary" aria-label="Daily Summary Date" class="text-[10px] bg-slate-50 text-slate-700 border border-slate-200 rounded px-1 py-0.5 focus:outline-none">
+            <span class="text-xs font-bold uppercase text-slate-500">Daily</span>
+            <select id="selectDailySummary" aria-label="Daily Summary Date" class="text-xs bg-slate-50 text-slate-800 font-medium border border-slate-200 rounded px-1.5 py-0.5 focus:outline-none">
             </select>
           </div>
-          <div id="dailySummaryValue" class="text-xs font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</div>
-          <div id="dailySummaryGenSub" class="text-[10px] font-bold leading-tight flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+          <div id="dailySummaryValue" class="text-sm font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</div>
+          <div id="dailySummaryGenSub" class="text-xs font-bold leading-tight flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
             <span class="text-blue-600">500: 0h 0m</span>
             <span class="text-slate-300">|</span>
             <span class="text-amber-600">1000: 0h 0m</span>
           </div>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-xl p-2 shadow-sm space-y-1">
+        <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-1">
           <div class="flex items-center justify-between gap-1">
-            <span class="text-[10px] font-bold uppercase text-slate-500">Monthly</span>
-            <select id="selectMonthlySummary" aria-label="Monthly Summary Month" class="text-[10px] bg-slate-50 text-slate-700 border border-slate-200 rounded px-1 py-0.5 focus:outline-none">
+            <span class="text-xs font-bold uppercase text-slate-500">Monthly</span>
+            <select id="selectMonthlySummary" aria-label="Monthly Summary Month" class="text-xs bg-slate-50 text-slate-800 font-medium border border-slate-200 rounded px-1.5 py-0.5 focus:outline-none">
             </select>
           </div>
-          <div id="monthlySummaryValue" class="text-xs font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</div>
-          <div id="monthlySummaryGenSub" class="text-[10px] font-bold leading-tight flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+          <div id="monthlySummaryValue" class="text-sm font-bold text-slate-900 whitespace-nowrap">0 hours 0 minutes</div>
+          <div id="monthlySummaryGenSub" class="text-xs font-bold leading-tight flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
             <span class="text-blue-600">500: 0h 0m</span>
             <span class="text-slate-300">|</span>
             <span class="text-amber-600">1000: 0h 0m</span>
@@ -211,71 +214,77 @@
       </div>
 
       <!-- Saved Power Cut Records List -->
-      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-2">
         <div id="recordsToolbarRow" class="hidden flex items-center justify-end">
           <button id="btnDeleteAllRecords" type="button" title="Delete All Power Cut Records" aria-label="Delete All" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           </button>
         </div>
-        <div id="recordsListContainer" class="space-y-1.5">
+        <div id="recordsListContainer" class="space-y-2">
         </div>
       </div>
     </section>
 
     <!-- ==================== TAB 2: TIME ADDITION CALCULATOR ==================== -->
-    <section id="panelTimeCalc" role="tabpanel" class="hidden space-y-2.5">
-      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2.5">
+    <section id="panelTimeCalc" role="tabpanel" class="hidden space-y-3">
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-3">
         <div class="flex items-center justify-between">
-          <div class="grid grid-cols-12 gap-1.5 flex-1 text-[10px] font-semibold text-slate-500 px-1">
+          <div class="grid grid-cols-12 gap-1.5 flex-1 text-xs font-semibold text-slate-500 px-1">
             <div class="col-span-1">#</div>
             <div class="col-span-5">Hours</div>
             <div class="col-span-5">Minutes</div>
             <div class="col-span-1"></div>
           </div>
-          <button id="btnClearAllCalc" type="button" class="text-[11px] font-semibold text-rose-600 hover:underline ml-2 shrink-0">
+          <button id="btnClearAllCalc" type="button" class="text-xs font-semibold text-rose-600 hover:underline ml-2 shrink-0">
             Clear All
           </button>
         </div>
 
         <!-- Duration Rows -->
-        <div id="calcRowsContainer" class="space-y-1.5">
+        <div id="calcRowsContainer" class="space-y-2">
         </div>
 
         <!-- Add Another Duration -->
-        <button id="btnAddDurationRow" type="button" class="w-full py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs border border-slate-200 transition">
+        <button id="btnAddDurationRow" type="button" class="w-full py-2.5 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm border border-slate-200 transition">
           Add Another Duration
         </button>
 
         <!-- Total Result -->
-        <div class="px-3 py-2 rounded-lg bg-slate-900 text-white flex items-center justify-center">
-          <span id="calcTotalDisplay" class="text-xs sm:text-sm font-bold">Total: 0 Hours 0 Minutes</span>
+        <div class="px-3 py-2.5 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+          <span id="calcTotalDisplay" class="text-sm font-bold">Total: 0 Hours 0 Minutes</span>
         </div>
       </div>
     </section>
 
-    <!-- ==================== TAB 3: GENERATOR RUN TIME ==================== -->
-    <section id="panelGensetMeter" role="tabpanel" class="hidden space-y-2.5">
+    <!-- ==================== TAB 3 & 4: GENERATOR RUN TIME (500 kVA: 1/100 hr | 1000 kVA: 1/10 hr) ==================== -->
+    <section id="panelGensetMeter" role="tabpanel" class="hidden space-y-3">
 
       <!-- Generator Meter Reading Input Card -->
-      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
-        <div id="meterEditBanner" class="hidden flex items-center justify-between bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg">
-          <span class="text-[11px] font-semibold text-amber-800">Editing</span>
-          <button id="btnCancelMeterEdit" type="button" class="text-[11px] font-semibold text-rose-600 hover:underline">Cancel</button>
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-2.5">
+        <div id="meterEditBanner" class="hidden flex items-center justify-between bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg">
+          <span class="text-xs font-semibold text-amber-800">Editing</span>
+          <button id="btnCancelMeterEdit" type="button" class="text-xs font-semibold text-rose-600 hover:underline">Cancel</button>
+        </div>
+
+        <!-- Active Generator Mode Indicator Badge (500 kVA = 1/100 hr vs 1000 kVA = 1/10 hr) -->
+        <div id="meterActiveModeBar" class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-blue-50 border border-blue-200">
+          <span id="meterActiveGenTitle" class="text-xs font-extrabold text-blue-800">500 kVA</span>
+          <span id="meterActiveDivisionBadge" class="text-xs font-semibold text-blue-700">1 Hour = 100 Parts (0.01 = 36s)</span>
         </div>
 
         <!-- Date & Time Side by Side -->
         <div class="grid grid-cols-2 gap-2">
-          <button id="btnMeterDate" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-            <span id="labelMeterDate" class="text-[11px] font-bold text-slate-900 whitespace-nowrap">25 Oct 2026</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <button id="btnMeterDate" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+            <span id="labelMeterDate" class="text-sm font-bold text-slate-900 whitespace-nowrap">25 Oct 2026</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </button>
-          <button id="btnMeterTime" type="button" class="w-full flex items-center justify-between px-2 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
-            <span id="labelMeterTime" class="text-[11px] font-bold text-slate-900 whitespace-nowrap">10:30 AM</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-slate-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <button id="btnMeterTime" type="button" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-300 text-left transition">
+            <span id="labelMeterTime" class="text-sm font-bold text-slate-900 whitespace-nowrap">10:30 AM</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </button>
@@ -284,47 +293,47 @@
         <!-- Decimal Meter Reading Input & Live Converted Box -->
         <div class="grid grid-cols-12 gap-2 items-center">
           <div class="col-span-5">
-            <input id="inputMeterReading" type="number" step="0.01" min="0" placeholder="737.46" aria-label="Meter Reading" class="w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-900 placeholder-slate-400 focus:outline-none" />
+            <input id="inputMeterReading" type="number" step="0.01" min="0" placeholder="737.46" aria-label="Meter Reading" class="w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-2 text-sm font-bold text-slate-900 placeholder-slate-400 focus:outline-none" />
           </div>
-          <div class="col-span-7 px-2.5 py-1.5 rounded-lg bg-blue-50/80 border border-blue-200 flex items-center justify-between gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <div class="col-span-7 px-3 py-2 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-between gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
-            <span id="meterLiveConvertedDisplay" class="text-[11px] font-bold text-blue-950 truncate">0h 0m 0s</span>
+            <span id="meterLiveConvertedDisplay" class="text-sm font-bold text-slate-900 truncate">0h 0m 0s</span>
           </div>
         </div>
 
         <!-- Validation Alert -->
-        <div id="meterValidationAlert" class="hidden px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-[11px] font-medium" role="alert">
+        <div id="meterValidationAlert" class="hidden px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium" role="alert">
           <span id="meterValidationText">Enter valid reading</span>
         </div>
 
         <!-- Save Reading & Clear Buttons -->
         <div class="flex items-center gap-2">
-          <button id="btnSaveMeterReading" type="button" class="flex-1 py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-semibold text-xs transition">
+          <button id="btnSaveMeterReading" type="button" class="flex-1 py-2.5 px-4 rounded-lg bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-semibold text-sm transition">
             <span id="btnSaveMeterReadingLabel">Save Reading</span>
           </button>
-          <button id="btnClearMeterForm" type="button" class="py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition">
+          <button id="btnClearMeterForm" type="button" class="py-2.5 px-4 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm border border-slate-200 transition">
             Clear
           </button>
         </div>
       </div>
 
       <!-- Summary Card (Daily | Weekly | Monthly) -->
-      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-2.5">
         <div class="flex items-center justify-between gap-2">
           <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg flex-1">
-            <button id="meterSummaryTabDaily" type="button" class="py-1 px-1.5 rounded-md text-[11px] font-bold transition bg-white text-slate-900 shadow-sm">
+            <button id="meterSummaryTabDaily" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition bg-white text-slate-900 shadow-sm">
               Daily
             </button>
-            <button id="meterSummaryTabWeekly" type="button" class="py-1 px-1.5 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900">
+            <button id="meterSummaryTabWeekly" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition text-slate-600 hover:text-slate-900">
               Weekly
             </button>
-            <button id="meterSummaryTabMonthly" type="button" class="py-1 px-1.5 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900">
+            <button id="meterSummaryTabMonthly" type="button" class="py-1.5 px-2 rounded-md text-xs font-bold transition text-slate-600 hover:text-slate-900">
               Monthly
             </button>
           </div>
-          <select id="selectMeterSummaryPeriod" aria-label="Select Summary Period" class="text-[11px] font-semibold bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none shrink-0">
+          <select id="selectMeterSummaryPeriod" aria-label="Select Summary Period" class="text-xs font-semibold bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none shrink-0">
           </select>
         </div>
 
@@ -332,17 +341,17 @@
         <div class="overflow-hidden rounded-lg border border-slate-200">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-slate-100 text-[10px] font-bold uppercase text-slate-500 border-b border-slate-200">
-                <th class="py-1.5 px-2.5">Start</th>
-                <th class="py-1.5 px-2.5">End</th>
-                <th class="py-1.5 px-2.5 text-right">Run Time</th>
+              <tr class="bg-slate-100 text-xs font-bold uppercase text-slate-500 border-b border-slate-200">
+                <th class="py-2 px-3">Start</th>
+                <th class="py-2 px-3">End</th>
+                <th class="py-2 px-3 text-right">Run Time</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-slate-50 text-xs font-bold text-slate-900">
-                <td id="meterSummaryStartReading" class="py-2 px-2.5 text-slate-700">--</td>
-                <td id="meterSummaryEndReading" class="py-2 px-2.5 text-slate-700">--</td>
-                <td id="meterSummaryRunTimeValue" class="py-2 px-2.5 text-right text-emerald-700 font-extrabold">0h 0m 0s</td>
+              <tr class="bg-slate-50 text-sm font-bold text-slate-900">
+                <td id="meterSummaryStartReading" class="py-2.5 px-3 text-slate-700">--</td>
+                <td id="meterSummaryEndReading" class="py-2.5 px-3 text-slate-700">--</td>
+                <td id="meterSummaryRunTimeValue" class="py-2.5 px-3 text-right text-emerald-700 font-extrabold">0h 0m 0s</td>
               </tr>
             </tbody>
           </table>
@@ -350,10 +359,10 @@
       </div>
 
       <!-- Saved Meter Logs in a Clean Table -->
-      <div class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm space-y-2">
+      <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-2">
         <div id="meterToolbarRow" class="hidden flex items-center justify-end">
           <button id="btnDeleteAllMeterRecords" type="button" title="Delete All Meter Readings" aria-label="Delete All" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           </button>
@@ -369,7 +378,7 @@
 
   <!-- ==================== FULLSCREEN LARGE SAVED RECORDS VIEW (2-FINGER TOUCH) ==================== -->
   <div id="largeRecordsOverlay" class="fixed inset-0 z-50 hidden bg-white flex flex-col">
-    <div class="sticky top-0 bg-white border-b border-slate-300 px-3 py-2 space-y-2 shadow-sm">
+    <div class="sticky top-0 bg-white border-b border-slate-300 px-3 py-2.5 space-y-2 shadow-sm">
       <div class="flex items-center justify-between gap-2">
         <!-- Power Cut Generator Filter (Shown when opened from Power Cut Record tab) -->
         <div id="largePowerCutFilterBar" class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg flex-1 max-w-xs">
@@ -384,13 +393,13 @@
           </button>
         </div>
 
-        <!-- Generator Run Time Title (Shown when opened from Generator Run Time tab) -->
+        <!-- Generator Run Time Title (Shown when opened from 500 kVA or 1000 kVA tab) -->
         <div id="largeMeterHeaderTitle" class="hidden text-base font-extrabold text-slate-900">
-          Generator Run Time
+          500 kVA
         </div>
 
-        <div class="flex items-center gap-1.5 ml-auto">
-          <button id="btnDownloadPdf" type="button" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-sm transition">
+        <div class="flex items-center gap-2 ml-auto">
+          <button id="btnDownloadPdf" type="button" class="px-3.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-sm transition">
             PDF
           </button>
           <button id="btnCloseLargeRecords" type="button" aria-label="Close" class="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white transition">
@@ -407,9 +416,9 @@
 
   <!-- ==================== DATE PICKER MODAL ==================== -->
   <div id="datePickerModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="dateModalTitle">
-    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3 shadow-xl space-y-2.5">
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3.5 shadow-xl space-y-2.5">
       <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-        <h3 id="dateModalTitle" class="text-xs font-bold text-slate-900">Select Date</h3>
+        <h3 id="dateModalTitle" class="text-sm font-bold text-slate-900">Select Date</h3>
         <button id="btnCloseDateModal" type="button" class="p-1 rounded text-slate-400 hover:text-slate-700" aria-label="Close">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -418,34 +427,34 @@
       </div>
 
       <!-- Day Stepper -->
-      <div class="flex items-center justify-between bg-slate-50 px-2 py-1.5 rounded-lg border border-slate-200">
-        <button id="btnPrevDay" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 text-[11px] font-semibold text-slate-700">-1 Day</button>
-        <div id="dateModalPreview" class="text-xs font-bold text-slate-900">25 Oct 2026</div>
-        <button id="btnNextDay" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 text-[11px] font-semibold text-slate-700">+1 Day</button>
+      <div class="flex items-center justify-between bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
+        <button id="btnPrevDay" type="button" class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-semibold text-slate-700">-1 Day</button>
+        <div id="dateModalPreview" class="text-sm font-bold text-slate-900">25 Oct 2026</div>
+        <button id="btnNextDay" type="button" class="px-2.5 py-1 rounded bg-white border border-slate-200 text-xs font-semibold text-slate-700">+1 Day</button>
       </div>
 
       <!-- Month & Year Navigation -->
       <div class="flex items-center justify-between gap-1">
         <button id="btnPrevMonth" type="button" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700" aria-label="Previous Month">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <div class="flex items-center gap-1 flex-1 justify-center">
-          <select id="dateModalMonthSelect" aria-label="Month" class="bg-slate-50 border border-slate-300 text-slate-900 text-[11px] font-semibold rounded-lg px-1.5 py-1 focus:outline-none">
+        <div class="flex items-center gap-1.5 flex-1 justify-center">
+          <select id="dateModalMonthSelect" aria-label="Month" class="bg-slate-50 border border-slate-300 text-slate-900 text-xs font-semibold rounded-lg px-2 py-1 focus:outline-none">
           </select>
-          <select id="dateModalYearSelect" aria-label="Year" class="bg-slate-50 border border-slate-300 text-slate-900 text-[11px] font-semibold rounded-lg px-1.5 py-1 focus:outline-none">
+          <select id="dateModalYearSelect" aria-label="Year" class="bg-slate-50 border border-slate-300 text-slate-900 text-xs font-semibold rounded-lg px-2 py-1 focus:outline-none">
           </select>
         </div>
         <button id="btnNextMonth" type="button" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700" aria-label="Next Month">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
 
       <!-- Weekday Headers -->
-      <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold uppercase text-slate-400">
+      <div class="grid grid-cols-7 gap-1 text-center text-xs font-bold uppercase text-slate-400">
         <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
       </div>
 
@@ -455,14 +464,14 @@
 
       <!-- Actions -->
       <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-        <button id="btnDateModalToday" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
+        <button id="btnDateModalToday" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
           Today
         </button>
-        <div class="flex items-center gap-1.5">
-          <button id="btnCancelDateModal" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
+        <div class="flex items-center gap-2">
+          <button id="btnCancelDateModal" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
             Cancel
           </button>
-          <button id="btnConfirmDateModal" type="button" class="px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold">
+          <button id="btnConfirmDateModal" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
             OK
           </button>
         </div>
@@ -472,9 +481,9 @@
 
   <!-- ==================== 12-HOUR AM/PM TIME PICKER MODAL ==================== -->
   <div id="timePickerModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="timeModalTitle">
-    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3 shadow-xl space-y-2.5">
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3.5 shadow-xl space-y-2.5">
       <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-        <h3 id="timeModalTitle" class="text-xs font-bold text-slate-900">Select Time</h3>
+        <h3 id="timeModalTitle" class="text-sm font-bold text-slate-900">Select Time</h3>
         <button id="btnCloseTimeModal" type="button" class="p-1 rounded text-slate-400 hover:text-slate-700" aria-label="Close">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -482,7 +491,7 @@
         </button>
       </div>
 
-      <div id="timeModalPreview" class="text-center text-base font-bold text-slate-900 bg-slate-50 py-1 rounded-lg border border-slate-200">
+      <div id="timeModalPreview" class="text-center text-base font-bold text-slate-900 bg-slate-50 py-1.5 rounded-lg border border-slate-200">
         10:30 AM
       </div>
 
@@ -490,15 +499,15 @@
       <div class="grid grid-cols-3 gap-2 items-center">
         <!-- Hour -->
         <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex flex-col items-center space-y-1">
-          <span class="text-[9px] font-semibold uppercase text-slate-500">Hour</span>
+          <span class="text-[11px] font-semibold uppercase text-slate-500">Hour</span>
           <button id="btnHourUp" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Increase Hour">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
             </svg>
           </button>
-          <input id="inputTimeHour" type="number" min="1" max="12" value="12" aria-label="Hour" class="w-full text-center bg-white border border-slate-300 rounded py-0.5 text-sm font-bold text-slate-900 focus:outline-none" />
+          <input id="inputTimeHour" type="number" min="1" max="12" value="12" aria-label="Hour" class="w-full text-center bg-white border border-slate-300 rounded py-1 text-sm font-bold text-slate-900 focus:outline-none" />
           <button id="btnHourDown" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Decrease Hour">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
@@ -506,15 +515,15 @@
 
         <!-- Minute -->
         <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex flex-col items-center space-y-1">
-          <span class="text-[9px] font-semibold uppercase text-slate-500">Min</span>
+          <span class="text-[11px] font-semibold uppercase text-slate-500">Min</span>
           <button id="btnMinuteUp" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Increase Minute">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
             </svg>
           </button>
-          <input id="inputTimeMinute" type="number" min="0" max="59" value="00" aria-label="Minute" class="w-full text-center bg-white border border-slate-300 rounded py-0.5 text-sm font-bold text-slate-900 focus:outline-none" />
+          <input id="inputTimeMinute" type="number" min="0" max="59" value="00" aria-label="Minute" class="w-full text-center bg-white border border-slate-300 rounded py-1 text-sm font-bold text-slate-900 focus:outline-none" />
           <button id="btnMinuteDown" type="button" class="w-full py-1 rounded bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 flex justify-center" aria-label="Decrease Minute">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
@@ -522,7 +531,7 @@
 
         <!-- AM / PM -->
         <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex flex-col items-center justify-between h-full space-y-1">
-          <span class="text-[9px] font-semibold uppercase text-slate-500">AM/PM</span>
+          <span class="text-[11px] font-semibold uppercase text-slate-500">AM/PM</span>
           <div class="w-full flex flex-col gap-1 my-auto">
             <button id="btnPeriodAM" type="button" class="w-full py-1.5 rounded font-bold text-xs transition bg-slate-900 text-white">
               AM
@@ -536,14 +545,14 @@
 
       <!-- Modal Footer -->
       <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-        <button id="btnTimeNow" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
+        <button id="btnTimeNow" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
           Now
         </button>
-        <div class="flex items-center gap-1.5">
-          <button id="btnCancelTimeModal" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
+        <div class="flex items-center gap-2">
+          <button id="btnCancelTimeModal" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
             Cancel
           </button>
-          <button id="btnConfirmTimeModal" type="button" class="px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold">
+          <button id="btnConfirmTimeModal" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
             OK
           </button>
         </div>
@@ -553,14 +562,14 @@
 
   <!-- ==================== CONFIRM DELETE MODAL ==================== -->
   <div id="confirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 flex items-center justify-center p-3" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
-    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-3.5 shadow-xl space-y-2.5">
-      <h3 id="confirmModalTitle" class="text-xs font-bold text-slate-900">Delete Record?</h3>
-      <p id="confirmModalMessage" class="text-[11px] text-slate-600">Are you sure?</p>
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xs w-full p-4 shadow-xl space-y-3">
+      <h3 id="confirmModalTitle" class="text-sm font-bold text-slate-900">Delete Record?</h3>
+      <p id="confirmModalMessage" class="text-xs text-slate-600">Are you sure?</p>
       <div class="flex items-center justify-end gap-2 pt-1">
-        <button id="btnConfirmCancel" type="button" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700">
+        <button id="btnConfirmCancel" type="button" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700">
           Cancel
         </button>
-        <button id="btnConfirmAccept" type="button" class="px-2.5 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-semibold">
+        <button id="btnConfirmAccept" type="button" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold">
           Delete
         </button>
       </div>
@@ -568,7 +577,7 @@
   </div>
 
   <!-- Toast -->
-  <div id="toastBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 hidden px-3 py-1.5 rounded-lg bg-slate-900 text-white font-semibold text-[11px] shadow-lg">
+  <div id="toastBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 hidden px-3.5 py-2 rounded-lg bg-slate-900 text-white font-semibold text-xs shadow-lg">
     <span id="toastText">Saved</span>
   </div>
 
@@ -579,7 +588,10 @@
       const STORAGE_KEY_RECORDS = 'power_cut_tracker_records_v1';
       const STORAGE_KEY_CALC_ROWS = 'power_cut_tracker_calc_rows_v2';
       const STORAGE_KEY_LAST_GEN = 'power_cut_tracker_last_gen_v1';
-      const STORAGE_KEY_METER_LOGS = 'genset_meter_tracker_logs_v1';
+      // 500 kVA Meter Logs (1 hour divided into 100 parts, e.g. 737.46)
+      const STORAGE_KEY_METER_LOGS_500 = 'genset_meter_tracker_logs_v1';
+      // 1000 kVA Meter Logs (1 hour divided into 10 parts, e.g. 737.4)
+      const STORAGE_KEY_METER_LOGS_1000 = 'genset_meter_tracker_logs_1000_v1';
 
       const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const MONTHS_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -587,11 +599,12 @@
       const GEN_500 = '500 kVA';
       const GEN_1000 = '1000 kVA';
 
-      const ICON_EDIT = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>';
-      const ICON_TRASH = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>';
+      const ICON_EDIT = '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>';
+      const ICON_TRASH = '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>';
 
       let state = {
-        activeTab: 'power-cut', // 'power-cut' | 'time-calc' | 'genset-meter'
+        activeTab: 'power-cut', // 'power-cut' | 'time-calc' | 'genset-500' | 'genset-1000'
+        activeMeterGen: GEN_500, // GEN_500 (100 parts/hr) | GEN_1000 (10 parts/hr)
         largeViewMode: 'power-cut', // 'power-cut' | 'genset-meter'
         selectedGenerator: GEN_500,
         generatorFilter: 'ALL',
@@ -602,20 +615,39 @@
         editingRecordId: null,
         records: [],
         calcRows: [],
-        // Tab 3: Generator Run Time state
+        // Tab 3 & 4: Generator Run Time state (separate logs for 500 kVA and 1000 kVA)
         meterDate: null,
         meterTime: null,
         editingMeterId: null,
-        meterLogs: [],
+        meterLogs500: [],
+        meterLogs1000: [],
         meterSummaryMode: 'DAILY',
         // Modals
         activeDateTarget: null,
-        tempDate: { year: 2026, month: 10, day: 25 },
+        tempDate: { year: 2026, month: 10, day: 29 },
         calendarView: { year: 2026, month: 10 },
         activeTimeTarget: null,
         tempTime: { hour12: 12, minute: 0, period: 'AM' },
         confirmCallback: null
       };
+
+      function getActiveMeterLogs() {
+        return state.activeMeterGen === GEN_1000 ? state.meterLogs1000 : state.meterLogs500;
+      }
+
+      function setActiveMeterLogs(arr) {
+        if (state.activeMeterGen === GEN_1000) {
+          state.meterLogs1000 = arr;
+        } else {
+          state.meterLogs500 = arr;
+        }
+      }
+
+      function formatMeterReadingNumber(val, genType) {
+        const g = genType || state.activeMeterGen;
+        const num = Number(val) || 0;
+        return g === GEN_1000 ? num.toFixed(1) : num.toFixed(2);
+      }
 
       function loadFromStorage(key, fallback) {
         try {
@@ -735,6 +767,9 @@
       }
 
       // ==================== GENSET DECIMAL HOURS CONVERSION LOGIC ====================
+      // Both 500 kVA (1 hour divided into 100 parts: 0.01 hr = 0.6 min = 36 sec)
+      // and 1000 kVA (1 hour divided into 10 parts: 0.1 hr = 6 min = 0 sec)
+      // convert decimal hours to hours, minutes, seconds accurately via:
       function convertDecimalHoursToHMS(val) {
         const num = Number(val);
         if (isNaN(num) || num < 0) {
@@ -805,28 +840,56 @@
         } catch (e) {}
       }
 
-      // ==================== 3-TAB NAVIGATION ====================
+      // ==================== 4-TAB NAVIGATION ====================
       function switchTab(tabName) {
         state.activeTab = tabName;
-        const tabs = [
-          { name: 'power-cut', btn: 'tabBtnPowerCut', panel: 'panelPowerCut' },
-          { name: 'time-calc', btn: 'tabBtnTimeCalc', panel: 'panelTimeCalc' },
-          { name: 'genset-meter', btn: 'tabBtnGensetMeter', panel: 'panelGensetMeter' }
-        ];
-        tabs.forEach(function (t) {
-          const btnEl = document.getElementById(t.btn);
-          const panelEl = document.getElementById(t.panel);
-          const isSelected = t.name === tabName;
-          btnEl.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-          btnEl.className = isSelected
-            ? 'py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all bg-white text-slate-900 shadow-sm text-center'
-            : 'py-1.5 px-1.5 rounded-md text-[11px] leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center';
-          if (isSelected) {
-            panelEl.classList.remove('hidden');
-          } else {
-            panelEl.classList.add('hidden');
+
+        const btnPowerCut = document.getElementById('tabBtnPowerCut');
+        const btnTimeCalc = document.getElementById('tabBtnTimeCalc');
+        const btnGenset500 = document.getElementById('tabBtnGensetMeter');
+        const btnGenset1000 = document.getElementById('tabBtnGenset1000');
+
+        const panelPowerCut = document.getElementById('panelPowerCut');
+        const panelTimeCalc = document.getElementById('panelTimeCalc');
+        const panelGensetMeter = document.getElementById('panelGensetMeter');
+
+        const inactiveClass = 'py-2 px-1 rounded-md text-xs leading-tight font-semibold transition-all text-slate-600 hover:text-slate-900 text-center';
+        const activeStandardClass = 'py-2 px-1 rounded-md text-xs leading-tight font-semibold transition-all bg-white text-slate-900 shadow-sm text-center';
+        const active500Class = 'py-2 px-1 rounded-md text-xs leading-tight font-bold transition-all bg-blue-600 text-white shadow-sm text-center';
+        const active1000Class = 'py-2 px-1 rounded-md text-xs leading-tight font-bold transition-all bg-amber-600 text-white shadow-sm text-center';
+
+        btnPowerCut.className = tabName === 'power-cut' ? activeStandardClass : inactiveClass;
+        btnTimeCalc.className = tabName === 'time-calc' ? activeStandardClass : inactiveClass;
+        btnGenset500.className = tabName === 'genset-500' ? active500Class : inactiveClass;
+        btnGenset1000.className = tabName === 'genset-1000' ? active1000Class : inactiveClass;
+
+        btnPowerCut.setAttribute('aria-selected', tabName === 'power-cut' ? 'true' : 'false');
+        btnTimeCalc.setAttribute('aria-selected', tabName === 'time-calc' ? 'true' : 'false');
+        btnGenset500.setAttribute('aria-selected', tabName === 'genset-500' ? 'true' : 'false');
+        btnGenset1000.setAttribute('aria-selected', tabName === 'genset-1000' ? 'true' : 'false');
+
+        panelPowerCut.classList.add('hidden');
+        panelTimeCalc.classList.add('hidden');
+        panelGensetMeter.classList.add('hidden');
+
+        if (tabName === 'power-cut') {
+          panelPowerCut.classList.remove('hidden');
+        } else if (tabName === 'time-calc') {
+          panelTimeCalc.classList.remove('hidden');
+        } else if (tabName === 'genset-500' || tabName === 'genset-1000') {
+          const targetGen = tabName === 'genset-1000' ? GEN_1000 : GEN_500;
+          if (state.activeMeterGen !== targetGen) {
+            state.activeMeterGen = targetGen;
+            state.editingMeterId = null;
+            const inputEl = document.getElementById('inputMeterReading');
+            if (inputEl) inputEl.value = '';
+            const alertEl = document.getElementById('meterValidationAlert');
+            if (alertEl) alertEl.classList.add('hidden');
           }
-        });
+          panelGensetMeter.classList.remove('hidden');
+          renderMeterFormState();
+          renderMeterSummariesAndLogs();
+        }
       }
 
       // ==================== TAB 1: POWER CUT & GENERATOR LOGIC ====================
@@ -849,22 +912,22 @@
             val: 'ALL',
             mainId: 'filterBtnAll',
             largeId: 'largeFilterBtnAll',
-            activeCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition bg-slate-900 text-white shadow-sm',
-            inactiveCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition text-slate-600 hover:text-slate-900'
+            activeCls: 'py-1.5 px-2 rounded-md text-sm font-bold transition bg-slate-900 text-white shadow-sm',
+            inactiveCls: 'py-1.5 px-2 rounded-md text-sm font-bold transition text-slate-600 hover:text-slate-900'
           },
           {
             val: GEN_500,
             mainId: 'filterBtn500',
             largeId: 'largeFilterBtn500',
-            activeCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition bg-blue-600 text-white shadow-sm',
-            inactiveCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition text-blue-700 hover:bg-blue-50'
+            activeCls: 'py-1.5 px-2 rounded-md text-sm font-bold transition bg-blue-600 text-white shadow-sm',
+            inactiveCls: 'py-1.5 px-2 rounded-md text-sm font-bold transition text-blue-700 hover:bg-blue-50'
           },
           {
             val: GEN_1000,
             mainId: 'filterBtn1000',
             largeId: 'largeFilterBtn1000',
-            activeCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition bg-amber-600 text-white shadow-sm',
-            inactiveCls: 'py-1.5 px-2 rounded-md text-xs font-bold transition text-amber-700 hover:bg-amber-50'
+            activeCls: 'py-1.5 px-2 rounded-md text-sm font-bold transition bg-amber-600 text-white shadow-sm',
+            inactiveCls: 'py-1.5 px-2 rounded-md text-sm font-bold transition text-amber-700 hover:bg-amber-50'
           }
         ];
         pairs.forEach(function (item) {
@@ -903,11 +966,11 @@
         const btnGen500 = document.getElementById('btnGen500');
         const btnGen1000 = document.getElementById('btnGen1000');
         if (state.selectedGenerator === GEN_500) {
-          btnGen500.className = 'py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-blue-600 text-white border-blue-600 shadow-sm';
-          btnGen1000.className = 'py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-slate-50 text-amber-700 border-amber-300 hover:bg-amber-50';
+          btnGen500.className = 'py-2 px-3 rounded-lg font-bold text-sm border transition bg-blue-600 text-white border-blue-600 shadow-sm';
+          btnGen1000.className = 'py-2 px-3 rounded-lg font-bold text-sm border transition bg-slate-50 text-amber-700 border-amber-300 hover:bg-amber-50';
         } else {
-          btnGen1000.className = 'py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-amber-600 text-white border-amber-600 shadow-sm';
-          btnGen500.className = 'py-1.5 px-2 rounded-lg font-bold text-xs border transition bg-slate-50 text-blue-700 border-blue-300 hover:bg-blue-50';
+          btnGen1000.className = 'py-2 px-3 rounded-lg font-bold text-sm border transition bg-amber-600 text-white border-amber-600 shadow-sm';
+          btnGen500.className = 'py-2 px-3 rounded-lg font-bold text-sm border transition bg-slate-50 text-blue-700 border-blue-300 hover:bg-blue-50';
         }
 
         document.getElementById('labelCutDate').textContent = formatDateDisplay(state.cutDate);
@@ -934,19 +997,19 @@
 
         if (evalResult.status === 'incomplete') {
           durationValueDisplay.textContent = '--';
-          durationValueDisplay.className = 'text-xs font-bold text-slate-400 whitespace-nowrap';
-          durationStatusBox.className = 'px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-2';
+          durationValueDisplay.className = 'text-sm font-bold text-slate-400 whitespace-nowrap';
+          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-2';
           alertBox.classList.add('hidden');
         } else if (evalResult.status === 'invalid_negative') {
           durationValueDisplay.textContent = 'Invalid';
-          durationValueDisplay.className = 'text-xs font-bold text-rose-600 whitespace-nowrap';
-          durationStatusBox.className = 'px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-center gap-2';
+          durationValueDisplay.className = 'text-sm font-bold text-rose-600 whitespace-nowrap';
+          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-center gap-2';
           alertText.textContent = evalResult.message;
           alertBox.classList.remove('hidden');
         } else {
           durationValueDisplay.textContent = formatDurationReadable(evalResult.diffMinutes);
-          durationValueDisplay.className = 'text-xs font-bold text-slate-900 whitespace-nowrap';
-          durationStatusBox.className = 'px-2.5 py-1.5 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center gap-2';
+          durationValueDisplay.className = 'text-sm font-bold text-slate-900 whitespace-nowrap';
+          durationStatusBox.className = 'px-3 py-2 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center gap-2';
           alertBox.classList.add('hidden');
         }
       }
@@ -1033,7 +1096,9 @@
           exportedAt: new Date().toISOString(),
           records: state.records,
           calcRows: state.calcRows,
-          meterLogs: state.meterLogs
+          meterLogs: state.meterLogs500,
+          meterLogs500: state.meterLogs500,
+          meterLogs1000: state.meterLogs1000
         };
         const jsonStr = JSON.stringify(exportObj, null, 2);
         const blob = new Blob([jsonStr], { type: 'application/json' });
@@ -1063,21 +1128,25 @@
           typeof m.reading === 'number' && !isNaN(m.reading);
       }
 
-      function mergeIncomingMeterLogs(incomingArr) {
+      function mergeIncomingMeterLogsForGen(incomingArr, genType) {
+        const currentLogs = genType === GEN_1000 ? state.meterLogs1000 : state.meterLogs500;
         const mapByKey = {};
-        state.meterLogs.forEach(function (m) {
+        currentLogs.forEach(function (m) {
           const key = m.id || (m.timestampMs + '_' + m.reading);
           mapByKey[key] = m;
         });
         incomingArr.forEach(function (m) {
           if (isValidMeterLog(m)) {
             const tsMs = toTimestampMs(m.date, m.time);
+            const roundedReading = genType === GEN_1000
+              ? Math.round(Number(m.reading) * 10) / 10
+              : Math.round(Number(m.reading) * 100) / 100;
             const item = {
               id: m.id || ('meter_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
               date: { year: m.date.year, month: m.date.month, day: m.date.day },
               time: { hour12: m.time.hour12, minute: m.time.minute, period: m.time.period },
               timestampMs: tsMs,
-              reading: Math.round(Number(m.reading) * 100) / 100,
+              reading: roundedReading,
               prevReading: null,
               diffDecimal: 0,
               updatedAt: m.updatedAt || Date.now()
@@ -1086,9 +1155,13 @@
             mapByKey[key] = item;
           }
         });
-        state.meterLogs = Object.values(mapByKey);
-        recomputeMeterLogDifferences();
-        renderMeterSummariesAndLogs();
+        if (genType === GEN_1000) {
+          state.meterLogs1000 = Object.values(mapByKey);
+          recomputeMeterLogDifferencesForGen(GEN_1000);
+        } else {
+          state.meterLogs500 = Object.values(mapByKey);
+          recomputeMeterLogDifferencesForGen(GEN_500);
+        }
       }
 
       function handleUploadJsonFile(file) {
@@ -1099,14 +1172,17 @@
             const parsed = JSON.parse(ev.target.result);
             let restoredSomething = false;
 
-            // Support legacy array of power cut records or meter logs, or full unified object
             const incomingRecords = Array.isArray(parsed)
               ? parsed.filter(isValidRecord)
               : (parsed && Array.isArray(parsed.records) ? parsed.records : null);
 
-            const incomingMeters = Array.isArray(parsed)
+            const incomingMeters500 = Array.isArray(parsed)
               ? parsed.filter(isValidMeterLog)
-              : (parsed && Array.isArray(parsed.meterLogs) ? parsed.meterLogs : null);
+              : (parsed && Array.isArray(parsed.meterLogs500)
+                  ? parsed.meterLogs500
+                  : (parsed && Array.isArray(parsed.meterLogs) ? parsed.meterLogs : null));
+
+            const incomingMeters1000 = (parsed && Array.isArray(parsed.meterLogs1000)) ? parsed.meterLogs1000 : null;
 
             if (Array.isArray(incomingRecords) && incomingRecords.length > 0) {
               const validIncoming = [];
@@ -1157,12 +1233,17 @@
               restoredSomething = true;
             }
 
-            if (Array.isArray(incomingMeters) && incomingMeters.length > 0) {
-              mergeIncomingMeterLogs(incomingMeters);
+            if (Array.isArray(incomingMeters500) && incomingMeters500.length > 0) {
+              mergeIncomingMeterLogsForGen(incomingMeters500, GEN_500);
               restoredSomething = true;
             }
 
-            if (!restoredSomething && parsed && (Array.isArray(parsed.records) || Array.isArray(parsed.meterLogs))) {
+            if (Array.isArray(incomingMeters1000) && incomingMeters1000.length > 0) {
+              mergeIncomingMeterLogsForGen(incomingMeters1000, GEN_1000);
+              restoredSomething = true;
+            }
+
+            if (!restoredSomething && parsed && (Array.isArray(parsed.records) || Array.isArray(parsed.meterLogs) || Array.isArray(parsed.meterLogs500) || Array.isArray(parsed.meterLogs1000))) {
               restoredSomething = true;
             }
 
@@ -1172,6 +1253,7 @@
             }
 
             renderSummariesAndRecords();
+            renderMeterSummariesAndLogs();
             renderLargeRecordsView();
             showToast('App Data Restored');
           } catch (err) {
@@ -1190,10 +1272,10 @@
         });
       }
 
-      // ==================== FULLSCREEN LARGE SAVED RECORDS VIEW (2-FINGER TOUCH ON POWER CUT OR GENERATOR RUN TIME) ====================
+      // ==================== FULLSCREEN LARGE SAVED RECORDS VIEW (2-FINGER TOUCH) ====================
       function openLargeRecordsView() {
-        // Determine which tab's records to show in fullscreen based on current active tab
-        state.largeViewMode = (state.activeTab === 'genset-meter') ? 'genset-meter' : 'power-cut';
+        const isMeterTab = (state.activeTab === 'genset-500' || state.activeTab === 'genset-1000');
+        state.largeViewMode = isMeterTab ? 'genset-meter' : 'power-cut';
         renderLargeRecordsView();
         document.getElementById('largeRecordsOverlay').classList.remove('hidden');
       }
@@ -1208,26 +1290,33 @@
         const meterHeader = document.getElementById('largeMeterHeaderTitle');
         container.innerHTML = '';
 
-        // MODE B: Generator Run Time Fullscreen Simple Table View
+        // MODE B: Generator Run Time Fullscreen Simple Table View (500 kVA or 1000 kVA)
         if (state.largeViewMode === 'genset-meter') {
           filterBar.classList.add('hidden');
           meterHeader.classList.remove('hidden');
 
-          if (state.meterLogs.length === 0) {
+          const activeGen = state.activeMeterGen;
+          const activeLogs = getActiveMeterLogs();
+          meterHeader.textContent = activeGen;
+          meterHeader.className = activeGen === GEN_1000
+            ? 'text-base font-extrabold text-amber-700'
+            : 'text-base font-extrabold text-blue-700';
+
+          if (activeLogs.length === 0) {
             const empty = document.createElement('div');
             empty.className = 'py-12 text-center text-lg font-bold text-slate-400';
-            empty.textContent = 'No Readings';
+            empty.textContent = 'No Readings (' + activeGen + ')';
             container.appendChild(empty);
             return;
           }
 
           let totalDiffDecimal = 0;
-          state.meterLogs.forEach(function (m) {
+          activeLogs.forEach(function (m) {
             totalDiffDecimal += (m.diffDecimal || 0);
           });
-          totalDiffDecimal = Math.round(totalDiffDecimal * 100) / 100;
+          totalDiffDecimal = Math.round(totalDiffDecimal * 1000) / 1000;
 
-          const asc = state.meterLogs.slice().reverse();
+          const asc = activeLogs.slice().reverse();
           const firstVal = asc[0].prevReading !== null && asc[0].prevReading !== undefined ? asc[0].prevReading : asc[0].reading;
           const lastVal = asc[asc.length - 1].reading;
 
@@ -1236,12 +1325,12 @@
           summaryBox.className = 'p-4 rounded-xl bg-slate-100 border-2 border-slate-900 space-y-2';
           summaryBox.innerHTML =
             '<div class="flex items-center justify-between gap-2">' +
-              '<span class="text-base sm:text-lg font-bold text-slate-700">Total Run Time</span>' +
+              '<span class="text-base sm:text-lg font-bold text-slate-700">' + activeGen + ' Run Time</span>' +
               '<span class="text-lg sm:text-xl font-extrabold text-emerald-700">' + formatHMSCompact(totalDiffDecimal) + '</span>' +
             '</div>' +
             '<div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-300 text-sm sm:text-base font-bold text-slate-800">' +
-              '<div>Start: ' + firstVal.toFixed(2) + '</div>' +
-              '<div class="text-right">End: ' + lastVal.toFixed(2) + '</div>' +
+              '<div>Start: ' + formatMeterReadingNumber(firstVal, activeGen) + '</div>' +
+              '<div class="text-right">End: ' + formatMeterReadingNumber(lastVal, activeGen) + '</div>' +
             '</div>';
           container.appendChild(summaryBox);
 
@@ -1250,10 +1339,12 @@
           tableWrap.className = 'overflow-x-auto rounded-xl border-2 border-slate-300 bg-white shadow-sm';
 
           let rowsHtml = '';
-          state.meterLogs.forEach(function (log, idx) {
+          activeLogs.forEach(function (log, idx) {
             const runCell = log.prevReading === null
               ? '<span class="text-slate-400 font-bold">Start</span>'
               : '<span class="text-emerald-700 font-extrabold">+' + formatHMSCompact(log.diffDecimal) + '</span>';
+
+            const subColor = activeGen === GEN_1000 ? 'text-amber-700' : 'text-blue-600';
 
             rowsHtml +=
               '<tr class="border-b border-slate-200 last:border-b-0">' +
@@ -1263,8 +1354,8 @@
                   '<div class="text-xs sm:text-sm font-semibold text-slate-500">' + formatTimeDisplay(log.time) + '</div>' +
                 '</td>' +
                 '<td class="py-3 px-3 whitespace-nowrap">' +
-                  '<div class="text-base sm:text-lg font-extrabold text-slate-900">' + log.reading.toFixed(2) + '</div>' +
-                  '<div class="text-xs sm:text-sm font-bold text-blue-600">' + formatHMSCompact(log.reading) + '</div>' +
+                  '<div class="text-base sm:text-lg font-extrabold text-slate-900">' + formatMeterReadingNumber(log.reading, activeGen) + '</div>' +
+                  '<div class="text-xs sm:text-sm font-bold ' + subColor + '">' + formatHMSCompact(log.reading) + '</div>' +
                 '</td>' +
                 '<td class="py-3 px-3 whitespace-nowrap text-right text-base sm:text-lg">' + runCell + '</td>' +
               '</tr>';
@@ -1376,12 +1467,15 @@
 
         const genDate = formatDateDisplay(getTodayDateObj()) + ' ' + formatTimeDisplay(getCurrentTimeObj());
 
-        // PDF Export for Generator Run Time when in Generator Run Time fullscreen mode
+        // PDF Export for Generator Run Time (500 kVA or 1000 kVA) when in fullscreen mode
         if (state.largeViewMode === 'genset-meter') {
+          const activeGen = state.activeMeterGen;
+          const activeLogs = getActiveMeterLogs();
+
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(18);
           doc.setTextColor(15, 23, 42);
-          doc.text('P cut Record - Generator Run Time', margin, y);
+          doc.text('P cut Record - ' + activeGen + ' Run Time', margin, y);
           y += 18;
 
           doc.setFont('helvetica', 'normal');
@@ -1390,16 +1484,16 @@
           doc.text('Generated: ' + genDate, margin, y);
           y += 20;
 
-          if (state.meterLogs.length === 0) {
+          if (activeLogs.length === 0) {
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(13);
-            doc.text('No generator readings saved.', margin, y);
+            doc.text('No generator readings saved for ' + activeGen + '.', margin, y);
           } else {
             let totalDiff = 0;
-            state.meterLogs.forEach(function (m) { totalDiff += (m.diffDecimal || 0); });
-            totalDiff = Math.round(totalDiff * 100) / 100;
+            activeLogs.forEach(function (m) { totalDiff += (m.diffDecimal || 0); });
+            totalDiff = Math.round(totalDiff * 1000) / 1000;
 
-            const asc = state.meterLogs.slice().reverse();
+            const asc = activeLogs.slice().reverse();
             const firstVal = asc[0].prevReading !== null && asc[0].prevReading !== undefined ? asc[0].prevReading : asc[0].reading;
             const lastVal = asc[asc.length - 1].reading;
 
@@ -1409,10 +1503,10 @@
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(12);
             doc.setTextColor(5, 150, 105);
-            doc.text('Total Run Time: ' + formatHMSCompact(totalDiff), margin + 12, y + 19);
+            doc.text(activeGen + ' Total Run Time: ' + formatHMSCompact(totalDiff), margin + 12, y + 19);
             doc.setFontSize(11);
             doc.setTextColor(15, 23, 42);
-            doc.text('Start Reading: ' + firstVal.toFixed(2) + '     End Reading: ' + lastVal.toFixed(2), margin + 12, y + 38);
+            doc.text('Start Reading: ' + formatMeterReadingNumber(firstVal, activeGen) + '     End Reading: ' + formatMeterReadingNumber(lastVal, activeGen), margin + 12, y + 38);
             y += 64;
 
             // Table Header
@@ -1428,7 +1522,7 @@
             doc.text('Run Time', margin + 415, y + 16);
             y += 24;
 
-            state.meterLogs.forEach(function (log, idx) {
+            activeLogs.forEach(function (log, idx) {
               if (y + 26 > pageHeight - 40) {
                 doc.addPage();
                 y = 48;
@@ -1443,7 +1537,7 @@
               doc.setFont('helvetica', 'bold');
               doc.setTextColor(15, 23, 42);
               doc.text(formatDateDisplay(log.date) + ' ' + formatTimeDisplay(log.time), margin + 40, y + 16);
-              doc.text(log.reading.toFixed(2), margin + 200, y + 16);
+              doc.text(formatMeterReadingNumber(log.reading, activeGen), margin + 200, y + 16);
 
               doc.setTextColor(37, 99, 235);
               doc.text(formatHMSCompact(log.reading), margin + 300, y + 16);
@@ -1459,7 +1553,8 @@
             });
           }
 
-          doc.save('Generator_Run_Time_' + getCurrentDateTimeStampForFilename() + '.pdf');
+          const safeGenName = activeGen.replace(/\s+/g, '_');
+          doc.save(safeGenName + '_Run_Time_' + getCurrentDateTimeStampForFilename() + '.pdf');
           showToast('PDF Downloaded');
           return;
         }
@@ -1634,7 +1729,7 @@
 
         for (let i = 0; i < firstDayWeekday; i++) {
           const blank = document.createElement('div');
-          blank.className = 'h-7';
+          blank.className = 'h-8';
           grid.appendChild(blank);
         }
 
@@ -1654,11 +1749,11 @@
             today.day === dayNum;
 
           if (isSelected) {
-            btn.className = 'h-7 w-full rounded-lg bg-slate-900 text-white font-bold text-[11px] transition';
+            btn.className = 'h-8 w-full rounded-lg bg-slate-900 text-white font-bold text-xs transition';
           } else if (isToday) {
-            btn.className = 'h-7 w-full rounded-lg bg-slate-100 text-slate-900 border border-slate-400 font-bold text-[11px] hover:bg-slate-200 transition';
+            btn.className = 'h-8 w-full rounded-lg bg-slate-100 text-slate-900 border border-slate-400 font-bold text-xs hover:bg-slate-200 transition';
           } else {
-            btn.className = 'h-7 w-full rounded-lg text-slate-700 hover:bg-slate-100 font-medium text-[11px] transition';
+            btn.className = 'h-8 w-full rounded-lg text-slate-700 hover:bg-slate-100 font-medium text-xs transition';
           }
 
           btn.addEventListener('click', function () {
@@ -1843,8 +1938,8 @@
         const dailyValEl = document.getElementById('dailySummaryValue');
         dailyValEl.textContent = formatDurationReadable(dayMins);
         dailyValEl.className = state.generatorFilter === GEN_500
-          ? 'text-xs font-bold text-blue-600 whitespace-nowrap'
-          : (state.generatorFilter === GEN_1000 ? 'text-xs font-bold text-amber-600 whitespace-nowrap' : 'text-xs font-bold text-slate-900 whitespace-nowrap');
+          ? 'text-sm font-bold text-blue-600 whitespace-nowrap'
+          : (state.generatorFilter === GEN_1000 ? 'text-sm font-bold text-amber-600 whitespace-nowrap' : 'text-sm font-bold text-slate-900 whitespace-nowrap');
 
         const dailySub = document.getElementById('dailySummaryGenSub');
         if (state.generatorFilter === 'ALL') {
@@ -1865,8 +1960,8 @@
         const monthlyValEl = document.getElementById('monthlySummaryValue');
         monthlyValEl.textContent = formatDurationReadable(monthMins);
         monthlyValEl.className = state.generatorFilter === GEN_500
-          ? 'text-xs font-bold text-blue-600 whitespace-nowrap'
-          : (state.generatorFilter === GEN_1000 ? 'text-xs font-bold text-amber-600 whitespace-nowrap' : 'text-xs font-bold text-slate-900 whitespace-nowrap');
+          ? 'text-sm font-bold text-blue-600 whitespace-nowrap'
+          : (state.generatorFilter === GEN_1000 ? 'text-sm font-bold text-amber-600 whitespace-nowrap' : 'text-sm font-bold text-slate-900 whitespace-nowrap');
 
         const monthlySub = document.getElementById('monthlySummaryGenSub');
         if (state.generatorFilter === 'ALL') {
@@ -1896,7 +1991,7 @@
 
         if (filtered.length === 0) {
           const emptyDiv = document.createElement('div');
-          emptyDiv.className = 'py-3 text-center text-[11px] text-slate-400';
+          emptyDiv.className = 'py-4 text-center text-xs text-slate-400';
           emptyDiv.textContent = 'No records';
           container.appendChild(emptyDiv);
           return;
@@ -1911,18 +2006,18 @@
 
           const card = document.createElement('div');
           const isEditingThis = state.editingRecordId === rec.id;
-          card.className = 'p-2 rounded-lg bg-slate-50 border ' +
+          card.className = 'p-2.5 rounded-lg bg-slate-50 border ' +
             (isEditingThis ? 'border-slate-900' : 'border-slate-200') +
-            ' space-y-1';
+            ' space-y-1.5';
 
           const topRow = document.createElement('div');
-          topRow.className = 'flex items-center justify-between gap-1.5';
+          topRow.className = 'flex items-center justify-between gap-2';
 
           const leftBadgeGroup = document.createElement('div');
-          leftBadgeGroup.className = 'flex items-center gap-1.5';
+          leftBadgeGroup.className = 'flex items-center gap-2';
           leftBadgeGroup.innerHTML =
-            '<span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ' + genBadgeClass + '">' + gen + '</span>' +
-            '<span class="text-xs font-bold ' + durColorClass + '">' + formatDurationReadable(rec.durationMinutes) + '</span>';
+            '<span class="px-2 py-0.5 rounded border text-xs font-bold ' + genBadgeClass + '">' + gen + '</span>' +
+            '<span class="text-sm font-bold ' + durColorClass + '">' + formatDurationReadable(rec.durationMinutes) + '</span>';
 
           const actionsDiv = document.createElement('div');
           actionsDiv.className = 'flex items-center gap-1';
@@ -1931,7 +2026,7 @@
           btnEdit.type = 'button';
           btnEdit.title = 'Edit';
           btnEdit.setAttribute('aria-label', 'Edit');
-          btnEdit.className = 'p-1 rounded text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 transition';
+          btnEdit.className = 'p-1.5 rounded text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 transition';
           btnEdit.innerHTML = ICON_EDIT;
           btnEdit.addEventListener('click', function () {
             startEditingRecord(rec.id);
@@ -1941,7 +2036,7 @@
           btnDelete.type = 'button';
           btnDelete.title = 'Delete';
           btnDelete.setAttribute('aria-label', 'Delete');
-          btnDelete.className = 'p-1 rounded text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition';
+          btnDelete.className = 'p-1.5 rounded text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition';
           btnDelete.innerHTML = ICON_TRASH;
           btnDelete.addEventListener('click', function () {
             openConfirmModal(
@@ -1959,7 +2054,7 @@
           topRow.appendChild(actionsDiv);
 
           const detailsRow = document.createElement('div');
-          detailsRow.className = 'grid grid-cols-2 gap-1.5 text-[10px] pt-1 border-t border-slate-200/70';
+          detailsRow.className = 'grid grid-cols-2 gap-2 text-xs pt-1 border-t border-slate-200/70';
           detailsRow.innerHTML =
             '<div class="truncate font-semibold text-red-600">▼ ' + formatDateDisplay(rec.cutDate) + ', ' + formatTimeDisplay(rec.cutTime) + '</div>' +
             '<div class="truncate font-semibold text-emerald-600">▲ ' + formatDateDisplay(rec.restoredDate) + ', ' + formatTimeDisplay(rec.restoredTime) + '</div>';
@@ -2025,7 +2120,7 @@
           rowEl.className = 'grid grid-cols-12 gap-1.5 items-center';
 
           const idxCol = document.createElement('div');
-          idxCol.className = 'col-span-1 text-[11px] font-semibold text-slate-400 text-center';
+          idxCol.className = 'col-span-1 text-xs font-semibold text-slate-400 text-center';
           idxCol.textContent = String(index + 1);
 
           const hoursCol = document.createElement('div');
@@ -2037,7 +2132,7 @@
           inputHours.placeholder = 'Hours';
           inputHours.value = row.hours;
           inputHours.setAttribute('aria-label', 'Hours row ' + (index + 1));
-          inputHours.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
+          inputHours.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
           inputHours.addEventListener('input', function (e) {
             const cleaned = e.target.value.replace(/[^0-9]/g, '');
             if (e.target.value !== cleaned) e.target.value = cleaned;
@@ -2056,7 +2151,7 @@
           inputMinutes.placeholder = 'Minutes';
           inputMinutes.value = row.minutes;
           inputMinutes.setAttribute('aria-label', 'Minutes row ' + (index + 1));
-          inputMinutes.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
+          inputMinutes.className = 'w-full bg-slate-50 border border-slate-300 focus:border-slate-900 rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none';
           inputMinutes.addEventListener('input', function (e) {
             const cleaned = e.target.value.replace(/[^0-9]/g, '');
             if (e.target.value !== cleaned) e.target.value = cleaned;
@@ -2073,7 +2168,7 @@
           btnRemove.className = 'p-1 rounded text-slate-400 hover:text-rose-600 transition';
           btnRemove.setAttribute('aria-label', 'Delete row ' + (index + 1));
           btnRemove.innerHTML =
-            '<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
               '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />' +
             '</svg>';
           btnRemove.addEventListener('click', function () {
@@ -2114,7 +2209,7 @@
         document.getElementById('calcTotalDisplay').textContent = formatCalculatorTotal(totalMinutesAll);
       }
 
-      // ==================== TAB 3: GENERATOR RUN TIME ====================
+      // ==================== TAB 3 & 4: GENERATOR RUN TIME (500 kVA & 1000 kVA) ====================
       function resetMeterFormToCurrent() {
         state.meterDate = getTodayDateObj();
         state.meterTime = getCurrentTimeObj();
@@ -2129,6 +2224,29 @@
       function renderMeterFormState() {
         document.getElementById('labelMeterDate').textContent = formatDateDisplay(state.meterDate);
         document.getElementById('labelMeterTime').textContent = formatTimeDisplay(state.meterTime);
+
+        const modeBar = document.getElementById('meterActiveModeBar');
+        const genTitle = document.getElementById('meterActiveGenTitle');
+        const divBadge = document.getElementById('meterActiveDivisionBadge');
+        const inputEl = document.getElementById('inputMeterReading');
+
+        if (state.activeMeterGen === GEN_1000) {
+          modeBar.className = 'flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200';
+          genTitle.className = 'text-xs font-extrabold text-amber-800';
+          genTitle.textContent = '1000 kVA';
+          divBadge.className = 'text-xs font-semibold text-amber-700';
+          divBadge.textContent = '1 Hour = 10 Parts (0.1 = 6m)';
+          inputEl.step = '0.1';
+          inputEl.placeholder = '737.4';
+        } else {
+          modeBar.className = 'flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-blue-50 border border-blue-200';
+          genTitle.className = 'text-xs font-extrabold text-blue-800';
+          genTitle.textContent = '500 kVA';
+          divBadge.className = 'text-xs font-semibold text-blue-700';
+          divBadge.textContent = '1 Hour = 100 Parts (0.01 = 36s)';
+          inputEl.step = '0.01';
+          inputEl.placeholder = '737.46';
+        }
 
         const editBanner = document.getElementById('meterEditBanner');
         const btnSaveLabel = document.getElementById('btnSaveMeterReadingLabel');
@@ -2150,11 +2268,18 @@
           displayEl.textContent = '0h 0m 0s';
           return;
         }
-        displayEl.textContent = formatHMSCompact(Number(rawVal));
+        const num = Number(rawVal);
+        const normalizedVal = state.activeMeterGen === GEN_1000
+          ? Math.round(num * 10) / 10
+          : Math.round(num * 100) / 100;
+        displayEl.textContent = formatHMSCompact(normalizedVal);
       }
 
-      function recomputeMeterLogDifferences() {
-        const asc = state.meterLogs.slice().sort(function (a, b) {
+      function recomputeMeterLogDifferencesForGen(genType) {
+        const targetGen = genType || state.activeMeterGen;
+        const sourceArr = targetGen === GEN_1000 ? state.meterLogs1000 : state.meterLogs500;
+
+        const asc = sourceArr.slice().sort(function (a, b) {
           if (a.timestampMs !== b.timestampMs) return a.timestampMs - b.timestampMs;
           return a.reading - b.reading;
         });
@@ -2172,8 +2297,14 @@
           }
         }
 
-        state.meterLogs = asc.reverse();
-        saveToStorage(STORAGE_KEY_METER_LOGS, state.meterLogs);
+        const reversed = asc.reverse();
+        if (targetGen === GEN_1000) {
+          state.meterLogs1000 = reversed;
+          saveToStorage(STORAGE_KEY_METER_LOGS_1000, state.meterLogs1000);
+        } else {
+          state.meterLogs500 = reversed;
+          saveToStorage(STORAGE_KEY_METER_LOGS_500, state.meterLogs500);
+        }
       }
 
       function showMeterValidationError(msg) {
@@ -2185,12 +2316,15 @@
 
       function handleSaveMeterReading() {
         const rawStr = document.getElementById('inputMeterReading').value.trim();
+        const is1000 = state.activeMeterGen === GEN_1000;
         if (!rawStr || isNaN(Number(rawStr)) || Number(rawStr) < 0) {
-          showMeterValidationError('Enter valid meter reading (e.g. 737.46)');
+          showMeterValidationError(is1000 ? 'Enter valid meter reading (e.g. 737.4)' : 'Enter valid meter reading (e.g. 737.46)');
           return;
         }
 
-        const readingVal = Math.round(Number(rawStr) * 100) / 100;
+        const readingVal = is1000
+          ? Math.round(Number(rawStr) * 10) / 10
+          : Math.round(Number(rawStr) * 100) / 100;
         const tsMs = toTimestampMs(state.meterDate, state.meterTime);
 
         const payload = {
@@ -2204,20 +2338,21 @@
           updatedAt: Date.now()
         };
 
+        const activeLogs = getActiveMeterLogs();
         if (state.editingMeterId) {
-          const idx = state.meterLogs.findIndex(function (m) { return m.id === state.editingMeterId; });
+          const idx = activeLogs.findIndex(function (m) { return m.id === state.editingMeterId; });
           if (idx !== -1) {
-            state.meterLogs[idx] = payload;
+            activeLogs[idx] = payload;
           } else {
-            state.meterLogs.push(payload);
+            activeLogs.push(payload);
           }
-          showToast('Updated');
+          showToast('Updated (' + state.activeMeterGen + ')');
         } else {
-          state.meterLogs.push(payload);
-          showToast('Saved');
+          activeLogs.push(payload);
+          showToast('Saved (' + state.activeMeterGen + ')');
         }
 
-        recomputeMeterLogDifferences();
+        recomputeMeterLogDifferencesForGen(state.activeMeterGen);
         resetMeterFormToCurrent();
         renderMeterSummariesAndLogs();
         renderLargeRecordsView();
@@ -2253,8 +2388,8 @@
         tabs.forEach(function (t) {
           const btn = document.getElementById(t.id);
           btn.className = t.mode === mode
-            ? 'py-1 px-1.5 rounded-md text-[11px] font-bold transition bg-white text-slate-900 shadow-sm'
-            : 'py-1 px-1.5 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900';
+            ? 'py-1.5 px-2 rounded-md text-xs font-bold transition bg-white text-slate-900 shadow-sm'
+            : 'py-1.5 px-2 rounded-md text-xs font-bold transition text-slate-600 hover:text-slate-900';
         });
         renderMeterSummariesAndLogs();
       }
@@ -2263,17 +2398,18 @@
         const selectEl = document.getElementById('selectMeterSummaryPeriod');
         const prevVal = selectEl.value;
         const today = getTodayDateObj();
+        const activeLogs = getActiveMeterLogs();
 
         const periodSet = new Set();
         if (state.meterSummaryMode === 'DAILY') {
           periodSet.add(toDateKey(today));
-          state.meterLogs.forEach(function (m) { periodSet.add(toDateKey(m.date)); });
+          activeLogs.forEach(function (m) { periodSet.add(toDateKey(m.date)); });
         } else if (state.meterSummaryMode === 'WEEKLY') {
           periodSet.add(getWeekStartDateKey(today));
-          state.meterLogs.forEach(function (m) { periodSet.add(getWeekStartDateKey(m.date)); });
+          activeLogs.forEach(function (m) { periodSet.add(getWeekStartDateKey(m.date)); });
         } else {
           periodSet.add(toMonthKey(today));
-          state.meterLogs.forEach(function (m) { periodSet.add(toMonthKey(m.date)); });
+          activeLogs.forEach(function (m) { periodSet.add(toMonthKey(m.date)); });
         }
 
         const sortedKeys = Array.from(periodSet).sort().reverse();
@@ -2294,7 +2430,8 @@
 
       function updateMeterSummaryCardDisplay() {
         const selectedKey = document.getElementById('selectMeterSummaryPeriod').value;
-        const ascLogs = state.meterLogs.slice().reverse().filter(function (m) {
+        const activeLogs = getActiveMeterLogs();
+        const ascLogs = activeLogs.slice().reverse().filter(function (m) {
           if (state.meterSummaryMode === 'DAILY') return toDateKey(m.date) === selectedKey;
           if (state.meterSummaryMode === 'WEEKLY') return getWeekStartDateKey(m.date) === selectedKey;
           return toMonthKey(m.date) === selectedKey;
@@ -2315,7 +2452,7 @@
         ascLogs.forEach(function (m) {
           sumDiffDecimal += (m.diffDecimal || 0);
         });
-        sumDiffDecimal = Math.round(sumDiffDecimal * 100) / 100;
+        sumDiffDecimal = Math.round(sumDiffDecimal * 1000) / 1000;
 
         const firstLog = ascLogs[0];
         const lastLog = ascLogs[ascLogs.length - 1];
@@ -2325,8 +2462,8 @@
         const endVal = lastLog.reading;
 
         runTimeValEl.textContent = formatHMSCompact(sumDiffDecimal);
-        startReadingEl.textContent = startVal.toFixed(2);
-        endReadingEl.textContent = endVal.toFixed(2);
+        startReadingEl.textContent = formatMeterReadingNumber(startVal, state.activeMeterGen);
+        endReadingEl.textContent = formatMeterReadingNumber(endVal, state.activeMeterGen);
       }
 
       function renderMeterLogsList() {
@@ -2334,10 +2471,12 @@
         const toolbarRow = document.getElementById('meterToolbarRow');
         container.innerHTML = '';
 
-        if (state.meterLogs.length === 0) {
+        const activeLogs = getActiveMeterLogs();
+
+        if (activeLogs.length === 0) {
           toolbarRow.classList.add('hidden');
           const emptyDiv = document.createElement('div');
-          emptyDiv.className = 'py-4 text-center text-[11px] text-slate-400';
+          emptyDiv.className = 'py-4 text-center text-xs text-slate-400';
           emptyDiv.textContent = 'No readings';
           container.appendChild(emptyDiv);
           return;
@@ -2349,48 +2488,50 @@
         table.className = 'w-full text-left border-collapse';
         table.innerHTML =
           '<thead>' +
-            '<tr class="bg-slate-100 text-[10px] font-bold uppercase text-slate-500 border-b border-slate-200">' +
-              '<th class="py-1.5 px-2">Date / Time</th>' +
-              '<th class="py-1.5 px-2">Meter</th>' +
-              '<th class="py-1.5 px-2">Run Time</th>' +
-              '<th class="py-1.5 px-2 text-right"></th>' +
+            '<tr class="bg-slate-100 text-xs font-bold uppercase text-slate-500 border-b border-slate-200">' +
+              '<th class="py-2 px-2.5">Date / Time</th>' +
+              '<th class="py-2 px-2.5">Meter</th>' +
+              '<th class="py-2 px-2.5">Run Time</th>' +
+              '<th class="py-2 px-2 text-right"></th>' +
             '</tr>' +
           '</thead>';
 
         const tbody = document.createElement('tbody');
-        tbody.className = 'divide-y divide-slate-200 text-[11px]';
+        tbody.className = 'divide-y divide-slate-200 text-xs';
 
-        state.meterLogs.forEach(function (log) {
+        const subColor = state.activeMeterGen === GEN_1000 ? 'text-amber-700' : 'text-blue-600';
+
+        activeLogs.forEach(function (log) {
           const isEditingThis = state.editingMeterId === log.id;
           const tr = document.createElement('tr');
           tr.className = isEditingThis ? 'bg-amber-50' : 'bg-white hover:bg-slate-50';
 
           // Col 1: Date & Time
           const tdDate = document.createElement('td');
-          tdDate.className = 'py-2 px-2 whitespace-nowrap align-middle';
+          tdDate.className = 'py-2.5 px-2.5 whitespace-nowrap align-middle';
           tdDate.innerHTML =
-            '<div class="font-bold text-slate-800 leading-tight">' + formatDateShort(log.date) + '</div>' +
-            '<div class="text-[10px] text-slate-500 leading-tight">' + formatTimeDisplay(log.time) + '</div>';
+            '<div class="font-bold text-slate-800 text-sm leading-tight">' + formatDateShort(log.date) + '</div>' +
+            '<div class="text-xs text-slate-500 leading-tight mt-0.5">' + formatTimeDisplay(log.time) + '</div>';
 
           // Col 2: Meter Reading & Converted HMS
           const tdMeter = document.createElement('td');
-          tdMeter.className = 'py-2 px-2 whitespace-nowrap align-middle';
+          tdMeter.className = 'py-2.5 px-2.5 whitespace-nowrap align-middle';
           tdMeter.innerHTML =
-            '<div class="font-extrabold text-slate-900 leading-tight">' + log.reading.toFixed(2) + '</div>' +
-            '<div class="text-[10px] font-semibold text-blue-600 leading-tight">' + formatHMSCompact(log.reading) + '</div>';
+            '<div class="font-extrabold text-slate-900 text-sm leading-tight">' + formatMeterReadingNumber(log.reading, state.activeMeterGen) + '</div>' +
+            '<div class="text-xs font-semibold ' + subColor + ' leading-tight mt-0.5">' + formatHMSCompact(log.reading) + '</div>';
 
           // Col 3: Run Time (Difference in h m s only)
           const tdRun = document.createElement('td');
-          tdRun.className = 'py-2 px-2 whitespace-nowrap align-middle';
+          tdRun.className = 'py-2.5 px-2.5 whitespace-nowrap align-middle';
           if (log.prevReading === null) {
-            tdRun.innerHTML = '<span class="text-[10px] font-bold text-slate-400">Start</span>';
+            tdRun.innerHTML = '<span class="text-xs font-bold text-slate-400">Start</span>';
           } else {
-            tdRun.innerHTML = '<span class="font-extrabold text-emerald-700">+' + formatHMSCompact(log.diffDecimal) + '</span>';
+            tdRun.innerHTML = '<span class="font-extrabold text-sm text-emerald-700">+' + formatHMSCompact(log.diffDecimal) + '</span>';
           }
 
           // Col 4: Edit & Delete Symbol Icons
           const tdActions = document.createElement('td');
-          tdActions.className = 'py-2 px-1.5 whitespace-nowrap align-middle text-right';
+          tdActions.className = 'py-2.5 px-2 whitespace-nowrap align-middle text-right';
           const actWrap = document.createElement('div');
           actWrap.className = 'inline-flex items-center gap-1';
 
@@ -2398,7 +2539,7 @@
           btnEdit.type = 'button';
           btnEdit.title = 'Edit';
           btnEdit.setAttribute('aria-label', 'Edit');
-          btnEdit.className = 'p-1 rounded text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 transition';
+          btnEdit.className = 'p-1.5 rounded text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 transition';
           btnEdit.innerHTML = ICON_EDIT;
           btnEdit.addEventListener('click', function () {
             startEditingMeterLog(log.id);
@@ -2408,12 +2549,12 @@
           btnDelete.type = 'button';
           btnDelete.title = 'Delete';
           btnDelete.setAttribute('aria-label', 'Delete');
-          btnDelete.className = 'p-1 rounded text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition';
+          btnDelete.className = 'p-1.5 rounded text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition';
           btnDelete.innerHTML = ICON_TRASH;
           btnDelete.addEventListener('click', function () {
             openConfirmModal(
               'Delete Reading?',
-              log.reading.toFixed(2) + ' (' + formatDateDisplay(log.date) + ')',
+              formatMeterReadingNumber(log.reading, state.activeMeterGen) + ' (' + formatDateDisplay(log.date) + ')',
               function () {
                 deleteMeterLogById(log.id);
               }
@@ -2436,23 +2577,25 @@
       }
 
       function startEditingMeterLog(logId) {
-        const log = state.meterLogs.find(function (m) { return m.id === logId; });
+        const activeLogs = getActiveMeterLogs();
+        const log = activeLogs.find(function (m) { return m.id === logId; });
         if (!log) return;
         state.editingMeterId = log.id;
         state.meterDate = { ...log.date };
         state.meterTime = { ...log.time };
-        document.getElementById('inputMeterReading').value = String(log.reading);
+        document.getElementById('inputMeterReading').value = formatMeterReadingNumber(log.reading, state.activeMeterGen);
         renderMeterFormState();
         renderMeterLogsList();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       function deleteMeterLogById(logId) {
-        state.meterLogs = state.meterLogs.filter(function (m) { return m.id !== logId; });
+        const filtered = getActiveMeterLogs().filter(function (m) { return m.id !== logId; });
+        setActiveMeterLogs(filtered);
         if (state.editingMeterId === logId) {
           resetMeterFormToCurrent();
         }
-        recomputeMeterLogDifferences();
+        recomputeMeterLogDifferencesForGen(state.activeMeterGen);
         renderMeterSummariesAndLogs();
         renderLargeRecordsView();
         showToast('Deleted');
@@ -2539,18 +2682,26 @@
           saveToStorage(STORAGE_KEY_CALC_ROWS, state.calcRows);
         }
 
-        const storedMeterLogs = loadFromStorage(STORAGE_KEY_METER_LOGS, null);
-        if (Array.isArray(storedMeterLogs)) {
-          state.meterLogs = storedMeterLogs;
-          recomputeMeterLogDifferences();
+        const storedMeterLogs500 = loadFromStorage(STORAGE_KEY_METER_LOGS_500, null);
+        if (Array.isArray(storedMeterLogs500)) {
+          state.meterLogs500 = storedMeterLogs500;
+          recomputeMeterLogDifferencesForGen(GEN_500);
         } else {
-          state.meterLogs = [];
+          state.meterLogs500 = [];
+        }
+
+        const storedMeterLogs1000 = loadFromStorage(STORAGE_KEY_METER_LOGS_1000, null);
+        if (Array.isArray(storedMeterLogs1000)) {
+          state.meterLogs1000 = storedMeterLogs1000;
+          recomputeMeterLogDifferencesForGen(GEN_1000);
+        } else {
+          state.meterLogs1000 = [];
         }
 
         resetFormToCurrentDateTime();
         resetMeterFormToCurrent();
 
-        // Main 3 Tabs
+        // Main 4 Tabs
         document.getElementById('tabBtnPowerCut').addEventListener('click', function () {
           switchTab('power-cut');
         });
@@ -2558,7 +2709,10 @@
           switchTab('time-calc');
         });
         document.getElementById('tabBtnGensetMeter').addEventListener('click', function () {
-          switchTab('genset-meter');
+          switchTab('genset-500');
+        });
+        document.getElementById('tabBtnGenset1000').addEventListener('click', function () {
+          switchTab('genset-1000');
         });
 
         // Unified Top Header JSON Backup & Restore
@@ -2643,7 +2797,7 @@
           );
         });
 
-        // Tab 3: Generator Run Time Listeners
+        // Tab 3 & 4: Generator Run Time Listeners (500 kVA & 1000 kVA)
         document.getElementById('btnMeterDate').addEventListener('click', function () {
           openDatePicker('meterDate');
         });
@@ -2677,12 +2831,16 @@
 
         document.getElementById('btnDeleteAllMeterRecords').addEventListener('click', function () {
           openConfirmModal(
-            'Delete All Readings?',
-            'All saved generator readings will be removed.',
+            'Delete All ' + state.activeMeterGen + ' Readings?',
+            'All saved ' + state.activeMeterGen + ' generator readings will be removed.',
             function () {
-              state.meterLogs = [];
+              setActiveMeterLogs([]);
               resetMeterFormToCurrent();
-              saveToStorage(STORAGE_KEY_METER_LOGS, state.meterLogs);
+              if (state.activeMeterGen === GEN_1000) {
+                saveToStorage(STORAGE_KEY_METER_LOGS_1000, []);
+              } else {
+                saveToStorage(STORAGE_KEY_METER_LOGS_500, []);
+              }
               renderMeterSummariesAndLogs();
               renderLargeRecordsView();
               showToast('Deleted');
